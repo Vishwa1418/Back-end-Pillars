@@ -1,0 +1,42 @@
+*
+{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.Signuppage-container {
+    width: 100vw;
+    height: 100vh;
+    background-image: url(bgimage16.JPG);
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.Signuppage {
+    width: 500px;
+    margin-left: 80px;
+    margin-top: 60px;
+}
+
+.h1f1 {
+    color: rgb(245, 4, 4);
+    margin-left: 80px;
+    font-size: 40px;
+}
+
+.Signupbutton {
+    width: 500px;
+    height: 45px;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    background-color: green;
+    color: whitesmoke;
+}
