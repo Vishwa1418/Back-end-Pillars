@@ -5,7 +5,7 @@ pipeline {
       steps {
         sh '''
             ls
-            docker rm $(docker images ls -q)
+            docker rm -f $(docker images ls -q)
             docker rm -f $(docker ps)
             systemctl status docker
             docker build -t sampleapp:1 .
