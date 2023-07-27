@@ -1,5 +1,5 @@
 export const usernameValidator = username => {
-    const usernameRegex = /^(?=.*?[A-Z]).{8,}$/;
+    const usernameRegex = /^(?=.*?[0-9])[^\s@]+@[^\s@]+$/;
     return usernameRegex.test(username)
 }
 

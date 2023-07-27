@@ -35,7 +35,7 @@ function Loginpage() {
                 setsuccessMessage('');
                 seterrorMessage('');
                 if(!usernameValidator(input.username)) 
-                return seterrorMessage('username should have minimum 8 character with combination of uppercase,lowercase and numbers');
+                return seterrorMessage('Invalid username');
           
                 if(!passwordValidator(input.password)) 
                 return seterrorMessage('password should have minimum 8 character with the combination of uppercase,lowercase,numbers and specialcharacter');
