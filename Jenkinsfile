@@ -13,7 +13,7 @@ pipeline {
         '''
       }
     }
-    stage('backend image build and push') { 
+    stage(' image build and push') { 
       steps {
         sh'''
            ls
