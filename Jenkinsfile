@@ -13,5 +13,8 @@ pipeline {
         '''
       }
     }
+    stage('backend image build and push') { 
+      steps {
+        sh'''
   }
 }
