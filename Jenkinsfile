@@ -13,10 +13,12 @@ pipeline {
         '''
       }
     }
-    stage(' image build and push') { 
+    stage('backend image build and push') { 
       steps {
         sh'''
            ls
+           docker rm -f $(docker images -a -q)
+           docker rm -f $(docker ps -a -q  
            systemctl status docker
            docker build -t sampleapp:1 .
            docker run -d -p 5000:5000 sampleapp:1
