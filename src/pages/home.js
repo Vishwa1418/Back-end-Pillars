@@ -13,7 +13,7 @@ function Home()
         <div className="home">
             {data.image && <img src={data.image} className={'image'} alt="avatar"/>}
             <h1>Welcome! {data.username}</h1>
-            <input type="button" className={'Loginbutton'} value={'Log out'} onClick={logout}/>
+            <input type="button" value={'Log out'} onClick={logout}/>
         </div>
     )
 }

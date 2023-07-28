@@ -15,6 +15,14 @@ function Signuppage() {
             const register = async()=>{
                 const res = await axios.post(endpoint,input)
                 console.log(res.data)
+                if(res.data.status !== "success")
+                {
+                    setsuccessMessage(res.data.status)
+                }
+                else
+                {
+                    setsuccessMessage('Successfully validated')
+                }
             }
             const formSubmitter = (event) => {
                 event.preventDefault();
@@ -34,7 +42,7 @@ function Signuppage() {
 
                 if(!repasswordValidator(input.repassword)) 
                 return seterrorMessage('please enter same password');
-                setsuccessMessage('Successfully validated')
+                // setsuccessMessage('Successfully validated')
                 register()
                 // console.log(input)
             }
