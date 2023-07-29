@@ -103,10 +103,9 @@
     
   }
   .forgetpassword {
-    font-size: 20px;
+    font-size: 1em;
     color: #f1f504;
-    font-weight: bold;
-    margin-left: 30px;
+    margin-left: 130px;
   }
   .forgetpassword:hover {
     color:rgb(37, 198, 238);
