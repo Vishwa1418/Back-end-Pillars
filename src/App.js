@@ -3,7 +3,9 @@ import Loginpage from "./pages/Loginpage";
 import { Route, Routes } from "react-router";
 import Home from "./pages/home";
 import Password from "./pages/password";
-
+import Educators from "./pages/educators";
+import './App.css'
+import Layout from "./pages/layout";
 function App() {
   return (
     <>
@@ -11,7 +13,10 @@ function App() {
         <Route index element={<Loginpage/>}/>
         <Route path="/login" element={<Loginpage/>}/>
         <Route path="/signup" element={<Signuppage/>}/>
-        <Route path="/home" element={<Home/>}/>
+        <Route path="/main" element={<Layout/>}>
+          <Route path="home" element={<Home/>}/>
+          <Route path="educators" element={<Educators/>}/>
+        </Route>
         <Route path="/password" element={<Password/>}/>
       </Routes>
     </>

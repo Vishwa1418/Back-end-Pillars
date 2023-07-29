@@ -1,4 +1,3 @@
-import './Loginpagestyle.css';
 import { usernameValidator,passwordValidator } from '../pages/LoginregexValidator.js';
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -16,17 +15,21 @@ function Loginpage() {
             }
 
             const login = async()=>{
-                const res = await axios.post(endpoint,input)
-                console.log(res.data)
-                if(res.data.status === 'Success')
-                {
-                    sessionStorage.setItem('userdata',JSON.stringify({username:res.data.username,email:res.data.email,role:res.data.role,image:res.data.image}))
-                    navigate('/home')
-                }
+                try {
+                    const res = await axios.post(endpoint,input)
+                    console.log(res.data)
+                    if(res.data.status === 'Success')
+                    {
+                        sessionStorage.setItem('userdata',JSON.stringify({username:res.data.username,email:res.data.email,role:res.data.role,image:res.data.image}))
+                        navigate('/main/home')
+                    }
 
-                if(res.data.status === 'Invalid username or password')
-                {
-                    seterrorMessage(res.data.status)
+                    if(res.data.status === 'Invalid username or password')
+                    {
+                        seterrorMessage(res.data.status)
+                    }
+                } catch (error) {
+                    alert(error)
                 }
             }
             
@@ -34,11 +37,12 @@ function Loginpage() {
                 event.preventDefault();
                 setsuccessMessage('');
                 seterrorMessage('');
-                if(!usernameValidator(input.username)) 
+
+                if(!usernameValidator(input.email)) 
                 return seterrorMessage('Invalid username');
           
-                if(!passwordValidator(input.password)) 
-                return seterrorMessage('password should have minimum 8 character with the combination of uppercase,lowercase,numbers and specialcharacter');
+                // if(!passwordValidator(input.password)) 
+                // return seterrorMessage('password should have minimum 8 character with the combination of uppercase,lowercase,numbers and specialcharacter');
                 // setsuccessMessage('Login Successfully');
                 // console.log(input);
                 login()
@@ -46,47 +50,46 @@ function Loginpage() {
     
             return(
             <>
-            <form className='Loginpage-container'>
-                <div>
+            <form className='box-size' onSubmit={formSubmitter}>
                 <div className='Loginpage'>
                     <h2 className='h2f1'>Welcome to Kadit Institute</h2>
                     <h2 className='h2f2'>Login</h2>
 
-                    {errorMessage.length > 0 && <div style={{marginBottom:"10px", color:"red",backgroundColor:"yellow"}}>{errorMessage}</div>}
-                    {successMessage.length > 0 && <div style={{marginBottom:"10px",color:"green",backgroundColor:"yellow"}}>{successMessage}</div>}
-            
-                <div className='input-group input-group-lg mb-3'>
+                    {errorMessage.length > 0 && <div className='msg'>{errorMessage}</div>}
+                
+                <div className='input-box'>
+                <div className='input-group mb-3'>
                     <span className='input-group-addon'><i className="uil uil-user-circle"></i></span>
-                    <input type="text" id="username" className="form-control" name='username' placeholder='Username' required onChange={handleChange}></input>
+                    <input type="text" id="email" className="form-control" name='email' placeholder='Email address' required onChange={handleChange}></input>
                 </div>
 
-                <div className='input-group input-group-lg mb-3'>
+                <div className='input-group mb-3'>
                     <span className='input-group-addon'><i className="uil-key-skeleton"></i></span>
-                    <input type="text" id="password" className="form-control" name='password' placeholder='password' required onChange={handleChange}></input>
+                    <input type="password" id="password" className="form-control" name='password' placeholder='password' required onChange={handleChange}></input>
                 </div>
-
+                
+                <div className='formcheck'>
                 <div className="form-check form-check-inline mb-5">
-                    <input type="checkbox" id="checkbox" className="form-check-input" value=""/>
-                    <label htmlFor="checkbox" className="form-check-label">Remember me</label>
-                    <Link to='/' className='forgetpassword'>Forget Password?</Link>
+                    <input type="checkbox" id="checkbox" className="form-check-input" value="" required/>
+                    <label htmlFor="checkbox" className="form-check-label" style={{fontSize:"15px"}}>Remember me</label>
+                    <a href="#" className='forgetpassword'>Forgot Password?</a>
+                </div>
                 </div>
                 </div>
 
-                <div className='mb-3'>
-                    <button type="submit" method="POST" className='Loginbutton' onClick={formSubmitter}>Submit</button>
-                </div>
-                </div>
-                    <span className="divider-text">OR</span>
-                        <p className="divider"></p>
+                    <input type="submit" className='Loginbutton' value='login'/>
+                    
+                    <p className="divider">OR</p>
+                    <p className='p1f1'>Get started with your free account</p>
 
-                    <div className='Socialmedipage mb-3'>
-                        <p className='p1f2'>Get started with your free account</p>
-                        <button type="button" className="Socialmediabutton3" onClick={() => { googleSignIn().then(() => navigate('/password'))}}><i className="fa fa-google" style={{color:"green"}}></i> Login via Google</button><br></br><br></br>
-                        <button type="button" className="Socialmediabutton2" disabled><i className="fa fa-facebook-square"> Login via Facebook</i></button><br></br><br></br>
-                        <button type="button" className="Socialmediabutton1" disabled><i className="fa fa-twitter-square"> Login via Twitter</i></button>
-                    </div>
+                <div className='Socialmediapage'>
+                    <button type="button" className="Socialmediabutton" onClick={() => { googleSignIn().then(() => navigate('/password'))}}><i className="fa fa-google" style={{color:"green"}}></i> Login via Google</button><br></br><br></br>
+                    <button type="button" className="Socialmediabutton facebook" disabled><i className="fa fa-facebook-square"> Login via Facebook</i></button><br></br><br></br>
+                    <button type="button" className="Socialmediabutton twitter" disabled><i className="fa fa-twitter-square"> Login via Twitter</i></button>
+                </div>
 
-                        <p className='p1f3'>Don't have an account?<Link to='/signup'>Sign up</Link></p>
+                    <p className='p1f2'>Don't have an account? <Link to="/signup" className='signup'>SignUp</Link></p>
+                </div>
                 </form>
                 
             </>

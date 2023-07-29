@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router"
+import { Outlet, useNavigate } from "react-router"
 function Home()
 {
     let data = sessionStorage.getItem('userdata')
@@ -9,12 +9,14 @@ function Home()
         sessionStorage.removeItem('userdata')
         navigate('/login')
     }
+    
     return (
-        <div className="home">
-            {data.image && <img src={data.image} className={'image'} alt="avatar"/>}
-            <h1>Welcome! {data.username}</h1>
-            <input type="button" value={'Log out'} onClick={logout}/>
-        </div>
+       <>
+            <div className="home">
+                <img src={data.image} className={'image'} alt="avatar"/>
+                <h1 className="heading">Welcome back! {data.username}</h1>
+            </div>
+       </>
     )
 }
 

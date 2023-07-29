@@ -1,35 +1,42 @@
 import { Link } from 'react-router-dom';
 import { nameValidator,emailValidator,numberValidator,passwordValidator,repasswordValidator } from '../pages/SignupregexValidator.js';
-import './Signuppagestyle.css';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { uploadToCloud } from './firebase.js';
 function Signuppage() {
             
-            const [input,setInput] = useState({username:'',email:'', number:'',password:'',repassword:'',role:'Student',image:null})
+            const [image,setImg] = useState('')        
+            const [input,setInput] = useState({username:'',email:'', number:'',password:'',repassword:'',role:'Student'})
             const [errorMessage,seterrorMessage] = useState('')
             const [successMessage,setsuccessMessage] = useState('')
+            const user = useRef()
             const endpoint = "http://127.0.0.1:5000/register"
             const handleChange = (event) => {
                 setInput({...input, [event.target.name]: event.target.value})
             }
             const register = async()=>{
-                const res = await axios.post(endpoint,input)
-                console.log(res.data)
-                if(res.data.status !== "success")
-                {
-                    setsuccessMessage(res.data.status)
-                }
-                else
-                {
-                    setsuccessMessage('Successfully validated')
+                try {
+                    const res = await axios.post(endpoint,input)
+                    console.log(res.data)
+                    if(res.data.status !== "success")
+                    {
+                        setsuccessMessage(res.data.status)
+                    }
+                    else
+                    {
+                        setsuccessMessage('Successfully validated')
+                    }
+                } catch (error) {
+                    alert(error)
                 }
             }
             const formSubmitter = (event) => {
                 event.preventDefault();
                 setsuccessMessage('');
                 seterrorMessage('');
-                if(!nameValidator(input.username)) 
-                return seterrorMessage('username should have minimum 8 character with combination of uppercase,lowercase and numbers');
+
+                // if(!nameValidator(input.username)) 
+                // return seterrorMessage('username should have minimum 8 character with combination of uppercase,lowercase and numbers');
 
                 if(!emailValidator(input.email)) 
                 return seterrorMessage('please enter valid email id');
@@ -42,60 +49,87 @@ function Signuppage() {
 
                 if(!repasswordValidator(input.repassword)) 
                 return seterrorMessage('please enter same password');
-                // setsuccessMessage('Successfully validated')
+
+                setInput(prev => {
+                    return {...prev,image}
+                })
                 register()
-                // console.log(input)
+                console.log(input)
+            }
+
+            const uploadImage = (e) => {
+                // console.log(e.target.files[0])
+                const file = e.target.files[0]
+                const reader = new FileReader(file)
+                reader.readAsDataURL(file)
+                reader.onload = () => {
+                    const image = document.createElement('img')
+                    image.src = reader.result
+                    const width = 200
+                    image.onload = () => {
+                        const canvas = document.createElement('canvas')
+                        const ratio = width/image.width
+                        canvas.width = width
+                        canvas.height = image.height * ratio
+                        const context = canvas.getContext('2d')
+                        context.drawImage(image,0,0,canvas.width,canvas.height)
+                        const new_url = context.canvas.toDataURL("image/jpeg",80)
+                        // console.log(new_url)
+                        uploadToCloud(user.current.value,new_url).then(imageURL => setImg(imageURL))
+                    }
+                }
             }
 
             return(
             <>
-            <form>
-                <div className='Signuppage-container'>
+            <form className='box-size'> 
                 <div className='Signuppage'>
-                    <h1 className='h1f1'><u><strong>New User Account</strong></u></h1>
+                    <h1 className='h1f1'><strong>New User Account</strong></h1>
 
-                <select className='form-select form-select-lg mb-3'>
-                    <option value="Choose">Choose...</option>
-                    <option value="Admin signup">Admin signup</option>
-                    <option value="User signup">User signup</option>
-                </select>
-
-                    {errorMessage.length > 0 && <div style={{marginBottom:"10px",backgroundColor:"yellow", color:"red"}}>{errorMessage}</div>}
-                    {successMessage.length > 0 && <div style={{marginBottom:"10px", backgroundColor:"yellow", color:"green"}}>{successMessage}</div>}
-                
-                <div className='input-group input-group-lg mb-3'>
-                    <span className='input-group-addon'><i className="uil uil-user-circle"></i></span>
-                    <input type="text" id="name" className="form-control" name='username' placeholder='Enter your name' required onChange={handleChange}></input>
+                    {errorMessage.length > 0 && <div className='msg'>{errorMessage}</div>}
+                <img src={image} className={'image'} alt='avatar'/>
+                <input type='file' accept='.jpg, .png' onChange={uploadImage}/>
+                <div className='input-box'>
+                <div className='input-group mb-3'>
+                    <span className='input-group-addon' id='addon'><i className="uil uil-user-circle"></i></span>
+                    <input type="text" id="name" className="form-control" name='username' ref={user} placeholder='Enter your name' required onChange={handleChange}></input>
                 </div>
 
-                <div className='input-group input-group-lg mb-3'>
-                    <span className='input-group-addon'><i className="uil uil-envelopes"></i></span>
+                <div className='input-group mb-3'>
+                    <span className='input-group-addon' id='addon'><i className="uil uil-envelopes"></i></span>
                     <input type="text" id="email" className="form-control" name='email' placeholder='Enter email address' required onChange={handleChange}></input>
                 </div>
-
-                <div className='input-group input-group-lg mb-3'>
-                    <span className='input-group-addon'><i className="uil uil-calling"></i></span>
+             
+                <div className='input-group mb-3'>
+                    <span className='input-group-addon' id='addon'><i className="uil uil-calling"></i></span>
+                    <span className="input-group-addon" id='form-select'required><select className="form-control" id="form-select1">
+                        <option>IND +91</option>
+                        <option>AUS +92</option>
+                        </select>
+                        </span>
                     <input type="number" id="number" className="form-control" name='number' placeholder='Enter phone number' required onChange={handleChange}></input>
                 </div>
 
-                <div className='input-group input-group-lg mb-3'>
-                    <span className='input-group-addon'><i className="uil uil-padlock"></i></span>
-                    <input type="text" id="password" className="form-control" name='password' placeholder='Enter Password' required onChange={handleChange}></input>
+                <div className='input-group mb-3'>
+                    <span className='input-group-addon' id='addon'><i className="uil uil-padlock"></i></span>
+                    <input type="password" id="password" className="form-control" name='password' placeholder='Enter Password' required onChange={handleChange}></input>
                 </div>
 
-                <div className='input-group input-group-lg mb-3'>
-                    <span className='input-group-addon'><i className="uil uil-padlock"></i></span>
-                    <input type="text" id="rpassword" className="form-control" name='repassword' placeholder='Repeat Password' required onChange={handleChange}></input>
+                <div className='input-group mb-3'>
+                    <span className='input-group-addon' id='addon'><i className="uil uil-padlock"></i></span>
+                    <input type="password" id="rpassword" className="form-control" name='repassword' placeholder='Repeat Password' required onChange={handleChange}></input>
                 </div>
-
+                <div className='formcheck1'>
                 <div className="form-check form-check-inline mb-5">
-                    <input type="checkbox" id="checkbox" className="form-check-input" value=""/>
+                    <input type="checkbox" id="checkbox" name="checkbox" className="form-check-input" value="" required/>
                     <label htmlFor="checkbox" className="form-check-label">I accept all terms & conditions</label>
+                </div>
+                </div>
                 </div>
             
                     <button type="submit" className='Signupbutton' value="send" onClick={formSubmitter}>Register</button>
-                </div>
-                <p className='p1f3'>Already have an account?<Link to='/login'>Sign in</Link></p>
+                
+                    <p className='p1f3'>Already have an account ?<Link to='/login' className='signin'>  SignIn Here</Link></p>
                 </div>
                 </form>
         </>
