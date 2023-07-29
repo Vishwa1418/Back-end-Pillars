@@ -9,7 +9,7 @@ function Educators()
         axios.get(url).then(res => {
             setEd(res.data)
             console.log(res.data)
-        })
+        }).catch(error => alert(error))
     },[url])
     return (
         <>

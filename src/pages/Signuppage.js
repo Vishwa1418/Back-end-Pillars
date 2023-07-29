@@ -5,11 +5,12 @@ import React, { useState, useRef } from 'react';
 import { uploadToCloud } from './firebase.js';
 function Signuppage() {
             
-            const [image,setImg] = useState('')        
+            const [image,setImg] = useState('https://www.aquaknect.com.au/wp-content/uploads/2014/03/blank-person-300x300.jpg')        
             const [input,setInput] = useState({username:'',email:'', number:'',password:'',repassword:'',role:'Student'})
             const [errorMessage,seterrorMessage] = useState('')
             const [successMessage,setsuccessMessage] = useState('')
             const user = useRef()
+            const files = useRef()
             const endpoint = "http://127.0.0.1:5000/register"
             const handleChange = (event) => {
                 setInput({...input, [event.target.name]: event.target.value})
@@ -87,8 +88,8 @@ function Signuppage() {
                     <h1 className='h1f1'><strong>New User Account</strong></h1>
 
                     {errorMessage.length > 0 && <div className='msg'>{errorMessage}</div>}
-                <img src={image} className={'image'} alt='avatar'/>
-                <input type='file' accept='.jpg, .png' onChange={uploadImage}/>
+                <img src={image} className={'image'} alt='avatar'onClick={() => files.current.click() }/>
+                <input type='file' accept='.jpg, .png' ref={files} onChange={uploadImage} hidden/>
                 <div className='input-box'>
                 <div className='input-group mb-3'>
                     <span className='input-group-addon' id='addon'><i className="uil uil-user-circle"></i></span>

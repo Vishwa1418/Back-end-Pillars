@@ -29,6 +29,9 @@ function Layout(){
                     <li>
                         <NavLink to='/main/educators'>Reports</NavLink>
                     </li>
+                    <li>
+                    <NavLink to='/login'>logout</NavLink>
+                    </li>
                 </ul>
                 <div class="burger">
                     <div class="line1"></div>
