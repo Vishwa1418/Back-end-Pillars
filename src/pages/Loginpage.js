@@ -1,4 +1,3 @@
-import { usernameValidator,passwordValidator } from '../pages/LoginregexValidator.js';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
@@ -14,8 +13,9 @@ function Loginpage() {
                 setInput({...input, [event.target.name]: event.target.value});
             }
 
-            const login = async()=>{
+            const login = async(event)=>{
                 try {
+                    event.preventDefault()
                     const res = await axios.post(endpoint,input)
                     console.log(res.data)
                     if(res.data.status === 'Success')
@@ -33,24 +33,10 @@ function Loginpage() {
                 }
             }
             
-            const formSubmitter = (event) => {
-                event.preventDefault();
-                setsuccessMessage('');
-                seterrorMessage('');
-
-                if(!usernameValidator(input.email)) 
-                return seterrorMessage('Invalid username');
-          
-                // if(!passwordValidator(input.password)) 
-                // return seterrorMessage('password should have minimum 8 character with the combination of uppercase,lowercase,numbers and specialcharacter');
-                // setsuccessMessage('Login Successfully');
-                // console.log(input);
-                login()
-            };
     
             return(
             <>
-            <form className='box-size' onSubmit={formSubmitter}>
+            <form className='box-size' onSubmit={login}>
                 <div className='Loginpage'>
                     <h2 className='h2f1'>Welcome to Kadit Institute</h2>
                     <h2 className='h2f2'>Login</h2>
@@ -60,7 +46,7 @@ function Loginpage() {
                 <div className='input-box'>
                 <div className='input-group mb-3'>
                     <span className='input-group-addon'><i className="uil uil-user-circle"></i></span>
-                    <input type="text" id="email" className="form-control" name='email' placeholder='Email address' required onChange={handleChange}></input>
+                    <input type="email" id="email" className="form-control" name='email' placeholder='Email address' required onChange={handleChange}></input>
                 </div>
 
                 <div className='input-group mb-3'>
