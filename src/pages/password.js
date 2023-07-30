@@ -58,6 +58,7 @@ function Password() {
                 
                     <img src={data.image} className={'image'} alt='avatar'/>
                     <h1>{data.username}</h1>
+                    <h5>{data.email}</h5>
                     <div className='input-group mb-3'>
                         <span className='input-group-addon' id='addon'><i className="uil uil-padlock"></i></span>
                         <input type="password" id="password" className="form-control" name='password' placeholder='Enter Password' required onChange={handleChange}></input>
