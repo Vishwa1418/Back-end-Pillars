@@ -1,8 +1,17 @@
-import {NavLink, Outlet} from 'react-router-dom'
+import {NavLink, Outlet, useNavigate} from 'react-router-dom'
 function Layout(){
+    let data = sessionStorage.getItem('userdata')
+    data = JSON.parse(data)
+    const navigate = useNavigate()
+
+    const logout = () => {
+        sessionStorage.removeItem('userdata')
+        navigate('/login')
+    }
     return (
         <>
-           <nav>
+            <div className='layout'>
+            <nav>
                 <div class="logo">
                     <h4>KADIT</h4>
                 </div>
@@ -30,7 +39,12 @@ function Layout(){
                         <NavLink to='/main/educators'>Reports</NavLink>
                     </li>
                     <li>
-                    <NavLink to='/login'>logout</NavLink>
+                        <div className='profile'>
+                            <img src={data.image} className='image' alt='avatar'></img>
+                            <div className={"details"}>
+                                <span className={"name"}>{data.username}</span>
+                            </div>
+                        </div>
                     </li>
                 </ul>
                 <div class="burger">
@@ -40,7 +54,7 @@ function Layout(){
                 </div>
             </nav>
             <Outlet/>
-            <section></section>
+            </div>
         </>
     )
 }

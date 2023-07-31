@@ -11,7 +11,7 @@ function Password() {
             const [errorMessage,seterrorMessage] = useState('')
             // const [successMessage,setsuccessMessage] = useState('')
             const navigate = useNavigate()
-            const endpoint = "http://127.0.0.1:5000/register"
+            const endpoint = `${process.env.REACT_APP_HOST}/register`
             const handleChange = (event) => {
                 setInput({...input, [event.target.name]: event.target.value})
             }

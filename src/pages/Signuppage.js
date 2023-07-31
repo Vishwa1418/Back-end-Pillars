@@ -11,7 +11,7 @@ function Signuppage() {
             const [successMessage,setsuccessMessage] = useState('')
             const user = useRef()
             const files = useRef()
-            const endpoint = "http://127.0.0.1:5000/register"
+            const endpoint = `${process.env.REACT_APP_HOST}/register`
             const handleChange = (event) => {
                 setInput({...input, [event.target.name]: event.target.value})
             }

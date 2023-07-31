@@ -72,17 +72,19 @@ def signup():
 @app.route('/educators')
 @cross_origin()
 def educators():
-    user = {"role":"Teacher"}
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM user_table WHERE role = 'teacher'")
+    #Getting list of educators from the database
+    cursor.execute("select u.user_id,u.username,u.email,e.subjects,u.image from educator_table as e join user_table as u on e.username = u.username")
     educators_list = cursor.fetchall()
     educators = []
     if educators_list:
         for e in educators_list:
             educator = {}
+            educator['user_id'] = e[0]
             educator['username'] = e[1]
             educator['email'] = e[2]
-            educator['image'] = e[7]
+            educator['subjects'] = e[3]
+            educator['image'] = e[4]
             educators.append(educator)
         
         cursor.close()

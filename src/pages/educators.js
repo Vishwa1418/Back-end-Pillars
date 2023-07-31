@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 
 function Educators()
 {
-    const url = "http://127.0.0.1:5000/educators"
+    const url = `${process.env.REACT_APP_HOST}/educators`
     const [educators,setEd] = useState([])
     useEffect(() => {
         axios.get(url).then(res => {
@@ -22,8 +22,12 @@ function Educators()
                         </div>
                             <div className={"details"}>
                                 <span className={"name"}>{educator.username}</span>
-                                {/* <span>{ed.subject}</span> */}
                                 <span>{educator.email}</span>
+                                <div className="subjects">
+                                    {educator.subjects.map((subject) => {
+                                        return <span className="subject">{subject}</span>
+                                    })}
+                                </div>
                             </div>
                         </div>
                     )

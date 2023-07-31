@@ -6,9 +6,8 @@ function Loginpage() {
 
             const [input, setInput] = useState({username:'',password:''});
             const [errorMessage,seterrorMessage] = useState('')
-            const [successMessage,setsuccessMessage] = useState('')
             const navigate = useNavigate()
-            const endpoint = "http://127.0.0.1:5000/login"
+            const endpoint = `${process.env.REACT_APP_HOST}/login`
             const handleChange = (event) => {
                 setInput({...input, [event.target.name]: event.target.value});
             }
@@ -36,7 +35,8 @@ function Loginpage() {
     
             return(
             <>
-            <form className='box-size' onSubmit={login}>
+            <section>
+                <form className='box-size' onSubmit={login}>
                 <div className='Loginpage'>
                     <h2 className='h2f1'>Welcome to Kadit Institute</h2>
                     <h2 className='h2f2'>Login</h2>
@@ -77,6 +77,7 @@ function Loginpage() {
                     <p className='p1f2'>Don't have an account? <Link to="/signup" className='signup'>SignUp</Link></p>
                 </div>
                 </form>
+            </section>
                 
             </>
     )
