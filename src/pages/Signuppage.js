@@ -83,7 +83,8 @@ function Signuppage() {
 
             return(
             <>
-            <form className='box-size'> 
+            <section>
+                <form className='box-size'> 
                 <div className='Signuppage'>
                     <h1 className='h1f1'><strong>New User Account</strong></h1>
 
@@ -133,6 +134,7 @@ function Signuppage() {
                     <p className='p1f3'>Already have an account ?<Link to='/login' className='signin'>  SignIn Here</Link></p>
                 </div>
                 </form>
+            </section>
         </>
     )
 }

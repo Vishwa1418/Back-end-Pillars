@@ -50,7 +50,8 @@ function Password() {
 
             return(
             <>
-            <form className='box-size'>
+            <section>
+                <form className='box-size'>
                 <div className='Signuppage'>
                     <h1 className='h1f1'><u><strong>New User Account</strong></u></h1>
 
@@ -78,6 +79,7 @@ function Password() {
                 </div>
                 <p className='p1f3'>Already have an account? <Link to='/login' className='signin'>signIn</Link></p>
                 </form>
+            </section>
         </>
     )
 }
