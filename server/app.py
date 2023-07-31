@@ -140,7 +140,7 @@ def get_quizzes(quiz_id):
 def get_courses():
     if request.method == "GET":
         cursor = conn.cursor()
-        cursor.execute('SELECT * FROM courses')
+        cursor.execute('SELECT * FROM course_table')
         courses = cursor.fetchall()
         cursor.close()
         response = [{"course_id": course[0],
@@ -161,7 +161,7 @@ def add_course():
         cursor = conn.cursor()
 
         # Insert the new course into the database
-        cursor.execute('INSERT INTO courses (course_name, course_description, instructor_id, course_duration, enrollment_fees, creation_date) VALUES(%s, %s, %s, %s, %s, %s);',
+        cursor.execute('INSERT INTO course_table (course_name, course_description, instructor_id, course_duration, enrollment_fees, creation_date) VALUES(%s, %s, %s, %s, %s, %s);',
                        (course['course_name'], course['course_description'], course['instructor_id'], course['course_duration'], course['enrollment_fees'], datetime.now()))
         conn.commit()
         cursor.close()
@@ -175,7 +175,7 @@ def update_or_delete_course(course_id):
         cursor = conn.cursor()
 
         # Update the course in the database
-        cursor.execute('UPDATE courses SET course_name = %s, course_description = %s, instructor_id = %s, course_duration = %s, enrollment_fees = %s WHERE course_id = %s;',
+        cursor.execute('UPDATE course_table SET course_name = %s, course_description = %s, instructor_id = %s, course_duration = %s, enrollment_fees = %s WHERE course_id = %s;',
                        (course['course_name'], course['course_description'], course['instructor_id'], course['course_duration'], course['enrollment_fees'], course_id))
         conn.commit()
         cursor.close()
@@ -183,7 +183,7 @@ def update_or_delete_course(course_id):
 
     elif request.method == "DELETE":
         cursor = conn.cursor()
-        cursor.execute('DELETE FROM courses WHERE course_id = %s;', (course_id,))
+        cursor.execute('DELETE FROM course_table WHERE course_id = %s;', (course_id,))
         conn.commit()
         cursor.close()
         return jsonify({"status": "success"})
