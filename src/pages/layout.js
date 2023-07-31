@@ -36,10 +36,10 @@ function Layout(){
                         <NavLink to='/main/quiz'>Practice</NavLink>
                     </li>
                     <li>
-                        <NavLink to='/main/educators'>Success Stories</NavLink>
+                        <NavLink to='/main/home'>Success Stories</NavLink>
                     </li>
                     <li>
-                        <NavLink to='/main/educators'>Reports</NavLink>
+                        <NavLink to='/main/home'>Reports</NavLink>
                     </li>
                     <li className='profilepos'>
                         <div className='profile'>
