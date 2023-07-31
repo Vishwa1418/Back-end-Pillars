@@ -10,10 +10,15 @@ function Signuppage() {
             const [errorMessage,seterrorMessage] = useState('')
             const [successMessage,setsuccessMessage] = useState('')
             const user = useRef()
+            const number = useRef()
             const files = useRef()
             const endpoint = `${process.env.REACT_APP_HOST}/register`
             const handleChange = (event) => {
                 setInput({...input, [event.target.name]: event.target.value})
+                if(number.current.value.length >= number.current.maxLength)
+                {
+                    number.current.value = number.current.value.substring(0,number.current.maxLength)
+                }
             }
             const register = async()=>{
                 try {
@@ -55,7 +60,7 @@ function Signuppage() {
                     return {...prev,image}
                 })
                 register()
-                console.log(input)
+                // console.log(input)
             }
 
             const uploadImage = (e) => {
@@ -109,7 +114,7 @@ function Signuppage() {
                         <option>AUS +92</option>
                         </select>
                         </span>
-                    <input type="number" id="number" className="form-control" name='number' placeholder='Enter phone number' required onChange={handleChange}></input>
+                    <input type="number" id="number" className="form-control" name='number' placeholder='Enter phone number' ref={number} maxLength={10} required onChange={handleChange}></input>
                 </div>
 
                 <div className='input-group mb-3'>
