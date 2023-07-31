@@ -74,7 +74,7 @@ def signup():
 def get_educators():
     cursor = conn.cursor()
     #Getting list of educators from the database
-    cursor.execute("select u.user_id,u.username,u.email,e.subjects,u.image from educator_table as e join user_table as u on e.username = u.username")
+    cursor.execute("select u.user_id,u.username,u.email,e.subjects,u.image from educator_table as e join user_table as u on e.username = u.username where u.role = 'teacher")
     educators_list = cursor.fetchall()
     educators = []
     if not educators_list:
