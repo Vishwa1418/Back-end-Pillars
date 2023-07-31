@@ -1,9 +1,11 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { useParams } from "react-router"
 
 function Quiz()
 {
-    const url = "http://127.0.0.1:5000/quiz"
+    const params = useParams()
+    const url = `${process.env.REACT_APP_HOST}/quiz/${params.id}`
     const [questions,setQue] = useState([])
     let answers = []
     const [result,setRes] = useState(0)
@@ -11,7 +13,8 @@ function Quiz()
         axios.get(url).then(res => {
             // console.log(res.data)
             setQue(res.data)
-        })
+            console.log(res.data)
+        }).catch(error => alert(error))
     },[url])
 
     const submit = () =>{
@@ -28,17 +31,17 @@ function Quiz()
     return (
         <>
             <div className="quizpage">
-                <span>You have scored {result}/{questions.length} </span>
+                <h1 className="heading">{questions.length > 0 && questions[0].quiz_title}</h1>
                 {questions.map((question,index)=>{
                     return(
                         <div className="ques" key={index}>
-                            <span>{question.id}. {question.question}</span>
+                            <span>{question.question_id}. {question.question_text}</span>
                             <div className="options">
-                                {question.options.map((option,index) => {
+                                {question.question_options.map((option,index) => {
                                     return(
                                         <div className="option" key={index}>
-                                            <input type="radio" id={option} value={option} name={question.id} onChange={e => {
-                                                answers[question.id - 1] = e.target.value
+                                            <input type="radio" id={option} value={option} name={question.question_id} onChange={e => {
+                                                answers[question.question_id - 1] = e.target.value
                                                 console.log(answers)
                                             }}/>
                                             <label for={option}>{option}</label>
@@ -49,7 +52,7 @@ function Quiz()
                         </div>
                     )
                 })}
-                <input type="submit" className="submit eval" onClick={submit}/>
+                <input type="submit" className="Loginbutton" onClick={submit}/>
             </div>
         </>
     )

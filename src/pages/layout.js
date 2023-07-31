@@ -33,7 +33,7 @@ function Layout(){
                         </div>
                     </li>
                     <li>
-                        <NavLink to='/main/educators'>Practice</NavLink>
+                        <NavLink to='/main/quiz'>Practice</NavLink>
                     </li>
                     <li>
                         <NavLink to='/main/educators'>Success Stories</NavLink>

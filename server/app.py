@@ -71,26 +71,69 @@ def signup():
 
 @app.route('/educators')
 @cross_origin()
-def educators():
+def get_educators():
     cursor = conn.cursor()
     #Getting list of educators from the database
     cursor.execute("select u.user_id,u.username,u.email,e.subjects,u.image from educator_table as e join user_table as u on e.username = u.username")
     educators_list = cursor.fetchall()
     educators = []
-    if educators_list:
-        for e in educators_list:
-            educator = {}
-            educator['user_id'] = e[0]
-            educator['username'] = e[1]
-            educator['email'] = e[2]
-            educator['subjects'] = e[3]
-            educator['image'] = e[4]
-            educators.append(educator)
+    if not educators_list:
+        return jsonify({"status":"None"})
+    for e in educators_list:
+        educator = {}
+        educator['user_id'] = e[0]
+        educator['username'] = e[1]
+        educator['email'] = e[2]
+        educator['subjects'] = e[3]
+        educator['image'] = e[4]
+        educators.append(educator)
+    
+    cursor.close()
+    return jsonify(educators)
+
+@app.route('/quiz')
+@cross_origin()
+def get_quiz():
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM quiz_table")
+        quiz_list = cursor.fetchall()
+        quiz = []
+        if not quiz_list:
+            return jsonify({'error': 'Quiz not found'})
+        for q in quiz_list:
+            que = {}
+            que['quiz_id'] = q[0]
+            que['course_id'] = q[1]
+            que['quiz_title'] = q[2]
+            que['description'] = q[3]
+            quiz.append(que)
+
+        cursor.close()
+        return jsonify(quiz)
+
+@app.route('/quiz/<int:quiz_id>')
+@cross_origin()
+def get_quizzes(quiz_id):
+        cursor = conn.cursor()
+        cursor.execute(f"select ques.question_id,quiz.quiz_id,quiz.course_id,quiz.quiz_title,ques.question_text,ques.question_options,ques.correct_answer from quiz_table as quiz join question_table as ques on quiz.quiz_id = cast(ques.quiz_id as integer) where quiz.quiz_id = {quiz_id}")
+        quiz_list = cursor.fetchall()
+        quiz = []
+        if not quiz_list:
+            return jsonify({'error': 'Quiz not found'})
+        
+        for q in quiz_list:
+            que = {}
+            que['question_id'] = q[0]
+            que['quiz_id'] = q[1]
+            que['course_id'] = q[2]
+            que['quiz_title'] = q[3]
+            que['question_text'] = q[4]
+            que['question_options'] = q[5]
+            que['correct_answer'] = q[6]
+            quiz.append(que)
         
         cursor.close()
-        return jsonify(educators)
-    else:
-        return jsonify({"status":"None"})
+        return jsonify(quiz)
 
 @app.route('/courses', methods=["GET"])
 @cross_origin()

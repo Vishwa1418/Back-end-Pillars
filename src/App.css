@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0px;
     box-sizing: border-box;
+    scroll-behavior: smooth;
   }
   body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -25,7 +26,7 @@
     align-items: center;
     width: 100%;
     min-height: 100vh;
-    overflow-x: hidden;
+    overflow: hidden;
   }
   section
   {
@@ -376,11 +377,10 @@ nav{
 {
     display: flex;
     justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    align-items: stretch;
+    /* flex-direction: column; */
     width: 100vw;
     min-height: 100vh;
-    gap: 10px;
 }
 .heading
 {
@@ -446,9 +446,9 @@ nav{
 
 .subjects
 {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(3,auto);
 }
 .subject
 {
@@ -508,4 +508,108 @@ nav{
 .profile:hover ~ .logout , .logout:hover
 {
   display: block;
+}
+
+.content
+{
+  font-size: 1.25em;
+  font-weight: 600;
+  text-align: justify;
+  padding: 30px;
+  color: #fff;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0,0,0,0.2);
+  text-shadow: 0px 0px 5px #000;
+}
+.box
+{
+  position: relative;
+  top: 10px;
+  display: flex;
+  width: 40%;
+  min-height: 400px;
+  background-image: url(bgimage2.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  scrollbar-width: 0px;
+}
+
+.box:nth-child(2)
+{
+  background-image: url(bgimage1.jpg);
+}
+
+.quizpage
+{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100vw;
+    min-height: 100vh;
+    flex-direction: column;
+    gap: 10px;
+    translate: 0px 100px;
+    overflow-y: scroll;
+}
+
+.quizpage::-webkit-scrollbar
+{
+  width: 0px;
+}
+.quiz
+{
+  cursor: pointer;
+}
+.quiz:hover
+{
+  filter: brightness(0.95);
+}
+.title
+{
+  font-size: 1.5em;
+}
+.ques
+{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 80%;
+    height: 150px;
+    padding: 10px;
+    background-color: #efefef;
+    gap: 10px;
+    border-radius: 10px;
+    font-size: 1.25em;
+}
+
+.options,.option
+{
+    display: grid;
+    place-items: center;
+    grid-template-columns: repeat(2,auto);
+    gap: 5px;
+    column-gap: 5%;
+}
+
+.option
+{
+    gap: 10px;
+    padding: 5px;
+    grid-template-columns: repeat(2,auto);
+    border-radius: 5px;
+    accent-color: #303030;
+    cursor: pointer;
+}
+
+.option > input
+{
+    width: 20px;
+    aspect-ratio: 1/1;
+}
+
+.option > input ,.option > label
+{
+    cursor: pointer;
 }
