@@ -24,8 +24,8 @@ function Educators()
                                 <span className={"name"}>{educator.username}</span>
                                 <span>{educator.email}</span>
                                 <div className="subjects">
-                                    {educator.subjects.map((subject) => {
-                                        return <span className="subject">{subject}</span>
+                                    {educator.subjects.map((subject,index) => {
+                                        return <span className="subject" key={index}>{subject}</span>
                                     })}
                                 </div>
                             </div>
