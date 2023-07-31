@@ -105,7 +105,7 @@ def get_quiz():
             que['quiz_id'] = q[0]
             que['course_id'] = q[1]
             que['quiz_title'] = q[2]
-            que['description'] = q[3]
+            que['quiz_description'] = q[3]
             quiz.append(que)
 
         cursor.close()

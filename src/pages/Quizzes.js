@@ -13,7 +13,6 @@ function Quizzes()
         axios.get(url).then(res => {
             // console.log(res.data)
             setQue(res.data)
-            console.log(res.data)
         }).catch(error => alert(error))
     },[url])
 
@@ -24,7 +23,7 @@ function Quizzes()
                     return(
                         <div className="ques quiz" onClick={() => {navigate(`/main/quiz/${question.quiz_id}`)}}>
                             <span className="title">{question.quiz_id}. {question.quiz_title}</span>
-                            <p>{question.description}</p>
+                            <p>{question.quiz_description}</p>
                         </div>
                     )
                 })}

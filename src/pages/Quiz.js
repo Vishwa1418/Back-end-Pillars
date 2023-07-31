@@ -13,7 +13,6 @@ function Quiz()
         axios.get(url).then(res => {
             // console.log(res.data)
             setQue(res.data)
-            console.log(res.data)
         }).catch(error => alert(error))
     },[url])
 
@@ -21,27 +20,26 @@ function Quiz()
         setRes(prev => prev =questions.length)
 
         answers.length !== 0 && questions.map((question,index) => {
-            return(
-                answers[index] !== questions.ans ? setRes(prev => --prev) : null
-            )
+            if(!answers[index] === question.correct_answer)
+            setRes(prev => --prev)
         })
-        console.log(result)
+        alert(`You have scored ${result}/${questions.length}`)
     }
 
     return (
         <>
             <div className="quizpage">
                 <h1 className="heading">{questions.length > 0 && questions[0].quiz_title}</h1>
-                {questions.map((question,index)=>{
+                {questions.length > 0 && questions.map((question,index)=>{
                     return(
                         <div className="ques" key={index}>
-                            <span>{question.question_id}. {question.question_text}</span>
+                            <span>{index+1}. {question.question_text}</span>
                             <div className="options">
-                                {question.question_options.map((option,index) => {
+                                {question.question_options.map((option,opt_index) => {
                                     return(
-                                        <div className="option" key={index}>
+                                        <div className="option" key={opt_index}>
                                             <input type="radio" id={option} value={option} name={question.question_id} onChange={e => {
-                                                answers[question.question_id - 1] = e.target.value
+                                                answers[index] = e.target.value
                                                 console.log(answers)
                                             }}/>
                                             <label for={option}>{option}</label>

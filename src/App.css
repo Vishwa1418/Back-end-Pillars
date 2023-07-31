@@ -563,7 +563,7 @@ nav{
 }
 .quiz:hover
 {
-  filter: brightness(0.95);
+  filter: brightness(0.85);
 }
 .title
 {
