@@ -47,6 +47,7 @@ def login():
         cursor.close()
         return jsonify(response)
 
+
 @app.route('/register', methods=["POST"])
 @cross_origin()
 def signup():
@@ -69,6 +70,7 @@ def signup():
         cursor.close()
         return jsonify({"status": "success"})
 
+
 @app.route('/educators')
 @cross_origin()
 def get_educators():
@@ -90,6 +92,7 @@ def get_educators():
     
     cursor.close()
     return jsonify(educators)
+
 
 @app.route('/quiz')
 @cross_origin()
@@ -134,6 +137,7 @@ def get_quizzes(quiz_id):
         
         cursor.close()
         return jsonify(quiz)
+
 
 @app.route('/courses', methods=["GET"])
 @cross_origin()
@@ -184,6 +188,42 @@ def update_or_delete_course(course_id):
     elif request.method == "DELETE":
         cursor = conn.cursor()
         cursor.execute('DELETE FROM course_table WHERE course_id = %s;', (course_id,))
+        conn.commit()
+        cursor.close()
+        return jsonify({"status": "success"})
+
+
+@app.route('/lessons', methods=["POST"])
+@cross_origin()
+def add_lesson():
+    if request.method == "POST":
+        lesson = request.get_json()
+        cursor = conn.cursor()
+
+        # Insert the new lesson into the database
+        cursor.execute('INSERT INTO lesson_table (course_id, lesson_title, lesson_content, order, ) VALUES(%s, %s, %s, %s, %s, %s);',
+                       (lesson['course_id'], lesson['lesson_title'], lesson['lesson_content'],lesson['order'], datetime.now()))
+        conn.commit()
+        cursor.close()
+        return jsonify({"status": "success"})
+
+@app.route('/lessons/<int:lesson_id>', methods=["PUT", "DELETE"])
+@cross_origin()
+def update_or_delete_lesson(lesson_id):
+    if request.method == "PUT":
+        lesson = request.get_json()
+        cursor = conn.cursor()
+
+        # Update the lesson in the database
+        cursor.execute('UPDATE lesson_table SET course_id = %s, lesson_title = %s, lesson_content = %s, order = %s WHERE lesson_id = %s;',
+                       (lesson['course_id'], lesson['lesson_title'], lesson['lesson_content'], lesson['order'], lesson_id))
+        conn.commit()
+        cursor.close()
+        return jsonify({"status": "success"})
+
+    elif request.method == "DELETE":
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM lesson_table WHERE lesson_id = %s;', (lesson_id,))
         conn.commit()
         cursor.close()
         return jsonify({"status": "success"})
