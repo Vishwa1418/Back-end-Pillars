@@ -17,6 +17,9 @@ function Layout(){
                 </div>
                 <ul class="nav-links">
                     <li>
+                        <NavLink to='/main/home'>Home</NavLink>
+                    </li>
+                    <li>
                         <NavLink to='/main/educators'>Educators</NavLink>
                     </li>
                     
@@ -38,13 +41,14 @@ function Layout(){
                     <li>
                         <NavLink to='/main/educators'>Reports</NavLink>
                     </li>
-                    <li>
+                    <li className='profilepos'>
                         <div className='profile'>
                             <img src={data.image} className='image' alt='avatar'></img>
                             <div className={"details"}>
                                 <span className={"name"}>{data.username}</span>
                             </div>
                         </div>
+                        <li className={'logout'} onClick={logout}>Logout</li>
                     </li>
                 </ul>
                 <div class="burger">

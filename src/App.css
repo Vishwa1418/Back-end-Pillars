@@ -248,6 +248,7 @@ nav{
     width: 100vw;
     min-height: 50px;
     font-family: 'Poppins', sans-serif;
+    z-index: 2;
 }
 .logo{
     color: #222;
@@ -398,10 +399,12 @@ nav{
     gap: 5px;
     width: 100vw;
     min-height: 100vh;
+    margin-top: 15px;
 }
 
 .profilecard
 {
+    align-self: flex-start;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -413,7 +416,7 @@ nav{
     border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 20px;
     border-radius: 10px;
-    gap: 10px;
+    gap: 5px;
 }
 
 .profilecard > .logo
@@ -487,4 +490,23 @@ nav{
   font-family: 'Poppins', sans-serif;
   font-size: 1em;
   gap: 5px;
+}
+.logout
+{
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1.25em;
+  translate: 60px 0px;
+  display: none;
+}
+
+.profilepos
+{
+  margin-left: 50px;
+  cursor: pointer;
+}
+
+.profile:hover ~ .logout , .logout:hover
+{
+  display: block;
 }
