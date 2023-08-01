@@ -4,7 +4,7 @@ WORKDIR '/app'
 
 COPY . /app
 
-RUN install -r requirements.txt
+RUN pip install -r requirements.txt
 EXPOSE 5000
 
 CMD python ./app.py
