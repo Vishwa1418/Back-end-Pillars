@@ -17,7 +17,7 @@ pipeline {
       steps {
         sh'''
            ls
-           cd src
+           cd server
            docker build -t backendsampleapp:1 .
            docker run -d -p 5000:5000 backendsampleapp:1
         ''' 
