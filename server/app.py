@@ -17,7 +17,7 @@ conn = psycopg2.connect(
 )
 
 @app.route('/login', methods=["POST"])
-@cross_origin()
+@cross_origin(origins='*')
 def login():
     if request.method == "POST":
         user = request.get_json()
@@ -49,7 +49,7 @@ def login():
 
 
 @app.route('/register', methods=["POST"])
-@cross_origin()
+@cross_origin(origins='*')
 def signup():
     if request.method == "POST":
         user = request.get_json()
@@ -72,7 +72,7 @@ def signup():
 
 
 @app.route('/educators')
-@cross_origin()
+@cross_origin(origins='*')
 def get_educators():
     cursor = conn.cursor()
     #Getting list of educators from the database
@@ -95,7 +95,7 @@ def get_educators():
 
 
 @app.route('/quiz')
-@cross_origin()
+@cross_origin(origins='*')
 def get_quiz():
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM quiz_table")
@@ -115,7 +115,7 @@ def get_quiz():
         return jsonify(quiz)
 
 @app.route('/quiz/<int:quiz_id>')
-@cross_origin()
+@cross_origin(origins='*')
 def get_quizzes(quiz_id):
         cursor = conn.cursor()
         cursor.execute(f"select ques.question_id,quiz.quiz_id,quiz.course_id,quiz.quiz_title,ques.question_text,ques.question_options,ques.correct_answer from quiz_table as quiz join question_table as ques on quiz.quiz_id = cast(ques.quiz_id as integer) where quiz.quiz_id = {quiz_id}")
@@ -140,7 +140,7 @@ def get_quizzes(quiz_id):
 
 
 @app.route('/courses', methods=["GET"])
-@cross_origin()
+@cross_origin(origins='*')
 def get_courses():
     if request.method == "GET":
         cursor = conn.cursor()
@@ -158,7 +158,7 @@ def get_courses():
         return jsonify(response)
 
 @app.route('/courses', methods=["POST"])
-@cross_origin()
+@cross_origin(origins='*')
 def add_course():
     if request.method == "POST":
         course = request.get_json()
@@ -172,7 +172,7 @@ def add_course():
         return jsonify({"status": "success"})
 
 @app.route('/courses/<int:course_id>', methods=["PUT", "DELETE"])
-@cross_origin()
+@cross_origin(origins='*')
 def update_or_delete_course(course_id):
     if request.method == "PUT":
         course = request.get_json()
@@ -194,7 +194,7 @@ def update_or_delete_course(course_id):
 
 
 @app.route('/lessons', methods=["POST"])
-@cross_origin()
+@cross_origin(origins='*')
 def add_lesson():
     if request.method == "POST":
         lesson = request.get_json()
@@ -208,7 +208,7 @@ def add_lesson():
         return jsonify({"status": "success"})
 
 @app.route('/lessons/<int:lesson_id>', methods=["PUT", "DELETE"])
-@cross_origin()
+@cross_origin(origins='*')
 def update_or_delete_lesson(lesson_id):
     if request.method == "PUT":
         lesson = request.get_json()
@@ -229,4 +229,4 @@ def update_or_delete_lesson(lesson_id):
         return jsonify({"status": "success"})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0",port=5000)
