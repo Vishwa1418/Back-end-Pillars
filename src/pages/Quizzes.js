@@ -19,7 +19,7 @@ function Quizzes()
     return (
         <>
             <div className="quizpage">
-                {questions.map((question,index)=>{
+                {questions.length > 0 && questions.map((question,index)=>{
                     return(
                         <div className="ques quiz" onClick={() => {navigate(`/main/quiz/${question.quiz_id}`)}}>
                             <span className="title">{question.quiz_id}. {question.quiz_title}</span>
