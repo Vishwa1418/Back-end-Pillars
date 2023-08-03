@@ -94,29 +94,86 @@ def get_educators():
     return jsonify(educators)
 
 
-@app.route('/quiz')
+@app.route('/quiz',methods=["GET","POST","PUT","DELETE"])
 @cross_origin(origins='*')
 def get_quiz():
-        cursor = conn.cursor()
+        if request.method == "GET":
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM quiz_table")
+            quiz_list = cursor.fetchall()
+            quiz = []
+            if not quiz_list:
+                return jsonify({'error': 'Quiz not found'})
+            for q in quiz_list:
+                que = {}
+                que['quiz_id'] = q[0]
+                que['course_id'] = q[1]
+                que['quiz_title'] = q[2]
+                que['quiz_description'] = q[3]
+                quiz.append(que)
+
+            cursor.close()
+            return jsonify(quiz)
+        
+        if request.method == "POST":
+            cursor = conn.cursor()
         cursor.execute("SELECT * FROM quiz_table")
         quiz_list = cursor.fetchall()
         quiz = []
         if not quiz_list:
-            return jsonify({'error': 'Quiz not found'})
+                return jsonify({'error': 'Quiz not found'})
         for q in quiz_list:
-            que = {}
-            que['quiz_id'] = q[0]
-            que['course_id'] = q[1]
-            que['quiz_title'] = q[2]
-            que['quiz_description'] = q[3]
-            quiz.append(que)
+                que = {}
+                que['quiz_id'] = q[0]
+                que['course_id'] = q[1]
+                que['quiz_title'] = q[2]
+                que['quiz_description'] = q[3]
+                quiz.append(que)
 
-        cursor.close()
-        return jsonify(quiz)
+                cursor.close()
+                return jsonify(quiz)
+        
+        if request.method == "PUT":
+            cursor = conn.cursor()
+        cursor.execute("SELECT * FROM quiz_table")
+        quiz_list = cursor.fetchall()
+        quiz = []
+        if not quiz_list:
+                return jsonify({'error': 'Quiz not found'})
+        for q in quiz_list:
+                que = {}
+                que['quiz_id'] = q[0]
+                que['course_id'] = q[1]
+                que['quiz_title'] = q[2]
+                que['quiz_description'] = q[3]
+                quiz.append(que)
 
-@app.route('/quiz/<int:quiz_id>')
+                cursor.close()
+                return jsonify(quiz)
+        
+        if request.method == "DELETE":
+            cursor = conn.cursor()
+        cursor.execute("SELECT * FROM quiz_table")
+        quiz_list = cursor.fetchall()
+        quiz = []
+        if not quiz_list:
+                return jsonify({'error': 'Quiz not found'})
+        for q in quiz_list:
+                que = {}
+                que['quiz_id'] = q[0]
+                que['course_id'] = q[1]
+                que['quiz_title'] = q[2]
+                que['quiz_description'] = q[3]
+                quiz.append(que)
+
+                cursor.close()
+                return jsonify(quiz)
+
+
+@app.route('/quiz/<int:quiz_id>', methods=["GET","PUT"])
 @cross_origin(origins='*')
-def get_quizzes(quiz_id):
+def update_quiz(quiz_id):
+    if request.method == "GET":
         cursor = conn.cursor()
         cursor.execute(f"select ques.question_id,quiz.quiz_id,quiz.course_id,quiz.quiz_title,ques.question_text,ques.question_options,ques.correct_answer from quiz_table as quiz join question_table as ques on quiz.quiz_id = cast(ques.quiz_id as integer) where quiz.quiz_id = {quiz_id}")
         quiz_list = cursor.fetchall()
@@ -137,6 +194,18 @@ def get_quizzes(quiz_id):
         
         cursor.close()
         return jsonify(quiz)
+    
+    if request.method == "PUT":
+        new_quiz_data = request.get_json()
+        cursor = conn.cursor()
+
+        # Update the quiz in the database
+        cursor.execute('UPDATE quiz_table SET quiz_title = %s, quiz_description = %s WHERE quiz_id = %s;',
+                       (new_quiz_data['quiz_title'], new_quiz_data['quiz_description'], quiz_id))
+        conn.commit()
+        cursor.close()
+        return jsonify({"status": "success"})
+
 
 
 @app.route('/courses', methods=["GET"])

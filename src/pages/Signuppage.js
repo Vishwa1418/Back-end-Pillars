@@ -26,11 +26,7 @@ function Signuppage() {
                     console.log(res.data)
                     if(res.data.status !== "success")
                     {
-                        setsuccessMessage(res.data.status)
-                    }
-                    else
-                    {
-                        setsuccessMessage('Successfully validated')
+                        seterrorMessage(res.data.status)
                     }
                 } catch (error) {
                     alert(error)
