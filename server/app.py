@@ -118,57 +118,57 @@ def quiz():
         
         if request.method == "POST":
             cursor = conn.cursor()
-        cursor.execute("SELECT * FROM quiz_table")
-        quiz_list = cursor.fetchall()
-        quiz = []
-        if not quiz_list:
-                return jsonify({'error': 'Quiz not found'})
-        for q in quiz_list:
-                que = {}
-                que['quiz_id'] = q[0]
-                que['course_id'] = q[1]
-                que['quiz_title'] = q[2]
-                que['quiz_description'] = q[3]
-                quiz.append(que)
+            cursor.execute("SELECT * FROM quiz_table")
+            quiz_list = cursor.fetchall()
+            quiz = []
+            if not quiz_list:
+                    return jsonify({'error': 'Quiz not found'})
+            for q in quiz_list:
+                    que = {}
+                    que['quiz_id'] = q[0]
+                    que['course_id'] = q[1]
+                    que['quiz_title'] = q[2]
+                    que['quiz_description'] = q[3]
+                    quiz.append(que)
 
-                cursor.close()
-                return jsonify(quiz)
+            cursor.close()
+            return jsonify(quiz)
         
         if request.method == "PUT":
             cursor = conn.cursor()
-        cursor.execute("SELECT * FROM quiz_table")
-        quiz_list = cursor.fetchall()
-        quiz = []
-        if not quiz_list:
-                return jsonify({'error': 'Quiz not found'})
-        for q in quiz_list:
-                que = {}
-                que['quiz_id'] = q[0]
-                que['course_id'] = q[1]
-                que['quiz_title'] = q[2]
-                que['quiz_description'] = q[3]
-                quiz.append(que)
+            cursor.execute("SELECT * FROM quiz_table")
+            quiz_list = cursor.fetchall()
+            quiz = []
+            if not quiz_list:
+                    return jsonify({'error': 'Quiz not found'})
+            for q in quiz_list:
+                    que = {}
+                    que['quiz_id'] = q[0]
+                    que['course_id'] = q[1]
+                    que['quiz_title'] = q[2]
+                    que['quiz_description'] = q[3]
+                    quiz.append(que)
 
-                cursor.close()
-                return jsonify(quiz)
+            cursor.close()
+            return jsonify(quiz)
         
         if request.method == "DELETE":
             cursor = conn.cursor()
-        cursor.execute("SELECT * FROM quiz_table")
-        quiz_list = cursor.fetchall()
-        quiz = []
-        if not quiz_list:
-                return jsonify({'error': 'Quiz not found'})
-        for q in quiz_list:
-                que = {}
-                que['quiz_id'] = q[0]
-                que['course_id'] = q[1]
-                que['quiz_title'] = q[2]
-                que['quiz_description'] = q[3]
-                quiz.append(que)
+            cursor.execute("SELECT * FROM quiz_table")
+            quiz_list = cursor.fetchall()
+            quiz = []
+            if not quiz_list:
+                    return jsonify({'error': 'Quiz not found'})
+            for q in quiz_list:
+                    que = {}
+                    que['quiz_id'] = q[0]
+                    que['course_id'] = q[1]
+                    que['quiz_title'] = q[2]
+                    que['quiz_description'] = q[3]
+                    quiz.append(que)
 
-                cursor.close()
-                return jsonify(quiz)
+            cursor.close()
+            return jsonify(quiz)
 
 
 @app.route('/quiz/<int:quiz_id>', methods=["GET","PUT"])
