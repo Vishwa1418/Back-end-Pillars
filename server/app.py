@@ -77,7 +77,6 @@ def signup():
         conn.close()
         return jsonify({"status": "success"})
 
-
 @app.route('/educators',methods=["GET","POST","PUT","DELETE"])
 @cross_origin(origins='*')
 def educators():
