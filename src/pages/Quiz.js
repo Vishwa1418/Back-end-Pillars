@@ -29,6 +29,7 @@ function Quiz()
     return (
         <>
             <div className="quizpage">
+                {questions.length <= 0 && <div className="loader"/>}
                 <h1 className="heading">{questions.length > 0 && questions[0].quiz_title}</h1>
                 {questions.length > 0 && questions.map((question,index)=>{
                     return(

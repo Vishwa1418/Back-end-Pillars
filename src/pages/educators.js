@@ -14,6 +14,7 @@ function Educators()
     return (
         <>
             <div className="educators">
+                {educators.length <= 0 && <div className="loader"/>}
                 {educators.length > 0 && educators.map((educator,index) => {
                     return(
                         <div className={"profilecard"} key={index}>

@@ -620,3 +620,18 @@ nav{
 {
     cursor: pointer;
 }
+
+.loader
+{
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  translate: -50% 0px;
+  width: 250px;
+  aspect-ratio: 1/1;
+  background-image: url('./loader.gif');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  mix-blend-mode: multiply;
+}

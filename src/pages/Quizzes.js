@@ -7,8 +7,7 @@ function Quizzes()
     const url = `${process.env.REACT_APP_HOST}/quiz`
     const [questions,setQue] = useState([])
     const navigate = useNavigate()
-    let answers = []
-    const [result,setRes] = useState(0)
+
     useEffect(() =>{
         axios.get(url).then(res => {
             // console.log(res.data)
@@ -19,6 +18,7 @@ function Quizzes()
     return (
         <>
             <div className="quizpage">
+                {questions.length <= 0 && <div className="loader"/>}
                 {questions.length > 0 && questions.map((question,index)=>{
                     return(
                         <div className="ques quiz" onClick={() => {navigate(`/main/quiz/${question.quiz_id}`)}}>
