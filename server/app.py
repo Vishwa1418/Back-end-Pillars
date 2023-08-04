@@ -71,32 +71,33 @@ def signup():
         return jsonify({"status": "success"})
 
 
-@app.route('/educators')
+@app.route('/educators',methods=["GET","POST","PUT","DELETE"])
 @cross_origin(origins='*')
-def get_educators():
-    cursor = conn.cursor()
-    #Getting list of educators from the database
-    cursor.execute("select u.user_id,u.username,u.email,e.subjects,u.image from educator_table as e join user_table as u on e.username = u.username where u.role = 'teacher'")
-    educators_list = cursor.fetchall()
-    educators = []
-    if not educators_list:
-        return jsonify({"status":"None"})
-    for e in educators_list:
-        educator = {}
-        educator['user_id'] = e[0]
-        educator['username'] = e[1]
-        educator['email'] = e[2]
-        educator['subjects'] = e[3]
-        educator['image'] = e[4]
-        educators.append(educator)
-    
-    cursor.close()
-    return jsonify(educators)
+def educators():
+    if request.method == "GET":
+        cursor = conn.cursor()
+        #Getting list of educators from the database
+        cursor.execute("select u.user_id,u.username,u.email,e.subjects,u.image from educator_table as e join user_table as u on e.username = u.username where u.role = 'teacher'")
+        educators_list = cursor.fetchall()
+        educators = []
+        if not educators_list:
+            return jsonify({"status":"None"})
+        for e in educators_list:
+            educator = {}
+            educator['user_id'] = e[0]
+            educator['username'] = e[1]
+            educator['email'] = e[2]
+            educator['subjects'] = e[3]
+            educator['image'] = e[4]
+            educators.append(educator)
+        
+        cursor.close()
+        return jsonify(educators)
 
 
 @app.route('/quiz',methods=["GET","POST","PUT","DELETE"])
 @cross_origin(origins='*')
-def get_quiz():
+def quiz():
         if request.method == "GET":
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM quiz_table")
