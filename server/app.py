@@ -10,16 +10,19 @@ app = Flask(__name__)
 load_dotenv()
 
 # PostgreSQL connection parameters
-conn = psycopg2.connect(
-    host= os.getenv('HOST'),
-    database= os.getenv('DATABASE'),
-    user= os.getenv('USER'),
-    password= os.getenv('PASSWORD')
-)
+def connection():
+    conn = psycopg2.connect(
+        host= os.getenv('HOST'),
+        database= os.getenv('DATABASE'),
+        user= os.getenv('USER'),
+        password= os.getenv('PASSWORD')
+    )
+    return conn
 
 @app.route('/login', methods=["POST"])
 @cross_origin(origins='*')
 def login():
+    conn = connection()
     if request.method == "POST":
         user = request.get_json()
         cursor = conn.cursor()
@@ -46,12 +49,14 @@ def login():
             response = {"status": "Invalid username or password"}
 
         cursor.close()
+        conn.close()
         return jsonify(response)
 
 
 @app.route('/register', methods=["POST"])
 @cross_origin(origins='*')
 def signup():
+    conn = connection()
     if request.method == "POST":
         user = request.get_json()
         cursor = conn.cursor()
@@ -69,12 +74,14 @@ def signup():
         cursor.execute(f"INSERT INTO user_table (username, email, password, role, registration_date,last_login_date,image) VALUES('{user['username']}', '{user['email']}', '{user['password']}', 'Student', '{registration_date}','{registration_date}', '{user['image']}')")
         conn.commit()
         cursor.close()
+        conn.close()
         return jsonify({"status": "success"})
 
 
 @app.route('/educators',methods=["GET","POST","PUT","DELETE"])
 @cross_origin(origins='*')
 def educators():
+    conn = connection()
     if request.method == "GET":
         cursor = conn.cursor()
         #Getting list of educators from the database
@@ -93,11 +100,13 @@ def educators():
             educators.append(educator)
         
         cursor.close()
+        conn.close()
         return jsonify(educators)
 
 @app.route('/quiz',methods=["GET","POST","PUT","DELETE"])
 @cross_origin(origins='*')
 def quiz():
+        conn = connection()
         if request.method == "GET":
             cursor = conn.cursor()
             # Getting the quiz from the database 
@@ -115,6 +124,7 @@ def quiz():
                 quiz.append(que)
 
             cursor.close()
+            conn.close()
             return jsonify(quiz)
         
         if request.method == "POST":
@@ -124,6 +134,7 @@ def quiz():
             cursor.execute(f"INSERT INTO quiz_table (course_id,quiz_title,quiz_description) VALUES ('{quiz['course_id']}','{quiz['quiz_title']}','{quiz['quiz_description']}')")
             conn.commit()
             cursor.close()
+            conn.close()
             return jsonify({"status":"Inserted"})
         
         if request.method == "PUT":
@@ -133,6 +144,7 @@ def quiz():
             cursor.execute(f"UPDATE quiz_table SET quiz_id = '{quiz['quiz_id']}', course_id = '{quiz['course_id']}', quiz_title = '{quiz['quiz_title']}', quiz_description = '{quiz['quiz_description']}' WHERE quiz_id = '{quiz['old_quiz_id']}'")
             conn.commit()
             cursor.close()
+            conn.close()
             return jsonify(quiz)
         
         if request.method == "DELETE":
@@ -142,12 +154,14 @@ def quiz():
             cursor.execute(f"DELETE FROM quiz_table WHERE quiz_id = {quiz_id}")
             conn.commit()
             cursor.close()
+            conn.close()
             return jsonify({"status":"Deleted"})
 
 
 @app.route('/quiz/<int:quiz_id>', methods=["GET","POST","PUT","DELETE"])
 @cross_origin(origins='*')
 def update_quiz(quiz_id):
+    conn = connection()
     if request.method == "GET":
         cursor = conn.cursor()
         cursor.execute(f"select ques.question_id,quiz.quiz_id,quiz.course_id,quiz.quiz_title,ques.question_text,ques.question_options,ques.correct_answer from quiz_table as quiz join question_table as ques on quiz.quiz_id = cast(ques.quiz_id as integer) where quiz.quiz_id = {quiz_id}")
@@ -168,6 +182,7 @@ def update_quiz(quiz_id):
             quiz.append(que)
         
         cursor.close()
+        conn.close()
         return jsonify(quiz)
     
     if request.method == "POST":
@@ -177,6 +192,7 @@ def update_quiz(quiz_id):
         cursor.execute(f"INSERT INTO question_table (quiz_id,question_text,question_options,correct_answer) VALUES({quiz_id},'{ques['question_text']}', ARRAY {ques['question_options']}, '{ques['correct_answer']}')")
         conn.commit()
         cursor.close()
+        conn.close()
         return jsonify({"status":"Inserted"})
 
 
@@ -184,11 +200,13 @@ def update_quiz(quiz_id):
 @app.route('/courses', methods=["GET"])
 @cross_origin(origins='*')
 def get_courses():
+    conn = connection()
     if request.method == "GET":
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM course_table')
         courses = cursor.fetchall()
         cursor.close()
+        conn.close()
         response = [{"course_id": course[0],
                      "course_name": course[1],
                      "course_description": course[2],
@@ -202,6 +220,7 @@ def get_courses():
 @app.route('/courses', methods=["POST"])
 @cross_origin(origins='*')
 def add_course():
+    conn = connection()
     if request.method == "POST":
         course = request.get_json()
         cursor = conn.cursor()
@@ -211,11 +230,13 @@ def add_course():
                        (course['course_name'], course['course_description'], course['user_id'], course['course_duration'], course['enrollment_fee'], datetime.now()))
         conn.commit()
         cursor.close()
+        conn.close()
         return jsonify({"status": "success"})
 
 @app.route('/courses/<int:course_id>', methods=["PUT", "DELETE"])
 @cross_origin(origins='*')
 def update_or_delete_course(course_id):
+    conn = connection()
     if request.method == "PUT":
         course = request.get_json()
         cursor = conn.cursor()
@@ -232,12 +253,14 @@ def update_or_delete_course(course_id):
         cursor.execute('DELETE FROM course_table WHERE course_id = %s;', (course_id))
         conn.commit()
         cursor.close()
+        conn.close()
         return jsonify({"status": "success"})
 
 
 @app.route('/lessons', methods=["POST"])
 @cross_origin(origins='*')
 def add_lesson():
+    conn = connection()
     if request.method == "POST":
         lesson = request.get_json()
         cursor = conn.cursor()
@@ -247,11 +270,13 @@ def add_lesson():
                        (lesson['course_id'], lesson['lesson_title'], lesson['lesson_content'],lesson['order'], datetime.now()))
         conn.commit()
         cursor.close()
+        conn.close()
         return jsonify({"status": "success"})
 
 @app.route('/lessons/<int:lesson_id>', methods=["PUT", "DELETE"])
 @cross_origin(origins='*')
 def update_or_delete_lesson(lesson_id):
+    conn = connection()
     if request.method == "PUT":
         lesson = request.get_json()
         cursor = conn.cursor()
@@ -261,6 +286,7 @@ def update_or_delete_lesson(lesson_id):
                        (lesson['course_id'], lesson['lesson_title'], lesson['lesson_content'], lesson['order'], lesson_id))
         conn.commit()
         cursor.close()
+        conn.close()
         return jsonify({"status": "success"})
 
     elif request.method == "DELETE":
@@ -268,6 +294,7 @@ def update_or_delete_lesson(lesson_id):
         cursor.execute('DELETE FROM lesson_table WHERE lesson_id = %s;', (lesson_id,))
         conn.commit()
         cursor.close()
+        conn.close()
         return jsonify({"status": "success"})
 
 if __name__ == "__main__":
