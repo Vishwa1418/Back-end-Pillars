@@ -20,8 +20,8 @@ function Quiz()
         setRes(prev => prev =questions.length)
 
         answers.length !== 0 && questions.map((question,index) => {
-            if(!answers[index] === question.correct_answer)
-            setRes(prev => --prev)
+            return ((!answers[index] === question.correct_answer) &&
+            setRes(prev => --prev))
         })
         alert(`You have scored ${result}/${questions.length}`)
     }
