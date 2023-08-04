@@ -121,7 +121,7 @@ def educators():
         
         return jsonify({"status": "User not Found"})
     
-    elif request.method == "PUT":
+    if request.method == "PUT":
         educator = request.get_json()
         cursor = conn.cursor()
         
