@@ -94,7 +94,6 @@ def educators():
         cursor.close()
         return jsonify(educators)
 
-
 @app.route('/quiz',methods=["GET","POST","PUT","DELETE"])
 @cross_origin(origins='*')
 def quiz():
@@ -117,58 +116,28 @@ def quiz():
             return jsonify(quiz)
         
         if request.method == "POST":
+            quiz = request.get_json()
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM quiz_table")
-            quiz_list = cursor.fetchall()
-            quiz = []
-            if not quiz_list:
-                    return jsonify({'error': 'Quiz not found'})
-            for q in quiz_list:
-                    que = {}
-                    que['quiz_id'] = q[0]
-                    que['course_id'] = q[1]
-                    que['quiz_title'] = q[2]
-                    que['quiz_description'] = q[3]
-                    quiz.append(que)
-
+            cursor.execute(f"INSERT INTO quiz_table (course_id,quiz_title,quiz_description) VALUES ('{quiz['course_id']}','{quiz['quiz_title']}','{quiz['quiz_description']}')")
+            conn.commit()
             cursor.close()
-            return jsonify(quiz)
+            return jsonify({"status":"Inserted"})
         
         if request.method == "PUT":
+            quiz = request.get_json()
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM quiz_table")
-            quiz_list = cursor.fetchall()
-            quiz = []
-            if not quiz_list:
-                    return jsonify({'error': 'Quiz not found'})
-            for q in quiz_list:
-                    que = {}
-                    que['quiz_id'] = q[0]
-                    que['course_id'] = q[1]
-                    que['quiz_title'] = q[2]
-                    que['quiz_description'] = q[3]
-                    quiz.append(que)
-
+            cursor.execute(f"UPDATE quiz_table SET quiz_id = '{quiz['quiz_id']}', course_id = '{quiz['course_id']}', quiz_title = '{quiz['quiz_title']}', quiz_description = '{quiz['quiz_description']}' WHERE quiz_id = '{quiz['old_quiz_id']}'")
+            conn.commit()
             cursor.close()
             return jsonify(quiz)
         
         if request.method == "DELETE":
+            quiz_id = request.args.get('quiz_id')
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM quiz_table")
-            quiz_list = cursor.fetchall()
-            quiz = []
-            if not quiz_list:
-                    return jsonify({'error': 'Quiz not found'})
-            for q in quiz_list:
-                    que = {}
-                    que['quiz_id'] = q[0]
-                    que['course_id'] = q[1]
-                    que['quiz_title'] = q[2]
-                    que['quiz_description'] = q[3]
-                    quiz.append(que)
-
+            cursor.execute(f"DELETE FROM quiz_table WHERE quiz_id = {quiz_id}")
+            conn.commit()
             cursor.close()
-            return jsonify(quiz)
+            return jsonify({"status":"Deleted"})
 
 
 @app.route('/quiz/<int:quiz_id>', methods=["GET","PUT"])
@@ -235,8 +204,8 @@ def add_course():
         cursor = conn.cursor()
 
         # Insert the new course into the database
-        cursor.execute('INSERT INTO course_table (course_name, course_description, instructor_id, course_duration, enrollment_fees, creation_date) VALUES(%s, %s, %s, %s, %s, %s);',
-                       (course['course_name'], course['course_description'], course['instructor_id'], course['course_duration'], course['enrollment_fees'], datetime.now()))
+        cursor.execute('INSERT INTO course_table (course_name, course_description, user_id, course_duration, enrollment_fee, creation_date) VALUES(%s, %s, %s, %s, %s, %s);',
+                       (course['course_name'], course['course_description'], course['user_id'], course['course_duration'], course['enrollment_fee'], datetime.now()))
         conn.commit()
         cursor.close()
         return jsonify({"status": "success"})
@@ -299,4 +268,4 @@ def update_or_delete_lesson(lesson_id):
         return jsonify({"status": "success"})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",port=5000)
+    app.run(debug=True,host="0.0.0.0",port=5000)
