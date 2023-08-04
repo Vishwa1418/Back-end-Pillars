@@ -145,7 +145,7 @@ def quiz():
             conn.commit()
             cursor.close()
             conn.close()
-            return jsonify(quiz)
+            return jsonify({"status":"Updated"})
         
         if request.method == "DELETE":
             quiz_id = request.args.get('quiz_id')
@@ -194,6 +194,26 @@ def update_quiz(quiz_id):
         cursor.close()
         conn.close()
         return jsonify({"status":"Inserted"})
+    
+    if request.method == "PUT":
+        ques = request.get_json()
+        cursor = conn.cursor()
+        # Update the quiz in the database
+        cursor.execute(f"UPDATE question_table SET quiz_id = {ques['quiz_id']},question_text = '{ques['question_text']}',question_options = ARRAY {ques['question_options']}, correct_answer = '{ques['correct_answer']}' WHERE question_id = {ques['question_id']}")
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return jsonify({"status":"Updated"})
+    
+    if request.method == "DELETE":
+        ques_id = request.args.get('question_id')
+        cursor = conn.cursor()
+        # Update the quiz in the database
+        cursor.execute(f"DELETE FROM question_table WHERE question_id = {ques_id}")
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return jsonify({"status":"Deleted"})
 
 
 
