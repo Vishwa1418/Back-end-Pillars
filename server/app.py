@@ -188,9 +188,8 @@ def update_quiz(quiz_id):
     if request.method == "POST":
         ques = request.get_json()
         cursor = conn.cursor()
-        ques_options =json.dumps(ques['question_options'])
         # Update the quiz in the database
-        cursor.execute(f"INSERT INTO question_table (quiz_id,question_text,question_options,correct_answer) VALUES({quiz_id},'{ques['question_text']}', '{ques_options}', '{ques['correct_answer']}')")
+        cursor.execute(f"INSERT INTO question_table (quiz_id,question_text,question_options,correct_answer) VALUES({quiz_id},'{ques['question_text']}', ARRAY {ques['question_options']}, '{ques['correct_answer']}')")
         conn.commit()
         cursor.close()
         conn.close()
