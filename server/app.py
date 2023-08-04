@@ -1,4 +1,5 @@
 import os
+import json
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify
 from flask_cors import cross_origin
@@ -99,6 +100,7 @@ def educators():
 def quiz():
         if request.method == "GET":
             cursor = conn.cursor()
+            # Getting the quiz from the database 
             cursor.execute("SELECT * FROM quiz_table")
             quiz_list = cursor.fetchall()
             quiz = []
@@ -118,6 +120,7 @@ def quiz():
         if request.method == "POST":
             quiz = request.get_json()
             cursor = conn.cursor()
+            # Adding the quiz in database 
             cursor.execute(f"INSERT INTO quiz_table (course_id,quiz_title,quiz_description) VALUES ('{quiz['course_id']}','{quiz['quiz_title']}','{quiz['quiz_description']}')")
             conn.commit()
             cursor.close()
@@ -126,6 +129,7 @@ def quiz():
         if request.method == "PUT":
             quiz = request.get_json()
             cursor = conn.cursor()
+            # Update the quiz in the database
             cursor.execute(f"UPDATE quiz_table SET quiz_id = '{quiz['quiz_id']}', course_id = '{quiz['course_id']}', quiz_title = '{quiz['quiz_title']}', quiz_description = '{quiz['quiz_description']}' WHERE quiz_id = '{quiz['old_quiz_id']}'")
             conn.commit()
             cursor.close()
@@ -134,13 +138,14 @@ def quiz():
         if request.method == "DELETE":
             quiz_id = request.args.get('quiz_id')
             cursor = conn.cursor()
+            # Delete the quiz in database
             cursor.execute(f"DELETE FROM quiz_table WHERE quiz_id = {quiz_id}")
             conn.commit()
             cursor.close()
             return jsonify({"status":"Deleted"})
 
 
-@app.route('/quiz/<int:quiz_id>', methods=["GET","PUT"])
+@app.route('/quiz/<int:quiz_id>', methods=["GET","POST","PUT","DELETE"])
 @cross_origin(origins='*')
 def update_quiz(quiz_id):
     if request.method == "GET":
@@ -165,16 +170,14 @@ def update_quiz(quiz_id):
         cursor.close()
         return jsonify(quiz)
     
-    if request.method == "PUT":
-        new_quiz_data = request.get_json()
+    if request.method == "POST":
+        ques = request.get_json()
         cursor = conn.cursor()
-
         # Update the quiz in the database
-        cursor.execute('UPDATE quiz_table SET quiz_title = %s, quiz_description = %s WHERE quiz_id = %s;',
-                       (new_quiz_data['quiz_title'], new_quiz_data['quiz_description'], quiz_id))
+        cursor.execute(f"INSERT INTO question_table (quiz_id,question_text,question_options,correct_answer) VALUES({quiz_id},'{ques['question_text']}', ARRAY {ques['question_options']}, '{ques['correct_answer']}')")
         conn.commit()
         cursor.close()
-        return jsonify({"status": "success"})
+        return jsonify({"status":"Inserted"})
 
 
 
@@ -226,7 +229,7 @@ def update_or_delete_course(course_id):
 
     elif request.method == "DELETE":
         cursor = conn.cursor()
-        cursor.execute('DELETE FROM course_table WHERE course_id = %s;', (course_id,))
+        cursor.execute('DELETE FROM course_table WHERE course_id = %s;', (course_id))
         conn.commit()
         cursor.close()
         return jsonify({"status": "success"})
