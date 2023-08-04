@@ -102,6 +102,47 @@ def educators():
         cursor.close()
         conn.close()
         return jsonify(educators)
+    
+    if request.method == "POST":
+        educator = request.get_json()
+        cursor = conn.cursor()
+        
+        # Check if the educator already exists
+        cursor.execute(f"SELECT * FROM user_table WHERE username = '{educator['username']}'")
+        existing_educator = cursor.fetchone()
+        if existing_educator:
+            cursor.execute(f"UPDATE user_table SET role = 'teacher' WHERE username = '{educator['username']}'")
+            # Insert the new educator into the database
+            cursor.execute(f"INSERT INTO educator_table (username, subjects) VALUES ('{educator['username']}', ARRAY{educator['subjects']})")
+            conn.commit()
+            cursor.close()
+            conn.close()
+            return jsonify({"status": "Inserted"})
+        
+        return jsonify({"status": "User not Found"})
+    
+    elif request.method == "PUT":
+        educator = request.get_json()
+        cursor = conn.cursor()
+        
+        # Update educator's subjects
+        cursor.execute(f"UPDATE educator_table SET subjects = ARRAY {educator['subjects']} WHERE username = '{educator['username']}'")
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return jsonify({"status": "Updated"})
+    
+    if request.method == "DELETE":
+        educator_username = request.args.get('username')
+        cursor = conn.cursor()
+        # Delete the educator from both user_table and educator_table
+        cursor.execute(f"DELETE FROM user_table WHERE username = '{educator_username}'")
+        cursor.execute(f"DELETE FROM educator_table WHERE username = '{educator_username}'")
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return jsonify({"status": "Deleted"})
+
 
 @app.route('/quiz',methods=["GET","POST","PUT","DELETE"])
 @cross_origin(origins='*')
