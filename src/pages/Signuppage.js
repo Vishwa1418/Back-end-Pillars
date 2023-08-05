@@ -132,7 +132,7 @@ function Signuppage() {
             
                     <button type="submit" className='Signupbutton' value="send" onClick={formSubmitter}>Register</button>
                 
-                    <p className='p1f3'>Already have an account? <Link to='/login' className='signin'>SignIn</Link></p>
+                    <p className='p1f3'>Already have an account? <Link to='/login' className='signin'>Sign In</Link></p>
                 </div>
                 </form>
             </section>

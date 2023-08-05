@@ -76,7 +76,7 @@ function Loginpage() {
                     <button type="button" className="Socialmediabutton twitter" disabled><i className="fa fa-twitter-square"> Login via Twitter</i></button>
                 </div>
 
-                    <p className='p1f2'>Don't have an account? <Link to="/signup" className='signup'>SignUp</Link></p>
+                    <p className='p1f2'>Don't have an account? <Link to="/signup" className='signup'>Sign Up</Link></p>
                 </div>
                 </form>
             </section>

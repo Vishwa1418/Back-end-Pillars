@@ -196,8 +196,8 @@
     color: #303030;
   }
   .Signupbutton {
-    background-color: green;
-    color: #e1faf5;
+    background-color: #303030;
+    color: #fff;
     border: none;
     width: 200px;
     border-radius: 30px;
@@ -352,6 +352,7 @@ nav{
 .name
 {
   font-size: 1.5em;
+  font-weight: bold;
 }
 .subjects
 {
