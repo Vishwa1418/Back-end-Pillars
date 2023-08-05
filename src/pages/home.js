@@ -5,7 +5,6 @@ import MyImage from './bgimage.jpg';
 
 const BoxContainer = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
   background-color: #ffa45b;
   padding: 20px;

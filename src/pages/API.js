@@ -8,8 +8,14 @@ export const Post = async(endpoint,input) => {
     return data
 }
 
-export const Get = async(input) => {
-    const {data} = await axios.get(`${url}/login`,input)
+export const Login = async(input) => {
+    const {data} = await axios.post(`${url}/login`,input)
+
+    return data
+}
+
+export const SignUp = async(input) => {
+    const {data} = await axios.get(`${url}/register`,input)
 
     return data
 }

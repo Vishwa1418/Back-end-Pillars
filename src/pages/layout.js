@@ -19,28 +19,23 @@ function Layout(){
                     <li>
                         <NavLink to='/main/home'>Home</NavLink>
                     </li>
+
                     <li>
                         <NavLink to='/main/educators'>Educators</NavLink>
                     </li>
                     
-                    <li class="dropdown">
-                        <a href="javascript:void(0)" class="dropbtn">Courses</a>
-                        <div class="dropdown-content">
-                        <a href="#">Railway</a>
-                        <a href="#">TNPSC</a>
-                        <a href="#">UPSE</a>
-                        <a href="#">BANK</a>
-                        </div>
-                    </li>
                     <li>
                         <NavLink to='/main/quiz'>Practice</NavLink>
                     </li>
+
                     <li>
-                        <NavLink to='/main/home'>Success Stories</NavLink>
+                        <NavLink to='/main/successstories'>Success Stories</NavLink>
                     </li>
+
                     <li>
-                        <NavLink to='/main/home'>Reports</NavLink>
+                        <NavLink to='/main/contactus'>Contact Us</NavLink>
                     </li>
+
                     <li className='profilepos'>
                         <div className='profile'>
                             <img src={data.image} className='image' alt='avatar'></img>

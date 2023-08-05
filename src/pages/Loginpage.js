@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { googleSignIn } from './firebase';
+import { Login } from './API';
 function Loginpage() {
 
             const [input, setInput] = useState({username:'',password:''});
@@ -13,9 +14,10 @@ function Loginpage() {
             }
 
             const login = async(event)=>{
+                seterrorMessage('')
                 try {
                     event.preventDefault()
-                    const {data} = await axios.post(endpoint,input)
+                    const data = await Login(input)
                     console.log(data)
                     if(data.status !== "Invalid username or password")
                     {

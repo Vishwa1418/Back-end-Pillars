@@ -18,7 +18,7 @@ function Educators()
                 {educators.length > 0 && educators.map((educator,index) => {
                     return(
                         <div className={"profilecard"} key={index}>
-                        <div className={"logo"}>
+                        <div>
                             <img src={educator.image} className="image" alt="avatar"/>
                         </div>
                             <div className={"details"}>
