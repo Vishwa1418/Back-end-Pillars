@@ -293,9 +293,14 @@ nav{
     grid-template-columns: repeat(1,auto);
     width: 100vw;
     min-height: 100vh;
-    gap: 5px;
+    gap: 0px;
     background-color: #303030;
     transition: 0.5s;
+    z-index: 2;
+  }
+  .nav-links > li
+  {
+    font-size: 1.5em;
   }
   .slide
   {
@@ -303,7 +308,7 @@ nav{
   }
   .burger
   {
-    margin-left: 50px;
+    margin-left: 100px;
     display: grid;
     place-items: center;
     grid-template-rows: repeat(3,auto);
@@ -557,4 +562,5 @@ nav{
   background-repeat: no-repeat;
   background-size: cover;
   mix-blend-mode: multiply;
+  z-index: -1;
 }
