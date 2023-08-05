@@ -15,7 +15,7 @@ export const Login = async(input) => {
 }
 
 export const SignUp = async(input) => {
-    const {data} = await axios.get(`${url}/register`,input)
+    const {data} = await axios.post(`${url}/register`,input)
 
     return data
 }

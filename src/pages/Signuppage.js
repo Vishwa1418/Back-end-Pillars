@@ -3,10 +3,11 @@ import { nameValidator,emailValidator,numberValidator,passwordValidator,repasswo
 import axios from 'axios';
 import React, { useState, useRef } from 'react';
 import { uploadToCloud } from './firebase.js';
+import { SignUp } from './API.js';
 function Signuppage() {
             
             const [image,setImg] = useState('https://www.aquaknect.com.au/wp-content/uploads/2014/03/blank-person-300x300.jpg')        
-            const [input,setInput] = useState({username:'',email:'', number:'',password:'',repassword:'',role:'Student'})
+            const [input,setInput] = useState({username:'',email:'', number:'',password:'',repassword:'',role:'Student',image})
             const [errorMessage,seterrorMessage] = useState('')
             const user = useRef()
             const number = useRef()
@@ -21,11 +22,11 @@ function Signuppage() {
             }
             const register = async()=>{
                 try {
-                    const res = await axios.post(endpoint,input)
-                    console.log(res.data)
-                    if(res.data.status !== "success")
+                    const data = await SignUp(input)
+                    console.log(data)
+                    if(data.status !== "success")
                     {
-                        seterrorMessage(res.data.status)
+                        seterrorMessage(data.status)
                     }
                 } catch (error) {
                     alert(error)
