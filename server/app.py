@@ -238,7 +238,7 @@ def update_quiz(quiz_id):
         quiz_list = cursor.fetchall()
         quiz = []
         if not quiz_list:
-            return jsonify({'error': 'Quiz not found'})
+            return jsonify({'error': 'No questions added'})
         
         for q in quiz_list:
             que = {}

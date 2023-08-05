@@ -358,10 +358,8 @@ nav{
 }
 .heading
 {
-    /* mix-blend-mode: difference; */
-    color: #fff;
+    color: #303030;
     font-size: 4em;
-    text-shadow: 4px 4px 4px #303030;
 }
   .educators
 {
@@ -518,31 +516,39 @@ nav{
     align-items: flex-start;
     flex-direction: column;
     width: 80%;
-    height: 150px;
-    padding: 10px;
+    min-height: 150px;
+    padding: 15px;
     background-color: #efefef;
     gap: 10px;
     border-radius: 10px;
     font-size: 1.25em;
 }
+.ques > span
+{
+  font-size: 1.15em;
+}
 
-.options,.option
+.options
 {
     display: grid;
     place-items: center;
-    grid-template-columns: repeat(2,auto);
-    gap: 5px;
-    column-gap: 5%;
+    width: 100%;
+    grid-template-columns: repeat(1,auto);
+    gap: 10px;
 }
 
 .option
 {
+    display: grid;
+    place-items: left;
+    width: 100%;
+    grid-template-columns: repeat(2,auto);
     gap: 10px;
     padding: 5px;
-    grid-template-columns: repeat(2,auto);
     border-radius: 5px;
     accent-color: #303030;
     cursor: pointer;
+    background-color: #cdcdcd;
 }
 
 .option > input
