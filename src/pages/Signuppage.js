@@ -109,7 +109,7 @@ function Signuppage() {
                         <option>IND +91</option>
                         <option>AUS +92</option>
                         </select>
-                        </span>
+                    </span>
                     <input type="number" id="number" className="form-control" name='number' placeholder='Enter phone number' ref={number} maxLength={10} required onChange={handleChange}></input>
                 </div>
 
