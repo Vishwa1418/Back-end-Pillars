@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { googleSignIn } from './firebase';
 import { Login } from './API';
@@ -8,7 +7,6 @@ function Loginpage() {
             const [input, setInput] = useState({username:'',password:''});
             const [errorMessage,seterrorMessage] = useState('')
             const navigate = useNavigate()
-            const endpoint = `${process.env.REACT_APP_HOST}/login`
             const handleChange = (event) => {
                 setInput({...input, [event.target.name]: event.target.value});
             }
@@ -18,7 +16,7 @@ function Loginpage() {
                 try {
                     event.preventDefault()
                     const data = await Login(input)
-                    console.log(data)
+                    // console.log(data)
                     if(data.status !== "Invalid username or password")
                     {
                         sessionStorage.setItem('token',JSON.stringify(data.token))

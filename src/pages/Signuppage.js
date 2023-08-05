@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
-import { nameValidator,emailValidator,numberValidator,passwordValidator,repasswordValidator } from '../pages/SignupregexValidator.js';
-import axios from 'axios';
+import { numberValidator,passwordValidator,repasswordValidator } from '../pages/SignupregexValidator.js';
 import React, { useState, useRef } from 'react';
 import { uploadToCloud } from './firebase.js';
 import { SignUp } from './API.js';
@@ -12,7 +11,6 @@ function Signuppage() {
             const user = useRef()
             const number = useRef()
             const files = useRef()
-            const endpoint = `${process.env.REACT_APP_HOST}/register`
             const handleChange = (event) => {
                 setInput({...input, [event.target.name]: event.target.value})
                 if(number.current.value.length >= number.current.maxLength)
@@ -23,7 +21,7 @@ function Signuppage() {
             const register = async()=>{
                 try {
                     const data = await SignUp(input)
-                    console.log(data)
+                    // console.log(data)
                     if(data.status !== "success")
                     {
                         seterrorMessage(data.status)

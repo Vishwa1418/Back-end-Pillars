@@ -1,14 +1,14 @@
-import axios from "axios"
 import { useEffect, useState } from "react"
+import { getEducators } from "./API"
 
 function Educators()
 {
     const url = `${process.env.REACT_APP_HOST}/educators`
     const [educators,setEd] = useState([])
     useEffect(() => {
-        axios.get(url).then(res => {
-            setEd(res.data)
-            console.log(res.data)
+        getEducators().then(data => {
+            setEd(data)
+            // console.log(data)
         }).catch(error => alert(error))
     },[url])
     return (

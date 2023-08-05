@@ -19,3 +19,9 @@ export const SignUp = async(input) => {
 
     return data
 }
+
+export const getEducators = async () => {
+    const {data} = await axios.get(`${url}/educators`)
+
+    return data
+}

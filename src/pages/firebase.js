@@ -16,7 +16,6 @@ const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
 const storage = getStorage()
 const storageRef = ref(storage)
-// const imagesRef = ref(storageRef,'images')
 
 export const uploadToCloud = async (user,dataURL) => {
   const profileRef = ref(storageRef,`images/${user}.jpg`)

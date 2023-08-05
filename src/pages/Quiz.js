@@ -41,7 +41,7 @@ function Quiz()
                                         <div className="option" key={opt_index}>
                                             <input type="radio" id={option} value={option} name={question.question_id} onChange={e => {
                                                 answers[index] = e.target.value
-                                                console.log(answers)
+                                                // console.log(answers)
                                             }}/>
                                             <label for={option}>{option}</label>
                                         </div>
