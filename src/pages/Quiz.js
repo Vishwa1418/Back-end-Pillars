@@ -50,7 +50,7 @@ function Quiz()
                         </div>
                     )
                 })}
-                <input type="submit" className="Loginbutton" onClick={submit}/>
+                {questions.length > 0 && <input type="submit" className="Loginbutton" onClick={submit}/>}
             </div>
         </>
     )

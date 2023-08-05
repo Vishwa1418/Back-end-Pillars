@@ -1,19 +1,18 @@
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
+import { getQuizzes } from "./API"
 
 function Quizzes()
 {
-    const url = `${process.env.REACT_APP_HOST}/quiz`
     const [questions,setQue] = useState([])
     const navigate = useNavigate()
 
     useEffect(() =>{
-        axios.get(url).then(res => {
+        getQuizzes().then(data => {
             // console.log(res.data)
-            setQue(res.data)
+            setQue(data)
         }).catch(error => alert(error))
-    },[url])
+    },[questions])
 
     return (
         <>
