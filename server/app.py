@@ -256,9 +256,9 @@ def update_quiz(quiz_id):
 
 
 
-@app.route('/courses', methods=["GET"])
+@app.route('/courses', methods=["GET","POST"])
 @cross_origin(origins='*')
-def get_courses():
+def courses():
     conn = connection()
     if request.method == "GET":
         cursor = conn.cursor()
@@ -275,11 +275,7 @@ def get_courses():
                      "creation_date": course[6].strftime('%Y-%m-%d %H:%M:%S')}
                     for course in courses]
         return jsonify(response)
-
-@app.route('/courses', methods=["POST"])
-@cross_origin(origins='*')
-def add_course():
-    conn = connection()
+    
     if request.method == "POST":
         course = request.get_json()
         cursor = conn.cursor()
@@ -290,7 +286,8 @@ def add_course():
         conn.commit()
         cursor.close()
         conn.close()
-        return jsonify({"status": "success"})
+        return jsonify({"status": "Inserted"})
+
 
 @app.route('/courses/<int:course_id>', methods=["PUT", "DELETE"])
 @cross_origin(origins='*')
@@ -305,15 +302,15 @@ def update_or_delete_course(course_id):
                        (course['course_name'], course['course_description'], course['instructor_id'], course['course_duration'], course['enrollment_fees'], course_id))
         conn.commit()
         cursor.close()
-        return jsonify({"status": "success"})
+        return jsonify({"status": "Updated"})
 
-    elif request.method == "DELETE":
+    if request.method == "DELETE":
         cursor = conn.cursor()
         cursor.execute('DELETE FROM course_table WHERE course_id = %s;', (course_id))
         conn.commit()
         cursor.close()
         conn.close()
-        return jsonify({"status": "success"})
+        return jsonify({"status": "Deleted"})
 
 
 @app.route('/lessons', methods=["POST"])
