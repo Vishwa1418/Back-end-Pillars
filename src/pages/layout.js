@@ -1,5 +1,8 @@
+import { useRef } from 'react'
 import {NavLink, Outlet, useNavigate} from 'react-router-dom'
 function Layout(){
+
+    const nav = useRef()
     let data = sessionStorage.getItem('token')
     data = JSON.parse(data)
     const navigate = useNavigate()
@@ -8,6 +11,12 @@ function Layout(){
         sessionStorage.removeItem('userdata')
         navigate('/login')
     }
+
+    const navSlide = ()=>{
+        nav.current.classList.toggle('slide')
+        console.log('click')
+    }
+
     return (
         <>
             <div className='layout'>
@@ -15,7 +24,7 @@ function Layout(){
                 <div class="logo">
                     <h4>KADIT</h4>
                 </div>
-                <ul class="nav-links">
+                <div class="nav-links" ref={nav}>
                     <li>
                         <NavLink to='/main/home'>Home</NavLink>
                     </li>
@@ -45,8 +54,8 @@ function Layout(){
                         </div>
                         <li className={'logout'} onClick={logout}>Logout</li>
                     </li>
-                </ul>
-                <div class="burger">
+                </div>
+                <div class="burger" onClick={navSlide}>
                     <div class="line1"></div>
                     <div class="line2"></div>
                     <div class="line3"></div>
