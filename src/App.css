@@ -36,7 +36,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('bgimage1.jpg');
+    background-color: #ffa45b;
     width: 100vw;
     min-height: 100vh;
     background-size: cover;
@@ -53,8 +53,8 @@
     width: 450px;
     height: 50%;
     padding: 5px;
-    background-color: rgba(0,0,0,0.5);
-    border: 1px solid rgba(255,255,255,0.2);
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,0.2);
     border-radius: 20px;
     backdrop-filter: blur(5px);
   }
@@ -62,7 +62,6 @@
   .Loginpage {
     text-align: center;
     color: aliceblue;
-    
   }
 
   button:disabled
@@ -72,9 +71,11 @@
   }
   .h2f1 {
     font-size: 2em;
+    color: #303030;
   }
   .h2f2 {
     font-size: 1.5em;
+    color: #303030;
   }
   .msg
   {
@@ -102,6 +103,7 @@
   }
   .form-check-label,.form-check-input{
     font-size: 1.5em;
+    color: #303030;
   }
   .formcheck {
     margin-left: 20px;
@@ -109,7 +111,7 @@
   }
   .forgetpassword {
     font-size: 1em;
-    color: #f1f504;
+    color: #85b2fa;
     margin-left: 130px;
   }
   .forgetpassword:hover {
@@ -119,7 +121,7 @@
     color:rgb(37, 198, 238);
   }
   .Loginbutton {
-    background-color: green;
+    background-color: #303030;
     color: #e1faf5;
     border: none;
     width: 200px;
@@ -134,7 +136,7 @@
   }
   .p1f1 {
     font-size: 1.5em;
-    color: #EFF4F3;
+    color: #303030;
     font-weight: bold;
     margin-top: -10px;
   }
@@ -153,6 +155,7 @@
     font-size: 1em;
     background-color:#EFF4F3;
     color: #000;
+    border: 1px solid rgba(0,0,0,0.1);
     border-radius: 20px;
   }
   .facebook {
@@ -165,12 +168,12 @@
   }
   .p1f2, .signup {
     font-size: 1em;
-    color: #EFF4F3;
+    color: #303030;
     font-weight: bold;
     margin-top: 10px;
   }
   .signup {
-    color: #f1f504;
+    color: #85b2fa;
   }
 
   .Signuppage {
@@ -194,6 +197,7 @@
 
   .h1f1 {
     font-size: 30px;
+    color: #303030;
   }
   .Signupbutton {
     background-color: green;
@@ -207,12 +211,12 @@
   }
   .p1f3, .signin {
     font-size: 1em;
-    color: #EFF4F3;
+    color: #303030;
     font-weight: bold;
     margin-top: 10px;
   }
   .signin {
-    color: #f1f504;
+    color: #85b2fa;
   }
 #form-select {
 padding: 0px;
@@ -236,7 +240,7 @@ padding: 0px;
   align-items: center;
   min-height: 100vh;
   flex-direction: column;
-  background-image: url('bgimage2.jpg');
+  /* background-image: url('bgimage2.jpg'); */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -508,42 +512,6 @@ nav{
 .profile:hover ~ .logout , .logout:hover
 {
   display: block;
-}
-
-.content
-{
-  font-size: 1.25em;
-  font-weight: 600;
-  text-align: justify;
-  padding: 30px;
-  color: #fff;
-  backdrop-filter: blur(5px);
-  background-color: rgba(0,0,0,0.2);
-  text-shadow: 0px 0px 5px #000;
-}
-.box
-{
-  position: relative;
-  top: 15px;
-  display: flex;
-  width: 40%;
-  max-height: 600px;
-  background-image: url(bgimage2.jpg);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  scrollbar-width: 0px;
-  overflow-y: scroll;
-}
-.box::-webkit-scrollbar
-{
-  width: 0px;
-}
-
-.box:nth-child(2)
-{
-  background-image: url(bgimage1.jpg);
-  overflow: hidden;
 }
 
 .quizpage

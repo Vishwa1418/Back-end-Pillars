@@ -15,17 +15,17 @@ function Loginpage() {
             const login = async(event)=>{
                 try {
                     event.preventDefault()
-                    const res = await axios.post(endpoint,input)
-                    console.log(res.data)
-                    if(res.data.status === 'Success')
+                    const {data} = await axios.post(endpoint,input)
+                    console.log(data)
+                    if(data.status !== "Invalid username or password")
                     {
-                        sessionStorage.setItem('userdata',JSON.stringify({username:res.data.username,email:res.data.email,role:res.data.role,image:res.data.image}))
+                        sessionStorage.setItem('token',JSON.stringify(data.token))
                         navigate('/main/home')
                     }
 
-                    if(res.data.status === 'Invalid username or password')
+                    else
                     {
-                        seterrorMessage(res.data.status)
+                        seterrorMessage(data.status)
                     }
                 } catch (error) {
                     alert(error)

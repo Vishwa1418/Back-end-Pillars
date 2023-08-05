@@ -3,7 +3,9 @@ from dotenv import load_dotenv
 from flask import Flask, request, jsonify
 from flask_cors import cross_origin
 import psycopg2
-from datetime import datetime
+import jwt
+from functools import wraps
+from datetime import datetime,timedelta
 
 app = Flask(__name__)
 load_dotenv()
@@ -17,6 +19,26 @@ def connection():
         password= os.getenv('PASSWORD')
     )
     return conn
+
+def authorization(f):
+    @wraps(f)
+    def decorated(*args,**kwargs):
+        token = request.headers.get('Authorization')
+        
+        if not token:
+            return jsonify({"status":"token is missing"})
+        try:
+            data = jwt.decode(token, os.getenv('SECRET_KEY'),algorithms=["HS256"])
+        except jwt.ExpiredSignatureError:
+            return jsonify("Token has expired")
+        except jwt.InvalidTokenError as e:
+            return jsonify("Invalid token:", e)
+        except Exception as e:
+            return ("Unexpected error:", e)
+
+        
+        return f(*args,**kwargs)
+    return decorated
 
 @app.route('/login', methods=["POST"])
 @cross_origin(origins='*')
@@ -34,16 +56,22 @@ def login():
             cursor.execute('UPDATE user_table SET last_login_date = %s WHERE user_id = %s', (last_login, account[0]))
             conn.commit()
 
-            response = {
-                "user_id": account[0],
-                "username": account[1],
-                "email": account[2],
-                "role": account[4],
-                "registration_date": account[5],
-                "last_login_date": last_login,
-                "image":account[7],
-                "status": "Success"
-            }
+            # response = {
+            #     "user_id": account[0],
+            #     "username": account[1],
+            #     "email": account[2],
+            #     "role": account[4],
+            #     "registration_date": account[5],
+            #     "last_login_date": last_login,
+            #     "image":account[7],
+            #     "status": "Success"
+            # }
+
+            token = jwt.encode({
+            'public_id': account[0],
+            'exp' : datetime.utcnow() + timedelta(minutes = 5)}, os.getenv('SECRET_KEY'))
+
+            response = {'token':token }
         else:
             response = {"status": "Invalid username or password"}
 
@@ -77,6 +105,7 @@ def signup():
         return jsonify({"status": "success"})
 
 @app.route('/educators',methods=["GET","POST","PUT","DELETE"])
+# @authorization
 @cross_origin(origins='*')
 def educators():
     conn = connection()
@@ -189,6 +218,8 @@ def quiz():
         if request.method == "DELETE":
             quiz_id = request.args.get('quiz_id')
             cursor = conn.cursor()
+            cursor.execute(f"DELETE FROM question_table WHERE quiz_id = {quiz_id}")
+            conn.commit()
             # Delete the quiz in database
             cursor.execute(f"DELETE FROM quiz_table WHERE quiz_id = {quiz_id}")
             conn.commit()

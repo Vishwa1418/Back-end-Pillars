@@ -1,6 +1,6 @@
 import {NavLink, Outlet, useNavigate} from 'react-router-dom'
 function Layout(){
-    let data = sessionStorage.getItem('userdata')
+    let data = sessionStorage.getItem('token')
     data = JSON.parse(data)
     const navigate = useNavigate()
 
