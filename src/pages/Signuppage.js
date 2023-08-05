@@ -8,7 +8,6 @@ function Signuppage() {
             const [image,setImg] = useState('https://www.aquaknect.com.au/wp-content/uploads/2014/03/blank-person-300x300.jpg')        
             const [input,setInput] = useState({username:'',email:'', number:'',password:'',repassword:'',role:'Student'})
             const [errorMessage,seterrorMessage] = useState('')
-            const [successMessage,setsuccessMessage] = useState('')
             const user = useRef()
             const number = useRef()
             const files = useRef()
@@ -34,14 +33,7 @@ function Signuppage() {
             }
             const formSubmitter = (event) => {
                 event.preventDefault();
-                setsuccessMessage('');
                 seterrorMessage('');
-
-                // if(!nameValidator(input.username)) 
-                // return seterrorMessage('username should have minimum 8 character with combination of uppercase,lowercase and numbers');
-
-                if(!emailValidator(input.email)) 
-                return seterrorMessage('please enter valid email id');
 
                 if(!numberValidator(input.number)) 
                 return seterrorMessage('please enter number only');
@@ -85,7 +77,7 @@ function Signuppage() {
             return(
             <>
             <section>
-                <form className='box-size'> 
+                <form className='box-size' onSubmit={formSubmitter}> 
                 <div className='Signuppage'>
                     <h1 className='h1f1'><strong>New User Account</strong></h1>
 
@@ -100,7 +92,7 @@ function Signuppage() {
 
                 <div className='input-group mb-3'>
                     <span className='input-group-addon' id='addon'><i className="uil uil-envelopes"></i></span>
-                    <input type="text" id="email" className="form-control" name='email' placeholder='Enter email address' required onChange={handleChange}></input>
+                    <input type="email" id="email" className="form-control" name='email' placeholder='Enter email address' required onChange={handleChange}></input>
                 </div>
              
                 <div className='input-group mb-3'>
@@ -131,7 +123,7 @@ function Signuppage() {
                 </div>
                 </div>
             
-                    <button type="submit" className='Signupbutton' value="send" onClick={formSubmitter}>Register</button>
+                    <button type="submit" className='Signupbutton' value="send" >Register</button>
                 
                     <p className='p1f3'>Already have an account? <Link to='/login' className='signin'>Sign In</Link></p>
                 </div>
