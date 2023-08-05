@@ -105,7 +105,8 @@ function Signuppage() {
              
                 <div className='input-group mb-3'>
                     <span className='input-group-addon' id='addon'><i className="uil uil-calling"></i></span>
-                    <span className="input-group-addon" id='form-select'required><select className="form-control" id="form-select1">
+                    <span className="input-group-addon" id='form-select'required>
+                        <select className="form-control" id="form-select1">
                         <option>IND +91</option>
                         <option>AUS +92</option>
                         </select>
