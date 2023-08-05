@@ -3,14 +3,13 @@ import { getEducators } from "./API"
 
 function Educators()
 {
-    const url = `${process.env.REACT_APP_HOST}/educators`
     const [educators,setEd] = useState([])
     useEffect(() => {
         getEducators().then(data => {
             setEd(data)
             // console.log(data)
         }).catch(error => alert(error))
-    },[url])
+    },[educators])
     return (
         <>
             <div className="educators">

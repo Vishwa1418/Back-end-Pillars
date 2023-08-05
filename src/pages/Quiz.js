@@ -1,20 +1,19 @@
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router"
+import { getQuiz } from "./API"
 
 function Quiz()
 {
     const params = useParams()
-    const url = `${process.env.REACT_APP_HOST}/quiz/${params.id}`
     const [questions,setQue] = useState([])
     let answers = []
     const [result,setRes] = useState(0)
     useEffect(() =>{
-        axios.get(url).then(res => {
+        getQuiz(params.id).then(data => {
             // console.log(res.data)
-            setQue(res.data)
+            setQue(data)
         }).catch(error => alert(error))
-    },[url])
+    },[params])
 
     const submit = () =>{
         setRes(prev => prev =questions.length)

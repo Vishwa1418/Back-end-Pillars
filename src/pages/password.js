@@ -1,6 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { passwordValidator,repasswordValidator } from '../pages/SignupregexValidator.js';
-import axios from 'axios';
 import React, { useState } from 'react';
 import { SignUp } from './API.js';
 

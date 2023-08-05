@@ -58,7 +58,7 @@ function Loginpage() {
                 <div className="form-check form-check-inline mb-5">
                     <input type="checkbox" id="checkbox" className="form-check-input" value="" required/>
                     <label htmlFor="checkbox" className="form-check-label" style={{fontSize:"15px"}}>Remember me</label>
-                    <a href="#" className='forgetpassword'>Forgot Password?</a>
+                    <a href="/" className='forgetpassword'>Forgot Password?</a>
                 </div>
                 </div>
                 </div>

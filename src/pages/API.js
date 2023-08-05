@@ -25,3 +25,15 @@ export const getEducators = async () => {
 
     return data
 }
+
+export const getQuizzes = async () => {
+    const {data} = await axios.get(`${url}/quiz`)
+
+    return data
+}
+
+export const getQuiz = async (quiz_id) => {
+    const {data} = await axios.get(`${url}/quiz/${quiz_id}`)
+
+    return data
+}
