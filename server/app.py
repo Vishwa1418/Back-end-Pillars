@@ -100,7 +100,9 @@ def signup():
 @authorization
 @cross_origin(origins='*')
 def user():
-    return "user"
+    token = request.args.get('apikey')
+    data = jwt.decode(token, os.getenv('SECRET_KEY'),algorithms=["HS256"])
+    return jsonify(data)
 
 @app.route('/educators',methods=["GET","POST","PUT","DELETE"])
 @authorization

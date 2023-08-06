@@ -1,11 +1,17 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {NavLink, Outlet, useNavigate} from 'react-router-dom'
+import { getUserdata } from './API'
 function Layout(){
 
-    const nav = useRef()
-    let data = sessionStorage.getItem('API_Key')
-    data = JSON.parse(data)
+    const [data,setData] = useState()
     const navigate = useNavigate()
+    const nav = useRef()
+    
+    useEffect(()=>{
+        getUserdata().then(res => {
+            setData(res)
+        })
+    },[])
 
     const logout = () => {
         sessionStorage.removeItem('userdata')
@@ -44,16 +50,15 @@ function Layout(){
                     <li>
                         <NavLink to='/main/contactus'>Contact Us</NavLink>
                     </li>
-
-                    <li className='profilepos'>
+                    {data && <li className='profilepos'>
                         <div className='profile'>
                             <img src={data.image} className='image' alt='avatar'></img>
                             <div className={"details"}>
-                                <span className={"name"}>{data.username}</span>
+                                <span className={"username"}>{data.username}</span>
                             </div>
                         </div>
                         <li className={'logout'} onClick={logout}>Logout</li>
-                    </li>
+                    </li>}
                 </div>
                 <div class="burger" onClick={navSlide}>
                     <div class="line1"></div>

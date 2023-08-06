@@ -20,6 +20,14 @@ export const SignUp = async(input) => {
     return data
 }
 
+export const getUserdata = async () => {
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const { data } = await axios.get(`${url}/user?apikey=${token}`)
+    
+    return data;
+  };
+
 export const getEducators = async () => {
     let token = sessionStorage.getItem('API_Key');
     token = JSON.parse(token);

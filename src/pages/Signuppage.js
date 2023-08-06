@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { numberValidator,passwordValidator,repasswordValidator } from '../pages/SignupregexValidator.js';
 import React, { useState, useRef } from 'react';
 import { uploadToCloud } from './firebase.js';
@@ -6,8 +6,9 @@ import { SignUp } from './API.js';
 function Signuppage() {
             
             const [image,setImg] = useState('https://www.aquaknect.com.au/wp-content/uploads/2014/03/blank-person-300x300.jpg')        
-            const [input,setInput] = useState({username:'',email:'', number:'',password:'',repassword:'',role:'Student',image})
+            const [input,setInput] = useState({username:'',email:'', number:'',password:'',repassword:'',role:'Student'})
             const [errorMessage,seterrorMessage] = useState('')
+            const navigate = useNavigate()
             const user = useRef()
             const number = useRef()
             const files = useRef()
@@ -26,6 +27,10 @@ function Signuppage() {
                     {
                         seterrorMessage(data.status)
                     }
+                    else
+                    {
+                        navigate('/')
+                    }
                 } catch (error) {
                     alert(error)
                 }
@@ -34,20 +39,15 @@ function Signuppage() {
                 event.preventDefault();
                 seterrorMessage('');
 
-                if(!numberValidator(input.number)) 
-                return seterrorMessage('please enter number only');
-
                 if(!passwordValidator(input.password)) 
                 return seterrorMessage('password should have minimum 8 character with the combination of uppercase,lowercase,numbers and specialcharacter');
 
                 if(!repasswordValidator(input.repassword)) 
                 return seterrorMessage('please enter same password');
 
-                setInput(prev => {
-                    return {...prev,image}
-                })
+                input.image = image
+                console.log(input)
                 register()
-                // console.log(input)
             }
 
             const uploadImage = (e) => {
