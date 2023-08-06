@@ -3,7 +3,7 @@ import {NavLink, Outlet, useNavigate} from 'react-router-dom'
 function Layout(){
 
     const nav = useRef()
-    let data = sessionStorage.getItem('token')
+    let data = sessionStorage.getItem('API_Key')
     data = JSON.parse(data)
     const navigate = useNavigate()
 

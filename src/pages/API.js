@@ -21,19 +21,26 @@ export const SignUp = async(input) => {
 }
 
 export const getEducators = async () => {
-    const {data} = await axios.get(`${url}/educators`)
-
-    return data
-}
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const { data } = await axios.get(`${url}/educators?apikey=${token}`)
+    
+    return data;
+  };
+  
 
 export const getQuizzes = async () => {
-    const {data} = await axios.get(`${url}/quiz`)
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const {data} = await axios.get(`${url}/quiz?apikey=${token}`)
 
     return data
 }
 
 export const getQuiz = async (quiz_id) => {
-    const {data} = await axios.get(`${url}/quiz/${quiz_id}`)
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const {data} = await axios.get(`${url}/quiz/${quiz_id}?apikey=${token}`)
 
     return data
 }

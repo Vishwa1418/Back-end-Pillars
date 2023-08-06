@@ -23,18 +23,18 @@ def connection():
 def authorization(f):
     @wraps(f)
     def decorated(*args,**kwargs):
-        token = request.headers.get('Authorization')
-        
+        token = request.args.get('apikey')
+        # token = token.split(' ')
         if not token:
             return jsonify({"status":"token is missing"})
         try:
             data = jwt.decode(token, os.getenv('SECRET_KEY'),algorithms=["HS256"])
         except jwt.ExpiredSignatureError:
-            return jsonify("Token has expired")
+            return jsonify({"status":"Token has expired"})
         except jwt.InvalidTokenError as e:
             return jsonify("Invalid token:", e)
         except Exception as e:
-            return ("Unexpected error:", e)
+            return jsonify("Unexpected error:", e)
 
         
         return f(*args,**kwargs)
@@ -56,22 +56,14 @@ def login():
             cursor.execute('UPDATE user_table SET last_login_date = %s WHERE user_id = %s', (last_login, account[0]))
             conn.commit()
 
-            # response = {
-            #     "user_id": account[0],
-            #     "username": account[1],
-            #     "email": account[2],
-            #     "role": account[4],
-            #     "registration_date": account[5],
-            #     "last_login_date": last_login,
-            #     "image":account[7],
-            #     "status": "Success"
-            # }
-
             token = jwt.encode({
             'public_id': account[0],
-            'exp' : datetime.utcnow() + timedelta(minutes = 5)}, os.getenv('SECRET_KEY'))
+            'username':account[1],
+            'email': account[2],
+            'image':account[7],
+            'exp' : datetime.utcnow() + timedelta(minutes = 30)}, os.getenv('SECRET_KEY'))
 
-            response = {'token':token }
+            response = {'API_Key':token }
         else:
             response = {"status": "Invalid username or password"}
 
@@ -104,8 +96,14 @@ def signup():
         conn.close()
         return jsonify({"status": "success"})
 
+@app.route('/user')
+@authorization
+@cross_origin(origins='*')
+def user():
+    return "user"
+
 @app.route('/educators',methods=["GET","POST","PUT","DELETE"])
-# @authorization
+@authorization
 @cross_origin(origins='*')
 def educators():
     conn = connection()
@@ -172,6 +170,7 @@ def educators():
 
 
 @app.route('/quiz',methods=["GET","POST","PUT","DELETE"])
+@authorization
 @cross_origin(origins='*')
 def quiz():
         conn = connection()
@@ -229,6 +228,7 @@ def quiz():
 
 
 @app.route('/quiz/<int:quiz_id>', methods=["GET","POST","PUT","DELETE"])
+@authorization
 @cross_origin(origins='*')
 def update_quiz(quiz_id):
     conn = connection()
@@ -288,6 +288,7 @@ def update_quiz(quiz_id):
 
 
 @app.route('/courses', methods=["GET","POST"])
+@authorization
 @cross_origin(origins='*')
 def courses():
     conn = connection()
@@ -321,6 +322,7 @@ def courses():
 
 
 @app.route('/courses/<int:course_id>', methods=["PUT", "DELETE"])
+@authorization
 @cross_origin(origins='*')
 def update_or_delete_course(course_id):
     conn = connection()
@@ -345,6 +347,7 @@ def update_or_delete_course(course_id):
 
 
 @app.route('/lessons', methods=["POST"])
+@authorization
 @cross_origin(origins='*')
 def add_lesson():
     conn = connection()
@@ -361,6 +364,7 @@ def add_lesson():
         return jsonify({"status": "success"})
 
 @app.route('/lessons/<int:lesson_id>', methods=["PUT", "DELETE"])
+@authorization
 @cross_origin(origins='*')
 def update_or_delete_lesson(lesson_id):
     conn = connection()

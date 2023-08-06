@@ -8,6 +8,7 @@ import './App.css'
 import Layout from "./pages/layout";
 import Quiz from "./pages/Quiz";
 import Quizzes from "./pages/Quizzes";
+import Contactus from "./pages/Contactus";
 function App() {
   return (
     <>
@@ -20,6 +21,7 @@ function App() {
           <Route path="educators" element={<Educators/>}/>
           <Route path="quiz" element={<Quizzes/>}/>
           <Route path="quiz/:id" element={<Quiz/>}/>
+          <Route path="contactus" element={<Contactus/>}/>
         </Route>
         <Route path="/password" element={<Password/>}/>
       </Routes>
