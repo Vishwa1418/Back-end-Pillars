@@ -76,7 +76,7 @@ function Password() {
             
                     <button type="submit" className='Signupbutton' value="send" onClick={formSubmitter}>Register</button>
                 </div>
-                <p className='p1f3'>Already have an account? <Link to='/login' className='signin'>signIn</Link></p>
+                <p className='p1f3'>Already have an account? <Link to='/login' className='signin'>Sign In</Link></p>
                 </form>
             </section>
         </>
