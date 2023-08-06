@@ -310,6 +310,10 @@ nav{
   {
     font-size: 1.5em;
   }
+  .nav-links > li > a
+  {
+    background-color: transparent;
+  }
   .slide
   {
     translate: 0px 0px;
