@@ -1,31 +1,31 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { googleSignIn } from './firebase';
+import { Login } from './API';
 function Loginpage() {
 
             const [input, setInput] = useState({username:'',password:''});
             const [errorMessage,seterrorMessage] = useState('')
             const navigate = useNavigate()
-            const endpoint = `${process.env.REACT_APP_HOST}/login`
             const handleChange = (event) => {
                 setInput({...input, [event.target.name]: event.target.value});
             }
 
             const login = async(event)=>{
+                seterrorMessage('')
                 try {
                     event.preventDefault()
-                    const res = await axios.post(endpoint,input)
-                    console.log(res.data)
-                    if(res.data.status === 'Success')
+                    const data = await Login(input)
+                    console.log(data)
+                    if(data.status !== "Invalid username or password")
                     {
-                        sessionStorage.setItem('userdata',JSON.stringify({username:res.data.username,email:res.data.email,role:res.data.role,image:res.data.image}))
+                        sessionStorage.setItem('API_Key',JSON.stringify(data.API_Key))
                         navigate('/main/home')
                     }
 
-                    if(res.data.status === 'Invalid username or password')
+                    else
                     {
-                        seterrorMessage(res.data.status)
+                        seterrorMessage(data.status)
                     }
                 } catch (error) {
                     alert(error)
@@ -58,7 +58,7 @@ function Loginpage() {
                 <div className="form-check form-check-inline mb-5">
                     <input type="checkbox" id="checkbox" className="form-check-input" value="" required/>
                     <label htmlFor="checkbox" className="form-check-label" style={{fontSize:"15px"}}>Remember me</label>
-                    <a href="#" className='forgetpassword'>Forgot Password?</a>
+                    <a href="/" className='forgetpassword'>Forgot Password?</a>
                 </div>
                 </div>
                 </div>
@@ -74,7 +74,7 @@ function Loginpage() {
                     <button type="button" className="Socialmediabutton twitter" disabled><i className="fa fa-twitter-square"> Login via Twitter</i></button>
                 </div>
 
-                    <p className='p1f2'>Don't have an account? <Link to="/signup" className='signup'>SignUp</Link></p>
+                    <p className='p1f2'>Don't have an account? <Link to="/signup" className='signup'>Sign Up</Link></p>
                 </div>
                 </form>
             </section>

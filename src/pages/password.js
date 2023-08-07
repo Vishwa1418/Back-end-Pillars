@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { passwordValidator,repasswordValidator } from '../pages/SignupregexValidator.js';
-import axios from 'axios';
 import React, { useState } from 'react';
+import { SignUp } from './API.js';
 
 function Password() {
             
@@ -11,22 +11,21 @@ function Password() {
             const [errorMessage,seterrorMessage] = useState('')
             // const [successMessage,setsuccessMessage] = useState('')
             const navigate = useNavigate()
-            const endpoint = `${process.env.REACT_APP_HOST}/register`
             const handleChange = (event) => {
                 setInput({...input, [event.target.name]: event.target.value})
             }
             const register = async()=>{
                 try {
-                    const res = await axios.post(endpoint,input)
+                    const data = await SignUp(input)
                     // console.log(res.data)
-                    if(res.data.status === 'success')
+                    if(data.status === 'success')
                     {
                         sessionStorage.setItem('userdata',JSON.stringify({username:data.username,email:data.email,image:data.image}))
                         navigate('/main/home')
                     }
                     else
                     {
-                        seterrorMessage(res.data.status)
+                        seterrorMessage(data.status)
                     }
                 } catch (error) {
                     alert(error)
@@ -45,7 +44,7 @@ function Password() {
                 
                 // setsuccessMessage('Successfully validated')
                 register()
-                console.log(input)
+                // console.log(input)
             }
 
             return(
@@ -77,7 +76,7 @@ function Password() {
             
                     <button type="submit" className='Signupbutton' value="send" onClick={formSubmitter}>Register</button>
                 </div>
-                <p className='p1f3'>Already have an account? <Link to='/login' className='signin'>signIn</Link></p>
+                <p className='p1f3'>Already have an account? <Link to='/login' className='signin'>Sign In</Link></p>
                 </form>
             </section>
         </>

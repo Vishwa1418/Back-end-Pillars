@@ -1,27 +1,26 @@
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router"
+import { getQuiz } from "./API"
 
 function Quiz()
 {
     const params = useParams()
-    const url = `${process.env.REACT_APP_HOST}/quiz/${params.id}`
     const [questions,setQue] = useState([])
     let answers = []
     const [result,setRes] = useState(0)
     useEffect(() =>{
-        axios.get(url).then(res => {
+        getQuiz(params.id).then(data => {
             // console.log(res.data)
-            setQue(res.data)
+            setQue(data)
         }).catch(error => alert(error))
-    },[url])
+    },[params])
 
     const submit = () =>{
         setRes(prev => prev =questions.length)
 
         answers.length !== 0 && questions.map((question,index) => {
-            if(!answers[index] === question.correct_answer)
-            setRes(prev => --prev)
+            return ((!answers[index] === question.correct_answer) &&
+            setRes(prev => --prev))
         })
         alert(`You have scored ${result}/${questions.length}`)
     }
@@ -29,6 +28,7 @@ function Quiz()
     return (
         <>
             <div className="quizpage">
+                {questions.length <= 0 && <div className="loader"/>}
                 <h1 className="heading">{questions.length > 0 && questions[0].quiz_title}</h1>
                 {questions.length > 0 && questions.map((question,index)=>{
                     return(
@@ -40,7 +40,7 @@ function Quiz()
                                         <div className="option" key={opt_index}>
                                             <input type="radio" id={option} value={option} name={question.question_id} onChange={e => {
                                                 answers[index] = e.target.value
-                                                console.log(answers)
+                                                // console.log(answers)
                                             }}/>
                                             <label for={option}>{option}</label>
                                         </div>
@@ -50,7 +50,7 @@ function Quiz()
                         </div>
                     )
                 })}
-                <input type="submit" className="Loginbutton" onClick={submit}/>
+                {questions.length > 0 && <input type="submit" className="Loginbutton" onClick={submit}/>}
             </div>
         </>
     )
