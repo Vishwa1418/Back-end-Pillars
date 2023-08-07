@@ -286,11 +286,25 @@ def update_quiz(quiz_id):
         conn.close()
         return jsonify({"status":"Deleted"})
 
-@app.route('/evaluate_quiz', methods=["POST"])
+@app.route('/quiz/evaluate/<int:quiz_id>', methods=["POST"])
+@authorization
 @cross_origin(origins="*")
-def evaluate():
+def evaluate(quiz_id):
+    conn = connection()
     answers = request.get_json()
-    return jsonify(answers)
+    count = 0
+
+    for answer in answers:
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT correct_answer from question_table WHERE quiz_id = {quiz_id} and correct_answer = '{answer}'")
+        correct_answer = cursor.fetchone()
+        cursor.close()
+        if correct_answer:
+            count += 1
+
+    
+    result = count
+    return jsonify(result)
 
 @app.route('/courses', methods=["GET","POST"])
 @authorization

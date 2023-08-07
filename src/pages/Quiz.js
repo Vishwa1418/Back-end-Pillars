@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router"
-import { getQuiz } from "./API"
+import { evaluateQuiz, getQuiz } from "./API"
 
 function Quiz()
 {
     const params = useParams()
     const [questions,setQue] = useState([])
-    let answers = []
-    const [result,setRes] = useState(0)
+    const [result,setRes] = useState('')
+    
     useEffect(() =>{
         getQuiz(params.id).then(data => {
             // console.log(res.data)
@@ -15,16 +15,24 @@ function Quiz()
         }).catch(error => alert(error))
     },[params])
 
+    let answers = questions.length > 0 ? new Array(questions.length).fill(null) : null
+
     const submit = () =>{
-        
-        alert(`You have scored ${result}/${questions.length}`)
+        evaluateQuiz(answers,params.id).then(data =>{
+            setRes(data)
+            // setAns(new Array(data.length).fill(null))
+            let heading = document.getElementById('heading')
+            heading.scrollIntoView()
+        })
+        // alert(`You have scored ${result}/${questions.length}`)
     }
 
     return (
         <>
             <div className="quizpage">
                 {questions.length <= 0 && <div className="loader"/>}
-                <h1 className="heading">{questions.length > 0 && questions[0].quiz_title}</h1>
+                <h1 className="heading" id="heading">{questions.length > 0 && questions[0].quiz_title}</h1>
+                {result !== '' && result >= 0 && <h2 className="result">You have scored {result}/{questions.length}</h2>}
                 {questions.length > 0 && questions.map((question,index)=>{
                     return(
                         <div className="ques" key={index}>

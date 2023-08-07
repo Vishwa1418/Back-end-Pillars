@@ -524,6 +524,12 @@ nav{
 {
   font-size: 1.5em;
 }
+.result
+{
+  color: #fff;
+  background-color: #303030;
+  padding: 5px;
+}
 .ques
 {
     display: flex;

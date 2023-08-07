@@ -12,7 +12,7 @@ function Quizzes()
             // console.log(res.data)
             setQue(data)
         }).catch(error => alert(error))
-    },[questions])
+    },[])
 
     return (
         <>

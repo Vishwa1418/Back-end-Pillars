@@ -54,6 +54,14 @@ export const getQuiz = async (quiz_id) => {
     return data
 }
 
+export const evaluateQuiz = async(input,quiz_id) => {
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const {data} = await axios.post(`${url}/quiz/evaluate/${quiz_id}?apikey=${token}`,input)
+
+    return data
+}
+
 export const getSuccessstories = async (quiz_id) => {
     let token = sessionStorage.getItem('API_Key');
     token = JSON.parse(token);

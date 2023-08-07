@@ -20,7 +20,6 @@ function Layout(){
 
     const navSlide = ()=>{
         nav.current.classList.toggle('slide')
-        console.log('click')
     }
 
     return (
