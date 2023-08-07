@@ -457,8 +457,9 @@ def send_email():
 
     msg_title = "New Contact Form Submission"
     sender = "noreply@app.com"
-    msg = Message(msg_title, sender=sender, recipients=[email])
-    msg_body = f"Hello {full_name},\n\nThank you for your message.\n\nMessage Content:\n{message_content}"
+    receipent = "smk627751@gmail.com"
+    msg = Message(msg_title, sender=sender, recipients=[receipent])
+    msg_body = f"Hi I'm {full_name},\n Email: {email} \n {message_content}"
     msg.body = msg_body
 
     try:
