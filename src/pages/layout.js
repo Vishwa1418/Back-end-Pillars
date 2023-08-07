@@ -30,23 +30,23 @@ function Layout(){
                     <h4>KADIT</h4>
                 </div>
                 <div class="nav-links" ref={nav}>
-                    <li>
+                    <li onClick={navSlide}>
                         <NavLink to='/main/home'>Home</NavLink>
                     </li>
 
-                    <li>
+                    <li onClick={navSlide}>
                         <NavLink to='/main/educators'>Educators</NavLink>
                     </li>
                     
-                    <li>
+                    <li onClick={navSlide}>
                         <NavLink to='/main/quiz'>Practice</NavLink>
                     </li>
 
-                    <li>
+                    <li onClick={navSlide}>
                         <NavLink to='/main/successstories'>Success Stories</NavLink>
                     </li>
 
-                    <li>
+                    <li onClick={navSlide}>
                         <NavLink to='/main/contactus'>Contact Us</NavLink>
                     </li>
                     {data && <li className='profilepos'>
