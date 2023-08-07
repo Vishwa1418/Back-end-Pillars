@@ -22,7 +22,7 @@ const SuccessStories = () => {
     <>
         <div className="success">
             {successStories.length <= 0 && <div className="loader"/>}
-            {successStories.length > 0 && <h1>Success Stories</h1>}
+            {successStories.length > 0 && <h1 className="heading">Success Stories</h1>}
             <div className="success stories">
                 {successStories.map((story,index) => {
                     return <div className="review" key={index}>
