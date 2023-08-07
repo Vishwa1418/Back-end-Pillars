@@ -389,5 +389,29 @@ def update_or_delete_lesson(lesson_id):
         conn.close()
         return jsonify({"status": "success"})
 
+@app.route('/successstories', methods=["GET","POST","PUT","DELETE"])
+@cross_origin(origins='*')
+def success_stories():
+    conn = connection()
+    if request.method == "GET":
+        cursor = conn.cursor()
+        cursor.execute("select u.username,s.course,s.story_content,u.image from user_table as u join success_stories as s on u.email = s.email")
+        success_stories = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        successstory=[]
+        if not success_stories:
+            return jsonify({"status":"no reviews"})
+        
+        for s in success_stories:
+            story = {}
+            story['username']=s[0]
+            story['course']=s[1]
+            story['story_content']=s[2]
+            story['image'] = s[3]
+            successstory.append(story)
+
+    return jsonify(successstory)
+
 if __name__ == "__main__":
     app.run(debug=True,host="0.0.0.0",port=5000)

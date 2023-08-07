@@ -335,10 +335,6 @@ nav{
     background-color: #fff;
     border-radius: 5px;
   }
-  .subjects
-  {
-    z-index: -1;
-  }
 }
 .logo{
     display: flex;
@@ -393,7 +389,7 @@ nav{
 
 .image
 {
-    width: 100px;
+    width: 120px;
     aspect-ratio: 1/1;
     object-fit: cover;
     border-radius: 50%;
@@ -409,10 +405,11 @@ nav{
     place-items: center;
     color: #303030;
     font-size: 1em;
+    gap: 10px;
 }
 .name
 {
-  font-size: 1.5em;
+  font-size: 2em;
   font-weight: bold;
 }
 .subjects
@@ -426,8 +423,8 @@ nav{
 {
   display: grid;
   place-items: center;
-  width: 50px;
-  padding: 5px;
+  min-width: 50px;
+  padding: 10px;
   border-radius: 15px;
   color: #fff;
   background-color: #303030;
@@ -763,4 +760,62 @@ nav{
     {
         width: 100%;
     }
+}
+
+.success
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: #ffa45b;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.success::-webkit-scrollbar
+{
+  width: 0px;
+}
+.stories
+{
+  align-items: flex-start;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.review
+{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 300px;
+  height: 70vh;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+.review > .image , .review > .name
+{
+  z-index: 1;
+}
+.review > .image
+{
+  box-shadow: -5px -5px 10px 0px rgba(0, 0, 0, 0.5);
+}
+.cover
+{
+  position: absolute;
+  top: -50px;
+  left: -160px;
+  width: 500px;
+  height: 50%;
+  transform: rotate(-45deg);
+  background-color: #1C9CEA;
+  z-index: 0;
+  order: -1;
 }

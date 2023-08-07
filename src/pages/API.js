@@ -53,3 +53,11 @@ export const getQuiz = async (quiz_id) => {
 
     return data
 }
+
+export const getSuccessstories = async (quiz_id) => {
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const {data} = await axios.get(`${url}/successstories?apikey=${token}`)
+
+    return data
+}
