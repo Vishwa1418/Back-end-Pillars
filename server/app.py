@@ -134,12 +134,12 @@ def educators():
         cursor = conn.cursor()
         
         # Check if the educator already exists
-        cursor.execute(f"SELECT * FROM user_table WHERE username = '{educator['username']}'")
+        cursor.execute(f"SELECT * FROM user_table WHERE email = '{educator['email']}'")
         existing_educator = cursor.fetchone()
         if existing_educator:
-            cursor.execute(f"UPDATE user_table SET role = 'teacher' WHERE username = '{educator['username']}'")
+            cursor.execute(f"UPDATE user_table SET role = 'teacher' WHERE email = '{educator['email']}'")
             # Insert the new educator into the database
-            cursor.execute(f"INSERT INTO educator_table (username, subjects) VALUES ('{educator['username']}', ARRAY{educator['subjects']})")
+            cursor.execute(f"INSERT INTO educator_table (email, biography, subjects) VALUES ('{educator['email']}', '{educator['biography']}',ARRAY{educator['subjects']})")
             conn.commit()
             cursor.close()
             conn.close()
@@ -152,18 +152,18 @@ def educators():
         cursor = conn.cursor()
         
         # Update educator's subjects
-        cursor.execute(f"UPDATE educator_table SET subjects = ARRAY {educator['subjects']} WHERE username = '{educator['username']}'")
+        cursor.execute(f"UPDATE educator_table SET subjects = ARRAY {educator['subjects']} WHERE email = '{educator['email']}'")
         conn.commit()
         cursor.close()
         conn.close()
         return jsonify({"status": "Updated"})
     
     if request.method == "DELETE":
-        educator_username = request.args.get('username')
+        educator_email = request.args.get('email')
         cursor = conn.cursor()
         # Delete the educator from both user_table and educator_table
-        cursor.execute(f"DELETE FROM user_table WHERE username = '{educator_username}'")
-        cursor.execute(f"DELETE FROM educator_table WHERE username = '{educator_username}'")
+        cursor.execute(f"DELETE FROM user_table WHERE email = '{educator_email}'")
+        cursor.execute(f"DELETE FROM educator_table WHERE email = '{educator_email}'")
         conn.commit()
         cursor.close()
         conn.close()
