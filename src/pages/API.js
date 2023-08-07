@@ -31,7 +31,6 @@ export const getUserdata = async () => {
 export const getEducators = async () => {
     let token = sessionStorage.getItem('API_Key');
     token = JSON.parse(token);
-    console.log(`${url}/educators?apikey=${token}`)
     const { data } = await axios.get(`${url}/educators?apikey=${token}`)
     
     return data;
