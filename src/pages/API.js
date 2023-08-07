@@ -68,3 +68,11 @@ export const getSuccessstories = async (quiz_id) => {
 
     return data
 }
+
+export const contactUs = async(input) => {
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const {data} = await axios.post(`${url}/sendmail?apikey=${token}`,input)
+
+    return data
+}

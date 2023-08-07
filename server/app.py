@@ -6,9 +6,21 @@ import psycopg2
 import jwt
 from functools import wraps
 from datetime import datetime,timedelta
+from flask_mail import Mail,Message
 
 app = Flask(__name__)
 load_dotenv()
+
+# Gmail connection parameters
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['MAIL_SERVER'] = "smtp.gmail.com"
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USERNAME'] = "smk627751@gmail.com"
+app.config['MAIL_PASSWORD'] = "msytdrubzhowuqyc"
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+
+mail = Mail(app)
 
 # PostgreSQL connection parameters
 def connection():
@@ -99,6 +111,7 @@ def signup():
 @authorization
 @cross_origin(origins='*')
 def user():
+    #Process user data via token
     token = request.args.get('apikey')
     data = jwt.decode(token, os.getenv('SECRET_KEY'),algorithms=["HS256"])
     return jsonify(data)
@@ -235,6 +248,7 @@ def update_quiz(quiz_id):
     conn = connection()
     if request.method == "GET":
         cursor = conn.cursor()
+        #Getting Quiz from database
         cursor.execute(f"select ques.question_id,quiz.quiz_id,quiz.course_id,quiz.quiz_title,ques.question_text,ques.question_options,ques.correct_answer from quiz_table as quiz join question_table as ques on quiz.quiz_id = cast(ques.quiz_id as integer) where quiz.quiz_id = {quiz_id}")
         quiz_list = cursor.fetchall()
         quiz = []
@@ -259,7 +273,7 @@ def update_quiz(quiz_id):
     if request.method == "POST":
         ques = request.get_json()
         cursor = conn.cursor()
-        # Update the quiz in the database
+        # Insert the quiz in the database
         cursor.execute(f"INSERT INTO question_table (quiz_id,question_text,question_options,correct_answer) VALUES({quiz_id},'{ques['question_text']}', ARRAY {ques['question_options']}, '{ques['correct_answer']}')")
         conn.commit()
         cursor.close()
@@ -279,7 +293,7 @@ def update_quiz(quiz_id):
     if request.method == "DELETE":
         ques_id = request.args.get('question_id')
         cursor = conn.cursor()
-        # Update the quiz in the database
+        # Delete the quiz in the database
         cursor.execute(f"DELETE FROM question_table WHERE question_id = {ques_id}")
         conn.commit()
         cursor.close()
@@ -299,6 +313,7 @@ def evaluate(quiz_id):
         cursor.execute(f"SELECT correct_answer from question_table WHERE quiz_id = {quiz_id} and correct_answer = '{answer}'")
         correct_answer = cursor.fetchone()
         cursor.close()
+        # Evaluting the quiz
         if correct_answer:
             count += 1
 
@@ -430,6 +445,28 @@ def success_stories():
             successstory.append(story)
 
     return jsonify(successstory)
+
+@app.route("/sendmail", methods=["POST"])
+@authorization
+@cross_origin(origins="*")
+def send_email():
+    data = request.get_json()
+    email = data.get("email")
+    full_name = data.get("fullName")
+    message_content = data.get("message")
+
+    msg_title = "New Contact Form Submission"
+    sender = "noreply@app.com"
+    msg = Message(msg_title, sender=sender, recipients=[email])
+    msg_body = f"Hello {full_name},\n\nThank you for your message.\n\nMessage Content:\n{message_content}"
+    msg.body = msg_body
+
+    try:
+        mail.send(msg)
+        return jsonify({"message": "Email sent successfully."})
+    except Exception as e:
+        print(e)
+        return jsonify({"error": "Failed to send the email."})
 
 if __name__ == "__main__":
     app.run(debug=True,host="0.0.0.0",port=5000)

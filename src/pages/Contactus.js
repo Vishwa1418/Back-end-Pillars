@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { contactUs } from "./API";
 
 
 const Contactus = () => {
@@ -9,7 +10,10 @@ const Contactus = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     
-    console.log("Form submitted!");
+    // console.log({fullName,email,message});
+    contactUs({fullName,email,message})
+    .then(data => console.log(data))
+    .catch(error => alert(error))
   };
 
   return (
