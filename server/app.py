@@ -286,7 +286,11 @@ def update_quiz(quiz_id):
         conn.close()
         return jsonify({"status":"Deleted"})
 
-
+@app.route('/evaluate_quiz', methods=["POST"])
+@cross_origin(origins="*")
+def evaluate():
+    answers = request.get_json()
+    return jsonify(answers)
 
 @app.route('/courses', methods=["GET","POST"])
 @authorization

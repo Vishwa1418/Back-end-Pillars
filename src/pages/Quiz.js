@@ -16,12 +16,7 @@ function Quiz()
     },[params])
 
     const submit = () =>{
-        setRes(prev => prev =questions.length)
-
-        answers.length !== 0 && questions.map((question,index) => {
-            return ((!answers[index] === question.correct_answer) &&
-            setRes(prev => --prev))
-        })
+        
         alert(`You have scored ${result}/${questions.length}`)
     }
 
@@ -40,7 +35,7 @@ function Quiz()
                                         <div className="option" key={opt_index}>
                                             <input type="radio" id={option} value={option} name={question.question_id} onChange={e => {
                                                 answers[index] = e.target.value
-                                                // console.log(answers)
+                                                console.log(answers)
                                             }}/>
                                             <label for={option}>{option}</label>
                                         </div>
