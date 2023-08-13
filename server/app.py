@@ -1,4 +1,6 @@
 import os
+import random
+import string
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify
 from flask_cors import cross_origin
@@ -469,6 +471,75 @@ def send_email():
     except Exception as e:
         print(e)
         return jsonify({"error": "Failed to send the email."})
+
+reset_tokens = {}
+
+# ... (other imports and configurations)
+
+# ... (previously defined routes)
+
+@app.route('/forgotpassword', methods=["POST"])
+@cross_origin(origins="*")
+def forgot_password():
+    data = request.get_json()
+    email = data.get("email")
+
+    # Check if the email exists in the database
+    conn = connection()
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT * FROM user_table WHERE email = '{email}'")
+    user = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if user:
+        # Generate a random reset token
+        reset_token = ''.join(random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') for _ in range(64))
+        reset_tokens[reset_token] = email
+
+        # Send the password reset email
+        msg_title = "Password Reset Request"
+        sender = "noreply@app.com"
+        receipent = email
+        msg = Message(msg_title, sender=sender, recipients=[receipent])
+        msg_body = f"Hi,\n\nYou have requested a password reset. Please use the following link to reset your password:\n\n{request.host_url}resetpassword/{reset_token}\n\nIf you did not request a password reset, please ignore this email."
+        msg.body = msg_body
+
+        try:
+            mail.send(msg)
+            return jsonify({"message": "Password reset email sent successfully."})
+        except Exception as e:
+            print(e)
+            return jsonify({"error": "Failed to send the password reset email."})
+    else:
+        return jsonify({"error": "User not found."})
+
+@app.route('/resetpassword/<string:reset_token>', methods=["GET", "POST"])
+@cross_origin(origins="*")
+def reset_password(reset_token):
+    if reset_token in reset_tokens:
+        email = reset_tokens[reset_token]
+        if request.method == "POST":
+            data = request.get_json()
+            new_password = data.get("new_password")
+
+            # Update the user's password in the database
+            conn = connection()
+            cursor = conn.cursor()
+            cursor.execute('UPDATE user_table SET password = %s , reset_otp = NULL, reset_otp_expiration = NULL WHERE email = %s', (new_password, email))
+            conn.commit()
+            cursor.close()
+            conn.close()
+
+            del reset_tokens[reset_token]  # Remove the used reset token
+
+            return jsonify({"message": "Password reset successful."})
+        else:
+            return jsonify({"email": email})
+    else:
+        return jsonify({"error": "Invalid or expired reset token."})
+
+# ... (remaining routes and app execution)
 
 if __name__ == "__main__":
     app.run(debug=True,host="0.0.0.0",port=5000)
