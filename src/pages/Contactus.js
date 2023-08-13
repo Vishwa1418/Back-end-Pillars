@@ -12,7 +12,12 @@ const Contactus = () => {
     
     // console.log({fullName,email,message});
     contactUs({fullName,email,message})
-    .then(data => console.log(data))
+    .then(data => {
+      setFullName('')
+      setEmail('')
+      setMessage('')
+      alert(data.message)
+    })
     .catch(error => alert(error))
   };
 

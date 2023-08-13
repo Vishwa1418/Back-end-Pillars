@@ -72,6 +72,7 @@ def login():
             'username':account[1],
             'email': account[2],
             'image':account[7],
+            'role': account[4],
             'exp' : datetime.utcnow() + timedelta(minutes = 30)}, os.getenv('SECRET_KEY'))
 
             response = {'API_Key':token }

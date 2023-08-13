@@ -10,6 +10,7 @@ function Layout(){
     useEffect(()=>{
         getUserdata().then(res => {
             setData(res)
+            // console.log(res)
         })
     },[])
 

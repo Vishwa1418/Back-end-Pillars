@@ -287,6 +287,10 @@ nav{
 }
 
 @media (width <= 830px) {
+  .box-size
+  {
+    transform: scale(0.85);
+  }
   .kmwoNu
   {
     flex-wrap: wrap;
