@@ -589,10 +589,11 @@ nav{
 
 .loader
 {
-  position: absolute;
+  position: sticky;
   top: 0px;
   left: 50%;
   translate: -50% 0px;
+  align-self: flex-start;
   width: 250px;
   aspect-ratio: 1/1;
   background-image: url('./loader.gif');
@@ -853,4 +854,34 @@ nav{
   background-color: #303030;
   z-index: 0;
   order: -1;
+}
+
+.admin-form
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100vw;
+  gap: 10px;
+  background-color: #303030;
+  padding: 15px;
+}
+
+.admin-form > input
+{
+  min-width: 50px;
+  padding: 10px;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+
+.admin-form > input[type="submit"]
+{
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 5px;
 }

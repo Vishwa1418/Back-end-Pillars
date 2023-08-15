@@ -34,7 +34,15 @@ export const getEducators = async () => {
     const { data } = await axios.get(`${url}/educators?apikey=${token}`)
     
     return data;
-  };
+};
+
+export const addEducators = async (input) => {
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const { data } = await axios.post(`${url}/educators?apikey=${token}`,input)
+    
+    return data;
+};
   
 
 export const getQuizzes = async () => {

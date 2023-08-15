@@ -36,15 +36,15 @@ function Layout(){
                     </li>
 
                     <li onClick={navSlide}>
-                        <NavLink to='/main/educators'>Educators</NavLink>
+                        <NavLink to='/main/educators' state={data}>Educators</NavLink>
                     </li>
                     
                     <li onClick={navSlide}>
-                        <NavLink to='/main/quiz'>Practice</NavLink>
+                        <NavLink to='/main/quiz' state={data}>Practice</NavLink>
                     </li>
 
                     <li onClick={navSlide}>
-                        <NavLink to='/main/successstories'>Success Stories</NavLink>
+                        <NavLink to='/main/successstories' state={data}>Success Stories</NavLink>
                     </li>
 
                     <li onClick={navSlide}>

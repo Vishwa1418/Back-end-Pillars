@@ -16,7 +16,7 @@ function Loginpage() {
                 try {
                     event.preventDefault()
                     const data = await Login(input)
-                    console.log(data)
+                    // console.log(data)
                     if(data.status !== "Invalid username or password")
                     {
                         sessionStorage.setItem('API_Key',JSON.stringify(data.API_Key))
