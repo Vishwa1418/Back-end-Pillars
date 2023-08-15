@@ -2,7 +2,7 @@ import os
 import random
 import string
 from dotenv import load_dotenv
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import cross_origin
 import psycopg2
 import jwt
@@ -520,8 +520,7 @@ def reset_password(reset_token):
     if reset_token in reset_tokens:
         email = reset_tokens[reset_token]
         if request.method == "POST":
-            data = request.get_json()
-            new_password = data.get("new_password")
+            new_password = request.form['new_password']
 
             # Update the user's password in the database
             conn = connection()
@@ -533,9 +532,9 @@ def reset_password(reset_token):
 
             del reset_tokens[reset_token]  # Remove the used reset token
 
-            return jsonify({"message": "Password reset successful."})
+            return render_template('reset.html', message="Password reseted successfully")
         else:
-            return jsonify({"email": email})
+            return render_template('reset.html', reset_token=reset_token)
     else:
         return jsonify({"error": "Invalid or expired reset token."})
 
