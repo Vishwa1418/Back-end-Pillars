@@ -20,6 +20,12 @@ export const SignUp = async(input) => {
     return data
 }
 
+export const ForgotPassword = async(input) => {
+    const {data} = await axios.post(`${url}/forgotpassword`,input)
+
+    return data
+}
+
 export const getUserdata = async () => {
     let token = sessionStorage.getItem('API_Key');
     token = JSON.parse(token);
