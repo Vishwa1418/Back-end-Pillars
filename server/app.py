@@ -535,7 +535,7 @@ def reset_password(reset_token):
             # Update the user's password in the database
             conn = connection()
             cursor = conn.cursor()
-            cursor.execute('UPDATE user_table SET password = %s , reset_otp = NULL, reset_otp_expiration = NULL WHERE email = %s', (new_password, email))
+            cursor.execute('UPDATE user_table SET password = %s WHERE email = %s', (new_password, email))
             conn.commit()
             cursor.close()
             conn.close()
