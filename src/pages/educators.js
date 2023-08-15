@@ -26,7 +26,7 @@ function Educators()
             biography:biography.current.value,
             subjects:subjects.current.value.split(',')
         }
-        console.log(input)
+        // console.log(input)
         addEducators(input).then(data => console.log(data))
         .catch(err => console.error(err))
     }

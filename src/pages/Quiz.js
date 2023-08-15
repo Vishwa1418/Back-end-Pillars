@@ -1,19 +1,29 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useParams } from "react-router"
-import { evaluateQuiz, getQuiz } from "./API"
+import { addQuiz, evaluateQuiz, getQuiz, getUserdata } from "./API"
 
 function Quiz()
 {
     const params = useParams()
+    const [data,setData] = useState()
+    const [loader,setLoader] = useState(true)
     const [questions,setQue] = useState([])
     const [result,setRes] = useState('')
+    const question = useRef()
+    const options = useRef()
+    const answer = useRef()
     
     useEffect(() =>{
-        getQuiz(params.id).then(data => {
-            // console.log(res.data)
-            setQue(data)
-        }).catch(error => alert(error))
-    },[params])
+        getUserdata().then(res => {
+            setData(res)
+            console.log(data.role)
+            getQuiz(params.id).then(data => {
+                // console.log(res.data)
+                setQue(data)
+                setLoader(false)
+            }).catch(error => alert(error))
+        })
+    },[params,data])
 
     let answers = questions.length > 0 ? new Array(questions.length).fill(null) : null
 
@@ -27,10 +37,29 @@ function Quiz()
         // alert(`You have scored ${result}/${questions.length}`)
     }
 
+    const addQuestion = (event) => {
+        event.preventDefault()
+        const input = {
+            quiz_id:params.id,
+            question_text:question.current.value,
+            question_options:options.current.value.split(","),
+            correct_answer:answer.current.value
+        }
+        // console.log(input)
+        addQuiz(input).then(data => console.log(data))
+        .catch(err => console.error(err))
+    }
+
     return (
         <>
             <div className="quizpage">
-                {questions.length <= 0 && <div className="loader"/>}
+            {data.role !== '' && data.role !== 'Student' && <form className="admin-form" onSubmit={addQuestion}>
+                        <input type="text" ref={question} placeholder="Question" required/>
+                        <input type="text" ref={options} placeholder="options" required/>
+                        <input type="text" ref={answer} placeholder="answer" required/>
+                        <input type="submit" value="+"/>
+                    </form>}
+                {loader && <div className="loader"/>}
                 <h1 className="heading" id="heading">{questions.length > 0 && questions[0].quiz_title}</h1>
                 {result !== '' && result >= 0 && <h2 className="result">You have scored {result}/{questions.length}</h2>}
                 {questions.length > 0 && questions.map((question,index)=>{

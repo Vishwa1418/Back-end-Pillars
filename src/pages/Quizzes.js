@@ -27,19 +27,20 @@ function Quizzes()
             quiz_title:title.current.value,
             quiz_description:description.current.value
         }
-        console.log(input)
+        // console.log(input)
         addQuizzes(input).then(data => console.log(data))
         .catch(err => console.error(err))
     }
     return (
         <>
             <div className="quizpage">
-            {role === 'admin' && <form className="admin-form" onSubmit={submit}>
+            {role !== 'Student' && <form className="admin-form" onSubmit={submit}>
                         <input type="text" ref={id} placeholder="course id" required/>
                         <input type="text" ref={title} placeholder="quiz title" required/>
                         <input type="text" ref={description} placeholder="quiz description" required/>
                         <input type="submit" value="+"/>
                     </form>}
+                {questions.length === 0 && <span className="title">No quizzes available</span>}
                 {questions.length > 0 && <h1 className="heading">Practice quiz</h1>}
                 <div className="quizpage">
                     {loader && <div className="loader"/>}
