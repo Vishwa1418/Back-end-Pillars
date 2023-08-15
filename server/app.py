@@ -502,9 +502,13 @@ def forgot_password():
         sender = "noreply@app.com"
         receipent = email
         msg = Message(msg_title, sender=sender, recipients=[receipent])
-        msg_body = f"Hi,\n\nYou have requested a password reset. Please use the following link to reset your password:\n\n{request.host_url}resetpassword/{reset_token}\n\nIf you did not request a password reset, please ignore this email."
-        msg.body = msg_body
-
+        # msg_body = f"Hi,\n\nYou have requested a password reset. Please use the following link to reset your password:\n\n{request.host_url}resetpassword/{reset_token}\n\nIf you did not request a password reset, please ignore this email."
+        # msg.body = msg_body
+        data = {
+            "email":email,
+            "url" : f"{request.host_url}resetpassword/{reset_token}"
+        }
+        msg.html = render_template('mail.html',data=data)
         try:
             mail.send(msg)
             return jsonify({"message": "Password reset email sent successfully."})
