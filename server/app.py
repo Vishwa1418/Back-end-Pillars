@@ -462,8 +462,14 @@ def send_email():
     sender = "noreply@app.com"
     receipent = "smk627751@gmail.com"
     msg = Message(msg_title, sender=sender, recipients=[receipent])
-    msg_body = f"Hi I'm {full_name},\n Email: {email} \n {message_content}"
+    msg_body = f"New Contact form submission by {full_name}"
     msg.body = msg_body
+    data = {
+        "full_name":full_name,
+        "email":email,
+        "message_content":message_content
+    }
+    msg.html = render_template('contactus.html',data=data)
 
     try:
         mail.send(msg)
