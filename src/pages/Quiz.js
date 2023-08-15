@@ -14,15 +14,16 @@ function Quiz()
     const answer = useRef()
     
     useEffect(() =>{
-        getUserdata().then(res => {
-            setData(res)
-            console.log(data.role)
-            getQuiz(params.id).then(data => {
-                // console.log(res.data)
-                setQue(data)
-                setLoader(false)
-            }).catch(error => alert(error))
-        })
+        // getUserdata().then(res => {
+        //     setData(res)
+        //     console.log(data.role)
+           
+        // })
+        getQuiz(params.id).then(data => {
+            // console.log(res.data)
+            setQue(data)
+            setLoader(false)
+        }).catch(error => alert(error))
     },[params,data])
 
     let answers = questions.length > 0 ? new Array(questions.length).fill(null) : null
@@ -53,12 +54,12 @@ function Quiz()
     return (
         <>
             <div className="quizpage">
-            {data.role !== '' && data.role !== 'Student' && <form className="admin-form" onSubmit={addQuestion}>
+            {/* {data.role !== '' && data.role !== 'Student' && <form className="admin-form" onSubmit={addQuestion}>
                         <input type="text" ref={question} placeholder="Question" required/>
                         <input type="text" ref={options} placeholder="options" required/>
                         <input type="text" ref={answer} placeholder="answer" required/>
                         <input type="submit" value="+"/>
-                    </form>}
+                    </form>} */}
                 {loader && <div className="loader"/>}
                 <h1 className="heading" id="heading">{questions.length > 0 && questions[0].quiz_title}</h1>
                 {result !== '' && result >= 0 && <h2 className="result">You have scored {result}/{questions.length}</h2>}
