@@ -11,6 +11,7 @@ import Quizzes from "./pages/Quizzes";
 import Contactus from "./pages/Contactus";
 import SuccessStories from "./pages/Successstories";
 import Forgotpassword from "./pages/forgotpassword";
+import CourseList from "./pages/course";
 function App() {
   return (
     <>
@@ -22,6 +23,7 @@ function App() {
         <Route path="/main" element={<Layout/>}>
           <Route path="home" element={<Home/>}/>
           <Route path="educators" element={<Educators/>}/>
+          <Route path="courses" element={<CourseList/>}/>
           <Route path="quiz" element={<Quizzes/>}/>
           <Route path="quiz/:id" element={<Quiz/>}/>
           <Route path="successstories" element={<SuccessStories/>}/>

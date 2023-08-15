@@ -50,6 +50,13 @@ export const addEducators = async (input) => {
     return data;
 };
   
+export const getCourses = async () => {
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const {data} = await axios.get(`${url}/courses?apikey=${token}`)
+
+    return data
+}
 
 export const getQuizzes = async () => {
     let token = sessionStorage.getItem('API_Key');
