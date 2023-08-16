@@ -40,6 +40,10 @@ function Layout(){
                     </li>
                     
                     <li onClick={navSlide}>
+                        <NavLink to='/main/courses' state={data}>Course</NavLink>
+                    </li>
+
+                    <li onClick={navSlide}>
                         <NavLink to='/main/quiz' state={data}>Practice</NavLink>
                     </li>
 

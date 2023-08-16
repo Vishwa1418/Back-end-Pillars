@@ -5,7 +5,7 @@ import { addQuiz, evaluateQuiz, getQuiz, getUserdata } from "./API"
 function Quiz()
 {
     const params = useParams()
-    const [data,setData] = useState()
+    const [data,setData] = useState('')
     const [loader,setLoader] = useState(true)
     const [questions,setQue] = useState([])
     const [result,setRes] = useState('')
@@ -14,17 +14,16 @@ function Quiz()
     const answer = useRef()
     
     useEffect(() =>{
-        // getUserdata().then(res => {
-        //     setData(res)
-        //     console.log(data.role)
-           
-        // })
         getQuiz(params.id).then(data => {
             // console.log(res.data)
             setQue(data)
             setLoader(false)
+            getUserdata().then(res => {
+                setData(res.role)
+                console.log(res)
+            })
         }).catch(error => alert(error))
-    },[params,data])
+    },[params])
 
     let answers = questions.length > 0 ? new Array(questions.length).fill(null) : null
 
@@ -47,19 +46,19 @@ function Quiz()
             correct_answer:answer.current.value
         }
         // console.log(input)
-        addQuiz(input).then(data => console.log(data))
+        addQuiz(params.id,input).then(data => console.log(data))
         .catch(err => console.error(err))
     }
 
     return (
         <>
             <div className="quizpage">
-            {/* {data.role !== '' && data.role !== 'Student' && <form className="admin-form" onSubmit={addQuestion}>
+            {data !== '' && data !== 'Student' && <form className="admin-form" onSubmit={addQuestion}>
                         <input type="text" ref={question} placeholder="Question" required/>
                         <input type="text" ref={options} placeholder="options" required/>
                         <input type="text" ref={answer} placeholder="answer" required/>
                         <input type="submit" value="+"/>
-                    </form>} */}
+                    </form>}
                 {loader && <div className="loader"/>}
                 <h1 className="heading" id="heading">{questions.length > 0 && questions[0].quiz_title}</h1>
                 {result !== '' && result >= 0 && <h2 className="result">You have scored {result}/{questions.length}</h2>}
