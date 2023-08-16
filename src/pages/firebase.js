@@ -41,6 +41,10 @@ export const facebookSignIn = async () => {
   const provider = new FacebookAuthProvider()
   const res = await signInWithPopup(auth,provider)
   console.log(res)
+  const {displayName,email,photoURL} = res.user
+  // console.log({displayName,email,photoURL})
+  const userdata = {username:displayName,email,role:"Student",image:photoURL}
+  sessionStorage.setItem('userdata',JSON.stringify(userdata))
   return true
 }
 
