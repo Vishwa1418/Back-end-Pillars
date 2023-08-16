@@ -527,11 +527,11 @@ def forgot_password():
 def reset_password(reset_token):
     conn = connection()
     cursor = conn.cursor()
-    if request.method == "POST":
-        new_password = request.form['new_password']
-        cursor.execute(f"SELECT * FROM otp_table WHERE reset_token = '{reset_token}'")
-        account = cursor.fetchone()
-        if account:
+    cursor.execute(f"SELECT * FROM otp_table WHERE reset_token = '{reset_token}'")
+    account = cursor.fetchone()
+    if account:
+        if request.method == "POST":
+            new_password = request.form['new_password']
             # Update the user's password in the database
             email = account[1]
             cursor.execute('UPDATE user_table SET password = %s WHERE email = %s', (new_password, email))
@@ -542,9 +542,10 @@ def reset_password(reset_token):
 
             return render_template('reset.html', message="Password reseted successfully")
         else:
-            return jsonify({"error": "Invalid or expired reset token."})
+            return render_template('reset.html', reset_token=reset_token)
+        
     else:
-        return render_template('reset.html', reset_token=reset_token)
+        return jsonify({"error": "Invalid or expired reset token."})
         
 
 if __name__ == "__main__":
