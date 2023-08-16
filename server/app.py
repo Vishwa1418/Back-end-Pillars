@@ -443,7 +443,7 @@ def success_stories():
         for s in success_stories:
             story = {}
             story['username']=s[0]
-            story['course']=s[1]
+            story['story_content']=s[1]
             story['image'] = s[2]
             successstory.append(story)
 

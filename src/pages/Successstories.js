@@ -29,7 +29,7 @@ const SuccessStories = () => {
                         <img src={story.image} className="image" alt="avatar"/>
                         <div className="cover"/>
                         <span className="name">{story.username}</span>
-                        <span>course:{story.course}</span>
+                        {/* <span>course:{story.course}</span> */}
                         <span>{story.story_content}</span>
                     </div>
                 })}
