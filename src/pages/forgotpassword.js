@@ -32,7 +32,7 @@ function Forgotpassword()
         <>
             <section>
                 <form className="box-size" onSubmit={login}>
-                    <h2 className='h2f1'>Welcome to Kadit Institute</h2>
+                    <h2 className='h2f1'>Enter your email</h2>
                     {errorMessage !== '' && <div className='msg'>{errorMessage}</div>}
                     <div className='input-box'>
                     <div className='input-group mb-3'>
