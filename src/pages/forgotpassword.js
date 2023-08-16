@@ -4,22 +4,26 @@ import { ForgotPassword } from "./API"
 
 function Forgotpassword()
 {
+    const [loader,setLoader] = useState(false)  
     const [errorMessage,seterrorMessage] = useState('')
     const email = useRef()
     const navigate = useNavigate()
     const login = async(event)=>{
         seterrorMessage('')
         try {
+            setLoader(true)
             event.preventDefault()
             seterrorMessage('')
             const data = await ForgotPassword({email:email.current.value})
             // console.log(data)
             if(data.message !== "Password reset email sent successfully.")
             {
+                setLoader(false)
                 seterrorMessage(data.error)
             }
             else
             {
+                setLoader(false)
                 alert(data.message)
                 navigate('/login')
             }
@@ -32,6 +36,7 @@ function Forgotpassword()
         <>
             <section>
                 <form className="box-size" onSubmit={login}>
+                {loader && <div className="loader"/>}
                     <h2 className='h2f1'>Enter your email</h2>
                     {errorMessage !== '' && <div className='msg'>{errorMessage}</div>}
                     <div className='input-box'>
