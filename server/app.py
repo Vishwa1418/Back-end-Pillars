@@ -425,6 +425,7 @@ def update_or_delete_lesson(lesson_id):
         conn.close()
         return jsonify({"status": "success"})
 
+
 @app.route('/successstories', methods=["GET","POST","PUT","DELETE"])
 @cross_origin(origins='*')
 def success_stories():
@@ -448,6 +449,7 @@ def success_stories():
             successstory.append(story)
 
     return jsonify(successstory)
+
 
 @app.route("/sendmail", methods=["POST"])
 @authorization
@@ -478,12 +480,6 @@ def send_email():
         print(e)
         return jsonify({"error": "Failed to send the email."})
 
-reset_tokens = {}
-
-# ... (other imports and configurations)
-
-# ... (previously defined routes)
-
 @app.route('/forgotpassword', methods=["POST"])
 @cross_origin(origins="*")
 def forgot_password():
@@ -495,14 +491,16 @@ def forgot_password():
     cursor = conn.cursor()
     cursor.execute(f"SELECT * FROM user_table WHERE email = '{email}'")
     user = cursor.fetchone()
-    cursor.close()
-    conn.close()
+    # cursor.close()
+    # conn.close()
 
     if user:
         # Generate a random reset token
         reset_token = ''.join(random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') for _ in range(64))
-        reset_tokens[reset_token] = email
-
+        cursor.execute(f"INSERT INTO otp_table (email,reset_token) values('{email}','{reset_token}')")
+        conn.commit()
+        cursor.close()
+        conn.close()
         # Send the password reset email
         msg_title = "Password Reset Request"
         sender = "noreply@app.com"
@@ -527,28 +525,27 @@ def forgot_password():
 @app.route('/resetpassword/<string:reset_token>', methods=["GET", "POST"])
 @cross_origin(origins="*")
 def reset_password(reset_token):
-    if reset_token in reset_tokens:
-        email = reset_tokens[reset_token]
-        if request.method == "POST":
-            new_password = request.form['new_password']
-
+    conn = connection()
+    cursor = conn.cursor()
+    if request.method == "POST":
+        new_password = request.form['new_password']
+        cursor.execute(f"SELECT * FROM otp_table WHERE reset_token = '{reset_token}'")
+        account = cursor.fetchone()
+        if account:
             # Update the user's password in the database
-            conn = connection()
-            cursor = conn.cursor()
+            email = account[1]
             cursor.execute('UPDATE user_table SET password = %s WHERE email = %s', (new_password, email))
+            cursor.execute(f"DELETE FROM otp_table WHERE email = '{email}'")
             conn.commit()
             cursor.close()
             conn.close()
 
-            del reset_tokens[reset_token]  # Remove the used reset token
-
             return render_template('reset.html', message="Password reseted successfully")
         else:
-            return render_template('reset.html', reset_token=reset_token)
+            return jsonify({"error": "Invalid or expired reset token."})
     else:
-        return jsonify({"error": "Invalid or expired reset token."})
-
-# ... (remaining routes and app execution)
+        return render_template('reset.html', reset_token=reset_token)
+        
 
 if __name__ == "__main__":
     app.run(debug=True,host="0.0.0.0",port=5000)
