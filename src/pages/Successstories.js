@@ -41,7 +41,7 @@ const SuccessStories = () => {
   return (
     <>
         <div className="success">
-        {role === 'admin' && <form className="admin-form" onSubmit={submit}>
+        {role === 'Student' && <form className="admin-form" onSubmit={submit}>
                         <input type="text" ref={courseid} placeholder="course id" required/>
                         <input type="text" ref={story} placeholder="story" required/>
                         <input type="submit" value="+"/>

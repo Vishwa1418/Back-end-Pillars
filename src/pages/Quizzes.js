@@ -24,7 +24,7 @@ function Quizzes()
             setLoader(false)
         }).catch(error => alert(error))
     }
-    
+
     const submit = (event) => {
         event.preventDefault()
         setQue([])
@@ -47,7 +47,6 @@ function Quizzes()
                         <input type="text" ref={description} placeholder="quiz description" required/>
                         <input type="submit" value="+"/>
                     </form>}
-                {questions.length === 0 && <span className="title">No quizzes available</span>}
                 {questions.length > 0 && <h1 className="heading">Practice quiz</h1>}
                 <div className="quizpage">
                     {loader && <div className="loader"/>}
