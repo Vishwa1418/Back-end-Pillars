@@ -5,6 +5,7 @@ import { SignUp } from './API.js';
 
 function Password() {
             
+            const [loader,setLoader] = useState(false)  
             let data = sessionStorage.getItem('userdata')
             data = JSON.parse(data)        
             const [input,setInput] = useState({...data,password:'',repassword:''})
@@ -16,15 +17,18 @@ function Password() {
             }
             const register = async()=>{
                 try {
+                    setLoader(true)
                     const data = await SignUp(input)
                     // console.log(res.data)
                     if(data.status === 'success')
                     {
+                        setLoader(false)
                         sessionStorage.setItem('userdata',JSON.stringify({username:data.username,email:data.email,image:data.image}))
                         navigate('/main/home')
                     }
                     else
                     {
+                        setLoader(false)
                         seterrorMessage(data.status)
                     }
                 } catch (error) {
@@ -51,6 +55,7 @@ function Password() {
             <>
             <section>
                 <form className='box-size'>
+                {loader && <div className="loader"/>}
                 <div className='Signuppage'>
                     <h1 className='h1f1'><u><strong>New User Account</strong></u></h1>
 

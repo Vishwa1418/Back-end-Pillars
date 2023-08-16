@@ -5,6 +5,7 @@ import { uploadToCloud } from './firebase.js';
 import { SignUp } from './API.js';
 function Signuppage() {
             
+            const [loader,setLoader] = useState(false)  
             const [image,setImg] = useState('https://www.aquaknect.com.au/wp-content/uploads/2014/03/blank-person-300x300.jpg')        
             const [input,setInput] = useState({username:'',email:'', number:'',password:'',repassword:'',role:'Student'})
             const [errorMessage,seterrorMessage] = useState('')
@@ -21,14 +22,17 @@ function Signuppage() {
             }
             const register = async()=>{
                 try {
+                    setLoader(true)
                     const data = await SignUp(input)
                     // console.log(data)
                     if(data.status !== "success")
                     {
+                        setLoader(false)
                         seterrorMessage(data.status)
                     }
                     else
                     {
+                        setLoader(false)
                         navigate('/')
                     }
                 } catch (error) {
@@ -77,6 +81,7 @@ function Signuppage() {
             <>
             <section>
                 <form className='box-size' onSubmit={formSubmitter}> 
+                {loader && <div className="loader"/>}
                 <div className='Signuppage'>
                     <h1 className='h1f1'><strong>New User Account</strong></h1>
 

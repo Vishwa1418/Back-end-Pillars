@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { googleSignIn, facebookSignIn, twitterSignIn} from './firebase';
 import { Login } from './API';
 function Loginpage() {
-
+            const [loader,setLoader] = useState(false)        
             const [input, setInput] = useState({username:'',password:''});
             const [errorMessage,seterrorMessage] = useState('')
             const navigate = useNavigate()
@@ -12,6 +12,7 @@ function Loginpage() {
             }
 
             const login = async(event)=>{
+                setLoader(true)
                 seterrorMessage('')
                 try {
                     event.preventDefault()
@@ -19,12 +20,14 @@ function Loginpage() {
                     // console.log(data)
                     if(data.status !== "Invalid username or password")
                     {
+                        setLoader(false)
                         sessionStorage.setItem('API_Key',JSON.stringify(data.API_Key))
                         navigate('/main/home')
                     }
 
                     else
                     {
+                        setLoader(false)
                         seterrorMessage(data.status)
                     }
                 } catch (error) {
@@ -37,6 +40,7 @@ function Loginpage() {
             <>
             <section>
                 <form className='box-size' onSubmit={login}>
+                {loader && <div className="loader"/>}
                 <div className='Loginpage'>
                     <h2 className='h2f1'>Welcome to Kadit Institute</h2>
                     <h2 className='h2f2'>Login</h2>
@@ -63,10 +67,10 @@ function Loginpage() {
                 </div>
                 </div>
 
-                    <input type="submit" className='Loginbutton' value='login'/>
-                    
-                    <p className="divider">OR</p>
-                    <p className='p1f1'>Get started with your free account</p>
+                <input type="submit" className='Loginbutton' value='login'/>
+
+                <p className="divider">OR</p>
+                <p className='p1f1'>Get started with your free account</p>
 
                 <div className='Socialmediapage'>
                     <button type="button" className="Socialmediabutton" onClick={() => { googleSignIn().then(() => navigate('/password')).catch(err => {console.error(err)})}}><div className='icon'></div> Login via Google</button>
