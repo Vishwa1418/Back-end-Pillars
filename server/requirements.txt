@@ -3,4 +3,8 @@ Flask-Cors==3.0.10
 psycopg2-binary==2.9.6
 python-dotenv==1.0.0
 PyJWT==2.8.0
+<<<<<<< HEAD
+=======
+Flask-Mail==0.9.1
+>>>>>>> 1e82c07e482587e77c89a8bb7645e9d42546cb99
 gunicorn==20.1.0
