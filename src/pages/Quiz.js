@@ -66,7 +66,7 @@ function Quiz()
                         <input type="submit" value="+"/>
                     </form>}
                 {loader && <div className="loader"/>}
-                <h1 className="heading" id="heading">{questions.length > 0 && questions[0].quiz_title}</h1>
+                {questions.length > 0 && <h1 className="heading" id="heading">{questions[0].quiz_title}</h1>}
                 {result !== '' && result >= 0 && <h2 className="result">You have scored {result}/{questions.length}</h2>}
                 {questions.length > 0 && questions.map((question,index)=>{
                     return(
