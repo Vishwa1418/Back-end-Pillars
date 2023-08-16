@@ -152,15 +152,29 @@
     gap: 5px;
   }
   .Socialmediabutton{
-    width: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 80%;
     height: 50px;
     padding: 5px;
     border: none;
-    font-size: 1em;
-    background-color:#EFF4F3;
+    font-size: 1.2em;
+    font-weight: 500;
+    background-color:#fff;
     color: #000;
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.4);
+    border-radius: 30px;
+  }
+
+  .Socialmediabutton > .icon
+  {
+    width: 25px;
+    aspect-ratio: 1/1;
+    background-image: url('./google.png');
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   .facebook {
     background-color:#45568E;

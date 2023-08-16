@@ -69,9 +69,9 @@ function Loginpage() {
                     <p className='p1f1'>Get started with your free account</p>
 
                 <div className='Socialmediapage'>
-                    <button type="button" className="Socialmediabutton" onClick={() => { googleSignIn().then(() => navigate('/password')).catch(err => {console.error(err)})}}><i className="fa fa-google" style={{color:"green"}}></i> Login via Google</button><br></br><br></br>
-                    <button type="button" className="Socialmediabutton facebook" onClick={() => { facebookSignIn().then(() => navigate('/password')).catch(err => {console.error(err)})}}><i className="fa fa-facebook-square"> Login via Facebook</i></button><br></br><br></br>
-                    <button type="button" className="Socialmediabutton twitter" onClick={() => { twitterSignIn().then(() => {navigate('/password')}).catch(err => {console.error(err)})}}><i className="fa fa-twitter-square"> Login via Twitter</i></button>
+                    <button type="button" className="Socialmediabutton" onClick={() => { googleSignIn().then(() => navigate('/password')).catch(err => {console.error(err)})}}><div className='icon'></div> Login via Google</button>
+                    {/* <button type="button" className="Socialmediabutton facebook" onClick={() => { facebookSignIn().then(() => navigate('/password')).catch(err => {console.error(err)})}}><i className="fa fa-facebook-square"> Login via Facebook</i></button>
+                    <button type="button" className="Socialmediabutton twitter" onClick={() => { twitterSignIn().then(() => {navigate('/password')}).catch(err => {console.error(err)})}}><i className="fa fa-twitter-square"> Login via Twitter</i></button> */}
                 </div>
 
                     <p className='p1f2'>Don't have an account? <Link to="/signup" className='signup'>Sign Up</Link></p>
