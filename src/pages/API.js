@@ -20,6 +20,12 @@ export const SignUp = async(input) => {
     return data
 }
 
+export const ForgotPassword = async(input) => {
+    const {data} = await axios.post(`${url}/forgotpassword`,input)
+
+    return data
+}
+
 export const getUserdata = async () => {
     let token = sessionStorage.getItem('API_Key');
     token = JSON.parse(token);
@@ -34,8 +40,23 @@ export const getEducators = async () => {
     const { data } = await axios.get(`${url}/educators?apikey=${token}`)
     
     return data;
-  };
+};
+
+export const addEducators = async (input) => {
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const { data } = await axios.post(`${url}/educators?apikey=${token}`,input)
+    
+    return data;
+};
   
+export const getCourses = async () => {
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const {data} = await axios.get(`${url}/courses?apikey=${token}`)
+
+    return data
+}
 
 export const getQuizzes = async () => {
     let token = sessionStorage.getItem('API_Key');
@@ -45,10 +66,26 @@ export const getQuizzes = async () => {
     return data
 }
 
+export const addQuizzes = async (input) => {
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const {data} = await axios.post(`${url}/quiz?apikey=${token}`,input)
+
+    return data
+}
+
 export const getQuiz = async (quiz_id) => {
     let token = sessionStorage.getItem('API_Key');
     token = JSON.parse(token);
     const {data} = await axios.get(`${url}/quiz/${quiz_id}?apikey=${token}`)
+
+    return data
+}
+
+export const addQuiz = async (quiz_id,input) => {
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const {data} = await axios.get(`${url}/quiz/${quiz_id}?apikey=${token}`,input)
 
     return data
 }

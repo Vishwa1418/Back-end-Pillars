@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { googleSignIn } from './firebase';
+import { googleSignIn, facebookSignIn} from './firebase';
 import { Login } from './API';
 function Loginpage() {
 
@@ -16,7 +16,7 @@ function Loginpage() {
                 try {
                     event.preventDefault()
                     const data = await Login(input)
-                    console.log(data)
+                    // console.log(data)
                     if(data.status !== "Invalid username or password")
                     {
                         sessionStorage.setItem('API_Key',JSON.stringify(data.API_Key))
@@ -56,9 +56,9 @@ function Loginpage() {
                 
                 <div className='formcheck'>
                 <div className="form-check form-check-inline mb-5">
-                    <input type="checkbox" id="checkbox" className="form-check-input" value="" required/>
+                    <input type="checkbox" id="checkbox" className="form-check-input" value=""/>
                     <label htmlFor="checkbox" className="form-check-label" style={{fontSize:"15px"}}>Remember me</label>
-                    <a href="/" className='forgetpassword'>Forgot Password?</a>
+                    <Link to="/forgotpassword" className='forgetpassword'>Forgot Password?</Link>
                 </div>
                 </div>
                 </div>
@@ -70,7 +70,7 @@ function Loginpage() {
 
                 <div className='Socialmediapage'>
                     <button type="button" className="Socialmediabutton" onClick={() => { googleSignIn().then(() => navigate('/password'))}}><i className="fa fa-google" style={{color:"green"}}></i> Login via Google</button><br></br><br></br>
-                    <button type="button" className="Socialmediabutton facebook" disabled><i className="fa fa-facebook-square"> Login via Facebook</i></button><br></br><br></br>
+                    <button type="button" className="Socialmediabutton facebook" onClick={() => { facebookSignIn().then(() => navigate('/password'))}} disabled><i className="fa fa-facebook-square"> Login via Facebook</i></button><br></br><br></br>
                     <button type="button" className="Socialmediabutton twitter" disabled><i className="fa fa-twitter-square"> Login via Twitter</i></button>
                 </div>
 

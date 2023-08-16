@@ -1,6 +1,8 @@
 import os
+import random
+import string
 from dotenv import load_dotenv
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import cross_origin
 import psycopg2
 import jwt
@@ -13,10 +15,10 @@ load_dotenv()
 
 # Gmail connection parameters
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['MAIL_SERVER'] = "smtp.gmail.com"
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USERNAME'] = "smk627751@gmail.com"
-app.config['MAIL_PASSWORD'] = "msytdrubzhowuqyc"
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 
@@ -72,6 +74,7 @@ def login():
             'username':account[1],
             'email': account[2],
             'image':account[7],
+            'role': account[4],
             'exp' : datetime.utcnow() + timedelta(minutes = 30)}, os.getenv('SECRET_KEY'))
 
             response = {'API_Key':token }
@@ -459,8 +462,14 @@ def send_email():
     sender = "noreply@app.com"
     receipent = "smk627751@gmail.com"
     msg = Message(msg_title, sender=sender, recipients=[receipent])
-    msg_body = f"Hi I'm {full_name},\n Email: {email} \n {message_content}"
+    msg_body = f"New Contact form submission by {full_name}"
     msg.body = msg_body
+    data = {
+        "full_name":full_name,
+        "email":email,
+        "message_content":message_content
+    }
+    msg.html = render_template('contactus.html',data=data)
 
     try:
         mail.send(msg)
@@ -468,6 +477,78 @@ def send_email():
     except Exception as e:
         print(e)
         return jsonify({"error": "Failed to send the email."})
+
+reset_tokens = {}
+
+# ... (other imports and configurations)
+
+# ... (previously defined routes)
+
+@app.route('/forgotpassword', methods=["POST"])
+@cross_origin(origins="*")
+def forgot_password():
+    data = request.get_json()
+    email = data.get("email")
+
+    # Check if the email exists in the database
+    conn = connection()
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT * FROM user_table WHERE email = '{email}'")
+    user = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if user:
+        # Generate a random reset token
+        reset_token = ''.join(random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') for _ in range(64))
+        reset_tokens[reset_token] = email
+
+        # Send the password reset email
+        msg_title = "Password Reset Request"
+        sender = "noreply@app.com"
+        receipent = email
+        msg = Message(msg_title, sender=sender, recipients=[receipent])
+        # msg_body = f"Hi,\n\nYou have requested a password reset. Please use the following link to reset your password:\n\n{request.host_url}resetpassword/{reset_token}\n\nIf you did not request a password reset, please ignore this email."
+        # msg.body = msg_body
+        data = {
+            "email":email,
+            "url" : f"{request.host_url}resetpassword/{reset_token}"
+        }
+        msg.html = render_template('mail.html',data=data)
+        try:
+            mail.send(msg)
+            return jsonify({"message": "Password reset email sent successfully."})
+        except Exception as e:
+            print(e)
+            return jsonify({"error": "Failed to send the password reset email."})
+    else:
+        return jsonify({"error": "User not found."})
+
+@app.route('/resetpassword/<string:reset_token>', methods=["GET", "POST"])
+@cross_origin(origins="*")
+def reset_password(reset_token):
+    if reset_token in reset_tokens:
+        email = reset_tokens[reset_token]
+        if request.method == "POST":
+            new_password = request.form['new_password']
+
+            # Update the user's password in the database
+            conn = connection()
+            cursor = conn.cursor()
+            cursor.execute('UPDATE user_table SET password = %s WHERE email = %s', (new_password, email))
+            conn.commit()
+            cursor.close()
+            conn.close()
+
+            del reset_tokens[reset_token]  # Remove the used reset token
+
+            return render_template('reset.html', message="Password reseted successfully")
+        else:
+            return render_template('reset.html', reset_token=reset_token)
+    else:
+        return jsonify({"error": "Invalid or expired reset token."})
+
+# ... (remaining routes and app execution)
 
 if __name__ == "__main__":
     app.run(debug=True,host="0.0.0.0",port=5000)

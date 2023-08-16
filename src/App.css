@@ -287,6 +287,10 @@ nav{
 }
 
 @media (width <= 830px) {
+  .box-size
+  {
+    transform: scale(0.85);
+  }
   .kmwoNu
   {
     flex-wrap: wrap;
@@ -585,10 +589,11 @@ nav{
 
 .loader
 {
-  position: absolute;
+  position: sticky;
   top: 0px;
   left: 50%;
   translate: -50% 0px;
+  align-self: flex-start;
   width: 250px;
   aspect-ratio: 1/1;
   background-image: url('./loader.gif');
@@ -849,4 +854,85 @@ nav{
   background-color: #303030;
   z-index: 0;
   order: -1;
+}
+
+.admin-form
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100vw;
+  gap: 10px;
+  background-color: #303030;
+  padding: 15px;
+}
+
+.admin-form > input
+{
+  min-width: 50px;
+  padding: 10px;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+
+.admin-form > input[type="submit"]
+{
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 5px;
+}
+
+/* Course List Container */
+.course-list-container {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f7f7f7;
+}
+
+/* Course Cards */
+.course-cards {
+  list-style: none;
+  padding: 0;
+}
+
+.course-card {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.course-info {
+  margin: 5px 0;
+}
+
+.edit-button,
+.delete-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.add-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-top: 10px;
 }

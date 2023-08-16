@@ -10,6 +10,8 @@ import Quiz from "./pages/Quiz";
 import Quizzes from "./pages/Quizzes";
 import Contactus from "./pages/Contactus";
 import SuccessStories from "./pages/Successstories";
+import Forgotpassword from "./pages/forgotpassword";
+import CourseList from "./pages/course";
 function App() {
   return (
     <>
@@ -17,9 +19,11 @@ function App() {
         <Route index element={<Loginpage/>}/>
         <Route path="/login" element={<Loginpage/>}/>
         <Route path="/signup" element={<Signuppage/>}/>
+        <Route path="/forgotpassword" element={<Forgotpassword/>}/>
         <Route path="/main" element={<Layout/>}>
           <Route path="home" element={<Home/>}/>
           <Route path="educators" element={<Educators/>}/>
+          <Route path="courses" element={<CourseList/>}/>
           <Route path="quiz" element={<Quizzes/>}/>
           <Route path="quiz/:id" element={<Quiz/>}/>
           <Route path="successstories" element={<SuccessStories/>}/>
