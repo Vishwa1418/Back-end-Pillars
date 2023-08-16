@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import {getDownloadURL, getStorage, ref, uploadString} from "firebase/storage"
-import { getAuth, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup } from "firebase/auth"
+import { getAuth, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, TwitterAuthProvider } from "firebase/auth"
 
 const firebaseConfig = {
     apiKey: "AIzaSyApc4PpQ096yeuaxcmWrq_AXaEuIHvQrXY",
@@ -41,5 +41,16 @@ export const facebookSignIn = async () => {
   const provider = new FacebookAuthProvider()
   const res = await signInWithPopup(auth,provider)
   console.log(res)
+  return true
+}
+
+export const twitterSignIn = async () => {
+  const provider = new TwitterAuthProvider()
+  const res = await signInWithPopup(auth,provider)
+  console.log(res)
+  const {displayName,email,photoURL} = res.user
+  // console.log({displayName,email,photoURL})
+  const userdata = {username:displayName,email,role:"Student",image:photoURL}
+  sessionStorage.setItem('userdata',JSON.stringify(userdata))
   return true
 }
