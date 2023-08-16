@@ -432,7 +432,7 @@ def success_stories():
     conn = connection()
     if request.method == "GET":
         cursor = conn.cursor()
-        cursor.execute("select u.username,s.course,s.story_content,u.image from user_table as u join success_stories as s on u.email = s.email")
+        cursor.execute("select u.username,s.story_content,u.image from user_table as u join success_stories as s on u.user_id = s.user_id")
         success_stories = cursor.fetchall()
         cursor.close()
         conn.close()
@@ -444,8 +444,7 @@ def success_stories():
             story = {}
             story['username']=s[0]
             story['course']=s[1]
-            story['story_content']=s[2]
-            story['image'] = s[3]
+            story['image'] = s[2]
             successstory.append(story)
 
     return jsonify(successstory)
