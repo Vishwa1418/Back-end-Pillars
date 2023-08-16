@@ -5,7 +5,7 @@ import { addQuizzes, getQuizzes } from "./API"
 function Quizzes()
 {
     const [questions,setQue] = useState([])
-    const [loader,setLoader] = useState(true)
+    const [loader,setLoader] = useState(false)
     const navigate = useNavigate()
     const location = useLocation()
     const {role} = location.state
@@ -13,22 +13,29 @@ function Quizzes()
     const title = useRef()
     const description = useRef()
     useEffect(() =>{
+        fetchQuiz()
+    },[])
+
+    const fetchQuiz = () => {
+        setLoader(true)
         getQuizzes().then(data => {
             // console.log(res.data)
             setQue(data)
             setLoader(false)
         }).catch(error => alert(error))
-    },[])
-
+    }
+    
     const submit = (event) => {
         event.preventDefault()
+        setQue([])
+        setLoader(true)
         const input = {
             course_id:id.current.value,
             quiz_title:title.current.value,
             quiz_description:description.current.value
         }
         // console.log(input)
-        addQuizzes(input).then(data => console.log(data))
+        addQuizzes(input).then(data => fetchQuiz())
         .catch(err => console.error(err))
     }
     return (

@@ -6,7 +6,7 @@ function Quiz()
 {
     const params = useParams()
     const [data,setData] = useState('')
-    const [loader,setLoader] = useState(true)
+    const [loader,setLoader] = useState(false)
     const [questions,setQue] = useState([])
     const [result,setRes] = useState('')
     const question = useRef()
@@ -14,6 +14,11 @@ function Quiz()
     const answer = useRef()
     
     useEffect(() =>{
+        fetchQuiz()
+    },[params])
+
+    const fetchQuiz = () => {
+        setLoader(true)
         getQuiz(params.id).then(data => {
             // console.log(res.data)
             setQue(data)
@@ -23,8 +28,7 @@ function Quiz()
                 console.log(res)
             })
         }).catch(error => alert(error))
-    },[params])
-
+    }
     let answers = questions.length > 0 ? new Array(questions.length).fill(null) : null
 
     const submit = () =>{
@@ -39,6 +43,8 @@ function Quiz()
 
     const addQuestion = (event) => {
         event.preventDefault()
+        setQue([])
+        setLoader(true)
         const input = {
             quiz_id:params.id,
             question_text:question.current.value,
@@ -46,7 +52,7 @@ function Quiz()
             correct_answer:answer.current.value
         }
         // console.log(input)
-        addQuiz(params.id,input).then(data => console.log(data))
+        addQuiz(params.id,input).then(data => fetchQuiz())
         .catch(err => console.error(err))
     }
 

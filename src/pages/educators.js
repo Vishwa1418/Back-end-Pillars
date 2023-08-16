@@ -5,29 +5,35 @@ import { useLocation } from "react-router"
 function Educators()
 {
     const [educators,setEd] = useState([])
-    const [loader,setLoader] = useState(true)
+    const [loader,setLoader] = useState(false)
     const location = useLocation()
     const {role} = location.state
     const email = useRef()
     const subjects = useRef()
     const biography = useRef()
     useEffect(() => {
+        fetchEducators()
+    },[])
+
+    const fetchEducators = () => {
+        setLoader(true)
         getEducators().then(data => {
             setEd(data)
             // console.log(data)
             setLoader(false)
         }).catch(error => alert(error))
-    },[])
-
+    }
     const submit = (event) => {
         event.preventDefault()
+        setEd([])
+        setLoader(true)
         const input = {
             email:email.current.value,
             biography:biography.current.value,
             subjects:subjects.current.value.split(',')
         }
         // console.log(input)
-        addEducators(input).then(data => console.log(data))
+        addEducators(input).then(() => fetchEducators())
         .catch(err => console.error(err))
     }
     return (
