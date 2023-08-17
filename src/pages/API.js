@@ -107,7 +107,7 @@ export const getSuccessstories = async () => {
     return data
 }
 
-export const addSuccessstories = async (input) => {
+export const addSuccessstories = async(input,quiz_id) => {
     let token = sessionStorage.getItem('API_Key');
     token = JSON.parse(token);
     const {data} = await axios.post(`${url}/successstories?apikey=${token}`,input)

@@ -447,7 +447,18 @@ def success_stories():
             story['image'] = s[2]
             successstory.append(story)
 
-    return jsonify(successstory)
+        return jsonify(successstory)
+
+    if request.method == "POST":
+        data = request.get_json()
+        print(data)
+        cursor = conn.cursor()
+        cursor.execute(f"INSERT INTO success_stories (user_id,course_id,story_content) VALUES ({data['user_id']},{data['course_id']},'{data['story_content']}')")
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({"message":"Inserted"})
 
 
 @app.route("/sendmail", methods=["POST"])

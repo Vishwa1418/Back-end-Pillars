@@ -29,13 +29,15 @@ const SuccessStories = () => {
 
   const submit = (event) => {
     event.preventDefault()
+    setSuccessStories([])
+    setLoader(true)
     const input = {
       user_id : public_id,
       course_id:courseid.current.value,
       story_content:story.current.value
     }
     addSuccessstories(input)
-    .then(() => fetchSuccessStories())
+    .then((data) => {fetchSuccessStories()})
     .catch(err => console.error(err))
     console.log(input)
   }
