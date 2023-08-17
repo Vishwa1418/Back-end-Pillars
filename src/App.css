@@ -1117,12 +1117,12 @@ a {
   color: #007bff;
 }
 
-.container{
+.course-container{
   width: 100%;
   min-height: 100vh;
   background:#a7f3d9;
 }
-.container h2{
+.coure-container h2{
   color: black;
   font-size: 32px;
   padding: 50px 0;
