@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { getSuccessstories } from "./API";
+import { addSuccessstories, getSuccessstories } from "./API";
 import { useLocation } from "react-router";
 
 const SuccessStories = () => {
@@ -34,7 +34,9 @@ const SuccessStories = () => {
       course_id:courseid.current.value,
       story_content:story.current.value
     }
-    fetchSuccessStories()
+    addSuccessstories(input)
+    .then(() => fetchSuccessStories())
+    .catch(err => console.error(err))
     console.log(input)
   }
 
