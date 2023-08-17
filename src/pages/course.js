@@ -69,7 +69,7 @@ function CourseList() {
           </tbody>
         </table>
       </div>
-        <div className="container">
+        <div className="course-container">
             <h2>Choose your plan</h2>
             <div className="price-row">
                 <div className="price-col">
