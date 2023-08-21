@@ -59,9 +59,6 @@ function Quiz()
         // console.log(input)
         addQuiz(params.id,input).then(data => {
             fetchQuiz()
-            question.current.value = ''
-            options.current.value = ''
-            answer.current.value = ''
         })
         .catch(err => console.error(err))
     }
