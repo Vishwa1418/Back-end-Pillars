@@ -37,7 +37,11 @@ const SuccessStories = () => {
       story_content:story.current.value
     }
     addSuccessstories(input)
-    .then((data) => {fetchSuccessStories()})
+    .then((data) => {
+      fetchSuccessStories()
+      courseid.current.value = ''
+      story.current.value = ''
+    })
     .catch(err => console.error(err))
     console.log(input)
   }
