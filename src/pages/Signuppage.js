@@ -6,7 +6,9 @@ import { SignUp } from './API.js';
 function Signuppage() {
             
             const [loader,setLoader] = useState(false)  
-            const [image,setImg] = useState('https://www.aquaknect.com.au/wp-content/uploads/2014/03/blank-person-300x300.jpg')        
+            const [image,setImg] = useState('https://www.aquaknect.com.au/wp-content/uploads/2014/03/blank-person-300x300.jpg')
+            const [passwordVisible, setPasswordVisible] = useState(false);
+            const [repasswordVisible, setRePasswordVisible] = useState(false);         
             const [input,setInput] = useState({username:'',email:'', number:'',password:'',repassword:'',role:'Student'})
             const [errorMessage,seterrorMessage] = useState('')
             const navigate = useNavigate()
@@ -20,6 +22,15 @@ function Signuppage() {
                     number.current.value = number.current.value.substring(0,number.current.maxLength)
                 }
             }
+
+            const togglePasswordVisibility = () => {
+                setPasswordVisible(!passwordVisible);
+            };
+
+            const toggleRePasswordVisibility = () => {
+                setRePasswordVisible(!repasswordVisible);
+            };
+
             const register = async()=>{
                 try {
                     setLoader(true)
@@ -112,17 +123,28 @@ function Signuppage() {
 
                 <div className='input-group mb-3'>
                     <span className='input-group-addon' id='addon'><i className="uil uil-padlock"></i></span>
-                    <input type="password" id="password" className="form-control" name='password' placeholder='Enter Password' required onChange={handleChange}></input>
+                    <input type={passwordVisible ? 'text' : 'password'} id="password" className="form-control" name='password' placeholder='Enter Password' required onChange={handleChange}></input>
+                    <span className='input-group-addon eye'>
+                        <i
+                            className={`uil ${passwordVisible ? 'uil-eye-slash' : 'uil-eye'}`}
+                            onClick={togglePasswordVisibility}
+                        ></i>
+                    </span>
                 </div>
 
                 <div className='input-group mb-3'>
                     <span className='input-group-addon' id='addon'><i className="uil uil-padlock"></i></span>
-                    <input type="password" id="rpassword" className="form-control" name='repassword' placeholder='Repeat Password' required onChange={handleChange}></input>
+                    <input type={repasswordVisible ? 'text' : 'password'} id="rpassword" className="form-control" name='repassword' placeholder='Repeat Password' required onChange={handleChange}></input>
+                    <span className='input-group-addon eye'>
+                        <i
+                            className={`uil ${repasswordVisible ? 'uil-eye-slash' : 'uil-eye'}`}
+                            onClick={toggleRePasswordVisibility}
+                        ></i>
+                    </span>
                 </div>
                 <div className='formcheck1'>
                 <div className="form-check form-check-inline mb-5">
-                    <input type="checkbox" id="checkbox" name="checkbox" className="form-check-input" value="" required/>
-                    <label htmlFor="checkbox" className="form-check-label">I accept all terms & conditions</label>
+                    
                 </div>
                 </div>
                 </div>

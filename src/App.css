@@ -121,6 +121,13 @@
     border-radius: 30px;
     width: 60px;
   }
+
+  .eye
+  {
+    color: #303030;
+    background-color: transparent;
+    z-index: 2;
+  }
   .form-check-label,.form-check-input{
     font-size: 15px;
     color: #303030;

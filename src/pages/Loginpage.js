@@ -2,39 +2,46 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { googleSignIn, facebookSignIn, twitterSignIn} from './firebase';
 import { Login } from './API';
+
+
 function Loginpage() {
-            const [loader,setLoader] = useState(false)        
-            const [input, setInput] = useState({username:'',password:''});
-            const [errorMessage,seterrorMessage] = useState('')
-            const navigate = useNavigate()
-            const handleChange = (event) => {
-                setInput({...input, [event.target.name]: event.target.value});
+    const [loader,setLoader] = useState(false)        
+    const [input, setInput] = useState({username:'',password:''});
+    const [errorMessage,seterrorMessage] = useState('')
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const navigate = useNavigate()
+    const handleChange = (event) => {
+        setInput({...input, [event.target.name]: event.target.value});
+    }
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
+
+    const login = async(event)=>{
+        setLoader(true)
+        seterrorMessage('')
+        try {
+            event.preventDefault()
+            const data = await Login(input)
+            // console.log(data)
+            if(data.status !== "Invalid username or password")
+            {
+                setLoader(false)
+                sessionStorage.setItem('API_Key',JSON.stringify(data.API_Key))
+                navigate('/main/home')
             }
 
-            const login = async(event)=>{
-                setLoader(true)
-                seterrorMessage('')
-                try {
-                    event.preventDefault()
-                    const data = await Login(input)
-                    // console.log(data)
-                    if(data.status !== "Invalid username or password")
-                    {
-                        setLoader(false)
-                        sessionStorage.setItem('API_Key',JSON.stringify(data.API_Key))
-                        navigate('/main/home')
-                    }
-
-                    else
-                    {
-                        setLoader(false)
-                        seterrorMessage(data.status)
-                    }
-                } catch (error) {
-                    alert(error)
-                }
+            else
+            {
+                setLoader(false)
+                seterrorMessage(data.status)
             }
-            
+        } catch (error) {
+            alert(error)
+        }
+    };
+    
     
             return(
             <>
@@ -54,8 +61,22 @@ function Loginpage() {
                 </div>
 
                 <div className='input-group mb-3'>
-                    <span className='input-group-addon'><i className="uil-key-skeleton"></i></span>
-                    <input type="password" id="password" className="form-control" name='password' placeholder='password' required onChange={handleChange}></input>
+                <span className='input-group-addon'><i className="uil uil-key-skeleton"></i></span>
+                                <input
+                                    type={passwordVisible ? 'text' : 'password'}
+                                    id="password"
+                                    className="form-control"
+                                    name='password'
+                                    placeholder='Password'
+                                    required
+                                    onChange={handleChange}
+                                />
+                                <span className='input-group-addon eye'>
+                                    <i
+                                        className={`uil ${passwordVisible ? 'uil-eye-slash' : 'uil-eye'}`}
+                                        onClick={togglePasswordVisibility}
+                                    ></i>
+                                </span>
                 </div>
                 
                 <div className='formcheck'>

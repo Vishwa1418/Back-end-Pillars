@@ -1,7 +1,7 @@
 import axios from "axios"
 
-const url = process.env.REACT_APP_HOST
-// const url = "http://127.0.0.1:5000"
+// const url = process.env.REACT_APP_HOST
+const url = "http://127.0.0.1:5000"
 
 export const Post = async(endpoint,input) => {
     const {data} = await axios.post( url+endpoint, input)
