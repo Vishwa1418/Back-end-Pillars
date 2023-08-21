@@ -126,6 +126,7 @@
   {
     color: #303030;
     background-color: transparent;
+    cursor: pointer;
     z-index: 2;
   }
   .form-check-label,.form-check-input{
