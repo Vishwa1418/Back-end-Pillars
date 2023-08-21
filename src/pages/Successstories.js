@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { addSuccessstories, getSuccessstories } from "./API";
+import { addSuccessstories, deleteSuccessstories, getSuccessstories } from "./API";
 import { useLocation } from "react-router";
 
 const SuccessStories = () => {
   const [loader,setLoader] = useState(false)  
   const [successStories, setSuccessStories] = useState([]);
   const location = useLocation()
-  const {role,public_id} = location.state
+  const {role,public_id,username} = location.state
   const courseid = useRef()
   const story = useRef()
 
@@ -42,6 +42,17 @@ const SuccessStories = () => {
     console.log(input)
   }
 
+  const deletefn = (story) => {
+    setSuccessStories([])
+    setLoader(true)
+    const status = window.confirm("Are you sure want to delete ?")
+    if(status)
+    {
+        deleteSuccessstories(story.success_story_id).then(data => fetchSuccessStories())
+        .catch(err => console.error(err))
+    }
+  }
+
   return (
     <>
         <div className="success">
@@ -55,11 +66,12 @@ const SuccessStories = () => {
             <div className="success stories">
                 {successStories.length > 0 && successStories.map((story,index) => {
                     return <div className="review" key={index}>
+                        {username === story.username && <span className="close" onClick={()=>{deletefn(story)}}>x</span>}
                         <img src={story.image} className="image" alt="avatar"/>
                         <div className="cover"/>
                         <span className="name">{story.username}</span>
                         {/* <span>course:{story.course}</span> */}
-                        <span className="content">{story.story_content}</span>
+                        <p className="content">{story.story_content}</p>
                     </div>
                 })}
             </div>

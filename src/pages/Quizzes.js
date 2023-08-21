@@ -62,6 +62,16 @@ function Quizzes()
         .catch(err => console.error(err))
     }
 
+    const deletefn = (question) => {
+        setQue([])
+        setLoader(true)
+        const status = window.confirm("Are you sure want to delete ?")
+        if(status)
+        {
+            deleteQuizzes(question.quiz_id).then(data => fetchQuiz())
+            .catch(err => console.error(err))
+        }
+    }
     return (
         <>
             <div className="quizpage">
@@ -89,18 +99,15 @@ function Quizzes()
                                 <div className="ques quiz">
                                     <span className="title" onClick={() => {navigate(`/main/quiz/${question.quiz_id}`)}}>{index+1}. {question.quiz_title}</span>
                                     <p>{question.quiz_description}</p>
-                                    {role !== 'Student' && <input type="button" className="updatebtn" value="update" onClick={async() => {
-                                        setUpdate(true)
-                                        setdata(question)
-                                    }}/>}
-                                    {role !== 'Student' && <input type="button" className="deletebtn" value="Delete" onClick={async() => {
-                                        const status = confirm("Are you sure want to delete?")
-                                        if(status)
-                                        {
-                                            deleteQuizzes(question.quiz_id).then(data => fetchQuiz())
-                                            .catch(err => console.error(err))
-                                        }
-                                    }}/>}
+                                    <div className="edit">
+                                        {role !== 'Student' && <input type="button" className="updatebtn" value="update" onClick={async() => {
+                                            setUpdate(true)
+                                            setdata(question)
+                                        }}/>}
+                                        {role !== 'Student' && <input type="button" className="deletebtn" value="Delete" onClick={() => {
+                                            deletefn(question)
+                                        }}/>}
+                                    </div>
                                 </div>
                             </>
                         )

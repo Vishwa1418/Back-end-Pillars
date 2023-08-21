@@ -1,17 +1,22 @@
 import { useEffect, useRef, useState } from "react"
 import { useParams } from "react-router"
-import { addQuiz, evaluateQuiz, getQuiz, getUserdata } from "./API"
+import { addQuiz, deleteQuiz, evaluateQuiz, getQuiz, getUserdata, updateQuiz } from "./API"
 
 function Quiz()
 {
     const params = useParams()
     const [data,setData] = useState('')
+    const [queID,setQueID] = useState('')
+    const [update,setUpdate] = useState(false)
     const [loader,setLoader] = useState(false)
     const [questions,setQue] = useState([])
     const [result,setRes] = useState('')
     const question = useRef()
     const options = useRef()
     const answer = useRef()
+    const update_question = useRef()
+    const update_options = useRef()
+    const update_answer = useRef()
     
     useEffect(() =>{
         fetchQuiz()
@@ -56,9 +61,47 @@ function Quiz()
         .catch(err => console.error(err))
     }
 
+    const updatefn = (event) =>{
+        event.preventDefault()
+        setUpdate(false)
+        setQue([])
+        setLoader(true)
+        const input = {
+            quiz_id:params.id,
+            question_id:queID,
+            question_text:update_question.current.value,
+            question_options:update_options.current.value.split(","),
+            correct_answer:update_answer.current.value
+        }
+        updateQuiz(params.id,input).then(data => {
+            fetchQuiz()
+        })
+        .catch(err => console.error(err))
+    }
+
+    const deletefn = (question) => {
+        setQue([])
+        setLoader(true)
+        const status = window.confirm("Are you sure want to delete ?")
+        if(status)
+        {
+            deleteQuiz(question.quiz_id,question.question_id).then(data => fetchQuiz())
+            .catch(err => console.error(err))
+        }
+    }
+
     return (
         <>
             <div className="quizpage">
+            {update && <div className="update">
+                <form className=" admin-form Modal" onSubmit={updatefn}>
+                <span className="close" onClick={() => (setUpdate(false))}>x</span>
+                    <input type="text" ref={update_question} placeholder="Question" required/>
+                    <input type="text" ref={update_options} placeholder="options" required/>
+                    <input type="text" ref={update_answer} placeholder="answer" required/><br/>
+                    <input type="submit" value="Update"/>
+                </form>
+            </div>}
             {data !== '' && data !== 'Student' && <form className="admin-form" onSubmit={addQuestion}>
                         <input type="text" ref={question} placeholder="Question" required/>
                         <input type="text" ref={options} placeholder="options" required/>
@@ -84,6 +127,15 @@ function Quiz()
                                         </div>
                                     )
                                 })}
+                            </div>
+                            <div className="edit">
+                                {data !== 'Student' && <input type="button" className="updatebtn" value="update" onClick={async() => {
+                                    setUpdate(true)
+                                    setQueID(question.question_id)
+                                }}/>}
+                                {data !== 'Student' && <input type="button" className="deletebtn" value="Delete" onClick={() => {
+                                    deletefn(question)
+                                }}/>}
                             </div>
                         </div>
                     )

@@ -1,7 +1,7 @@
 import axios from "axios"
 
-// const url = process.env.REACT_APP_HOST
-const url = "http://127.0.0.1:5000"
+const url = process.env.REACT_APP_HOST
+// const url = "http://127.0.0.1:5000"
 
 export const Post = async(endpoint,input) => {
     const {data} = await axios.post( url+endpoint, input)
@@ -106,6 +106,22 @@ export const addQuiz = async (quiz_id,input) => {
     return data
 }
 
+export const updateQuiz = async (quiz_id,input) => {
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const {data} = await axios.put(`${url}/quiz/${quiz_id}?apikey=${token}`,input)
+
+    return data
+}
+
+export const deleteQuiz = async (quiz_id,ques_id) => {
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const {data} = await axios.delete(`${url}/quiz/${quiz_id}?question_id=${ques_id}&&apikey=${token}`)
+
+    return data
+}
+
 export const evaluateQuiz = async(input,quiz_id) => {
     let token = sessionStorage.getItem('API_Key');
     token = JSON.parse(token);
@@ -122,10 +138,18 @@ export const getSuccessstories = async () => {
     return data
 }
 
-export const addSuccessstories = async(input,quiz_id) => {
+export const addSuccessstories = async(input) => {
     let token = sessionStorage.getItem('API_Key');
     token = JSON.parse(token);
     const {data} = await axios.post(`${url}/successstories?apikey=${token}`,input)
+
+    return data
+}
+
+export const deleteSuccessstories = async(story_id) => {
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const {data} = await axios.delete(`${url}/successstories?story_id=${story_id}&&apikey=${token}`)
 
     return data
 }

@@ -876,6 +876,10 @@ nav{
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.2);
   overflow: hidden;
 }
+.review > .close
+{
+  color: #fff;
+}
 .review > .image , .review > .name
 {
   z-index: 1;
@@ -890,10 +894,12 @@ nav{
   width: 200px;
   font-size: 1.2em;
   font-weight: 500;
-  height: 120px;
+  /* text-overflow: ellipsis; */
+  min-height: 120px;
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+  overflow: hidden;
 }
 .cover
 {
@@ -938,6 +944,13 @@ nav{
   border-radius: 5px;
 }
 
+.edit
+{
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(2,auto);
+  gap: 5px;
+}
 .updatebtn,.deletebtn
 {
   border: none;
@@ -951,7 +964,7 @@ nav{
 {
   background-color: rgb(243, 50, 50);
 }
-.updatebtn:hover
+.updatebtn:hover,.deletebtn:hover
 {
   filter: brightness(1.5);
 }

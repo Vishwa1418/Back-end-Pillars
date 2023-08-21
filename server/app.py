@@ -432,7 +432,7 @@ def success_stories():
     conn = connection()
     if request.method == "GET":
         cursor = conn.cursor()
-        cursor.execute("select u.username,s.story_content,u.image from user_table as u join success_stories as s on u.user_id = s.user_id")
+        cursor.execute("select s.success_story_id,u.username,s.story_content,u.image from user_table as u join success_stories as s on u.user_id = s.user_id")
         success_stories = cursor.fetchall()
         cursor.close()
         conn.close()
@@ -442,16 +442,16 @@ def success_stories():
         
         for s in success_stories:
             story = {}
-            story['username']=s[0]
-            story['story_content']=s[1]
-            story['image'] = s[2]
+            story['success_story_id']=s[0]
+            story['username']=s[1]
+            story['story_content']=s[2]
+            story['image'] = s[3]
             successstory.append(story)
 
         return jsonify(successstory)
 
     if request.method == "POST":
         data = request.get_json()
-        print(data)
         cursor = conn.cursor()
         cursor.execute(f"INSERT INTO success_stories (user_id,course_id,story_content) VALUES ({data['user_id']},{data['course_id']},'{data['story_content']}')")
         conn.commit()
@@ -459,6 +459,16 @@ def success_stories():
         conn.close()
 
         return jsonify({"message":"Inserted"})
+    
+    if request.method == "DELETE":
+        story_id = request.args.get('story_id')
+        cursor = conn.cursor()
+        cursor.execute(f"DELETE FROM success_stories WHERE success_story_id = {story_id}")
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({"message":"Deleted"})
 
 
 @app.route("/sendmail", methods=["POST"])
