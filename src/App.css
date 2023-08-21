@@ -552,13 +552,13 @@ nav{
 {
   cursor: pointer;
 }
-.quiz:hover
-{
-  filter: brightness(0.85);
-}
 .title
 {
   font-size: 1.5em;
+}
+.title:hover
+{
+  text-decoration: underline;
 }
 .result
 {
@@ -938,6 +938,71 @@ nav{
   border-radius: 5px;
 }
 
+.updatebtn,.deletebtn
+{
+  border: none;
+  padding: 10px;
+  color: #fff;
+  background-color: rgb(68, 191, 7);
+  border-radius: 5px;
+}
+
+.deletebtn
+{
+  background-color: rgb(243, 50, 50);
+}
+.updatebtn:hover
+{
+  filter: brightness(1.5);
+}
+.update
+{
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 5;
+  transition: 0.2s ease;
+}
+.close
+{
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  z-index: 5;
+}
+.Modal
+{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: 450px;
+  height: 250px;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.Modal > input
+{
+  min-width: 150px;
+  padding: 15px;
+  font-size: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.Modal > input[type="submit"]
+{
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 5px;
+}
 /* Course List Container */
 .course-list-container {
   margin: 20px;

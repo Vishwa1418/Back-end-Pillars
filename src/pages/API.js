@@ -1,7 +1,7 @@
 import axios from "axios"
 
-const url = process.env.REACT_APP_HOST
-// const url = "http://127.0.0.1:5000"
+// const url = process.env.REACT_APP_HOST
+const url = "http://127.0.0.1:5000"
 
 export const Post = async(endpoint,input) => {
     const {data} = await axios.post( url+endpoint, input)
@@ -75,6 +75,21 @@ export const addQuizzes = async (input) => {
     return data
 }
 
+export const updateQuizzes = async (input) => {
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const {data} = await axios.put(`${url}/quiz?apikey=${token}`,input)
+
+    return data
+}
+
+export const deleteQuizzes = async (quiz_id) => {
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const {data} = await axios.delete(`${url}/quiz?quiz_id=${quiz_id}&&apikey=${token}`)
+
+    return data
+}
 export const getQuiz = async (quiz_id) => {
     let token = sessionStorage.getItem('API_Key');
     token = JSON.parse(token);
