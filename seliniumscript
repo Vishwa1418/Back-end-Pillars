@@ -82,7 +82,7 @@ def test_login(driver):
 
 
 # Set the path to the Chrome driver executable as an environment variable
-chrome_driver_path = "C:/Users/Dell/Documents/python-selenium/chromedriver.exe"
+chrome_driver_path = "/usr/bin/chromedriver"
 os.environ["PATH"] += os.pathsep + chrome_driver_path
 
 # Initialize the Chrome driver
