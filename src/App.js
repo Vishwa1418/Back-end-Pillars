@@ -12,6 +12,7 @@ import Contactus from "./pages/Contactus";
 import SuccessStories from "./pages/Successstories";
 import Forgotpassword from "./pages/forgotpassword";
 import CourseList from "./pages/course";
+import Users from "./pages/users";
 function App() {
   return (
     <>
@@ -28,6 +29,7 @@ function App() {
           <Route path="quiz/:id" element={<Quiz/>}/>
           <Route path="successstories" element={<SuccessStories/>}/>
           <Route path="contactus" element={<Contactus/>}/>
+          <Route path="users" element={<Users/>}/>
         </Route>
         <Route path="/password" element={<Password/>}/>
       </Routes>

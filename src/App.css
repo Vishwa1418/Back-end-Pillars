@@ -417,6 +417,7 @@ nav{
 
 .profilecard
 {
+    position: relative;  
     align-self: flex-start;
     display: flex;
     justify-content: center;
@@ -509,37 +510,51 @@ nav{
   font-size: 1em;
   gap: 5px;
 }
-.logout
+.menu
 {
   position: absolute;
   display: grid;
   place-items: center;
+  grid-template-rows: repeat(auto-fit,50px);
+  width: 150px;
   cursor: pointer;
-  font-size: 1.25em;
-  translate: 60px -50px;
+  font-size: 1.15em;
+  translate: 0px 10px;
   background-color: #fff;
   border: 1px solid rgba(0,0,0,0.2);
   padding: 10px;
   border-radius: 10px;
-  color: red;
-  opacity: 0;
-  visibility: hidden;
   transition: 0.2s;
 }
+
+.menu > span
+{
+  width: 100%;
+  height: 40px;
+  display: grid;
+  place-items: center;
+}
+
+.menu > span::after
+{
+  content: '';
+  width: 100%;
+  height: 0.25px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.menu > span:last-child::after
+{
+  background-color: transparent;
+}
+
 
 .profilepos
 {
   cursor: pointer;
 }
 
-.profile:hover ~ .logout ,.logout:hover
-{
-  visibility: visible;
-  translate: 60px 10px;
-  opacity: 100;
-}
-
-.quizpage
+.quizpage,.users
 {
     display: flex;
     justify-content: flex-start;
@@ -551,7 +566,10 @@ nav{
     background-color: #ffa45b;
     overflow-y: scroll;
 }
-
+.users
+{
+  padding: 10px;
+}
 .quizpage::-webkit-scrollbar
 {
   width: 0px;
@@ -574,7 +592,7 @@ nav{
   background-color: #303030;
   padding: 5px;
 }
-.ques
+.ques,.user
 {
     display: flex;
     justify-content: center;
@@ -588,6 +606,26 @@ nav{
     border-radius: 10px;
     font-size: 1.25em;
 }
+.user
+{
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+}
+.user > .details
+{
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  gap: 5px;
+}
+.user > .details > .details
+{
+  display: flex;
+  gap: 10px;
+}
+
 .ques > span
 {
   font-size: 1.15em;
@@ -629,11 +667,10 @@ nav{
 
 .loader
 {
-  position: sticky;
-  top: 0px;
+  position: absolute;
+  top: 50%;
   left: 50%;
-  translate: -50% 0px;
-  align-self: flex-start;
+  translate: -50% -50%;
   width: 250px;
   aspect-ratio: 1/1;
   background-image: url('./loader.gif');

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { addEducators, getEducators } from "./API"
+import { addEducators, deleteEducators, getEducators } from "./API"
 import { useLocation } from "react-router"
 
 function Educators()
@@ -25,7 +25,6 @@ function Educators()
     }
     const submit = (event) => {
         event.preventDefault()
-        setEd([])
         setLoader(true)
         const input = {
             email:email.current.value,
@@ -33,9 +32,35 @@ function Educators()
             subjects:subjects.current.value.split(',')
         }
         // console.log(input)
-        addEducators(input).then(() => fetchEducators())
+        addEducators(input).then((res) => {
+
+            if (res.status !== "Inserted")
+            {
+                setLoader(false)
+                alert(res.status)
+            }
+            
+            else
+            {
+                setEd([])
+                setLoader(true)
+                fetchEducators()
+            }
+        })
         .catch(err => console.error(err))
     }
+
+    const deletefn = (email) => {
+        const status = window.confirm("Are you sure want to delete ?")
+        if(status)
+        {
+            setEd([])
+            setLoader(true)
+            deleteEducators(email).then(data => fetchEducators())
+            .catch(err => console.error(err))
+        }
+      }
+
     return (
         <>
             <div className="educators">
@@ -51,12 +76,13 @@ function Educators()
                     {educators.length > 0 && educators.map((educator,index) => {
                         return(
                             <div className={"profilecard"} key={index}>
+                            {role === 'admin' && <span className="close" onClick={()=>{deletefn(educator.email)}}>x</span>}
                             <div>
                                 <img src={educator.image} className="image" alt="avatar"/>
                             </div>
                                 <div className={"details"}>
                                     <span className={"name"}>{educator.username}</span>
-                                    <span>{educator.email}</span>
+                                    <span><i className="uil uil-envelope"/> {educator.email}</span>
                                     <div className="subjects">
                                         {educator.subjects.map((subject,index) => {
                                             return <span className="subject" key={index}>{subject}</span>

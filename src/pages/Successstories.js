@@ -47,11 +47,11 @@ const SuccessStories = () => {
   }
 
   const deletefn = (story) => {
-    setSuccessStories([])
-    setLoader(true)
     const status = window.confirm("Are you sure want to delete ?")
     if(status)
     {
+        setSuccessStories([])
+        setLoader(true)
         deleteSuccessstories(story.success_story_id).then(data => fetchSuccessStories())
         .catch(err => console.error(err))
     }
@@ -70,7 +70,7 @@ const SuccessStories = () => {
             <div className="success stories">
                 {successStories.length > 0 && successStories.map((story,index) => {
                     return <div className="review" key={index}>
-                        {username === story.username && <span className="close" onClick={()=>{deletefn(story)}}>x</span>}
+                        {username === story.username || role === 'admin' ? <span className="close" onClick={()=>{deletefn(story)}}>x</span> : null}
                         <img src={story.image} className="image" alt="avatar"/>
                         <div className="cover"/>
                         <span className="name">{story.username}</span>

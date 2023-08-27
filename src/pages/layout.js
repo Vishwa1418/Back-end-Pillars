@@ -4,6 +4,7 @@ import { getUserdata } from './API'
 function Layout(){
 
     const [data,setData] = useState()
+    const [menu,setMenu] = useState(false)
     const navigate = useNavigate()
     const nav = useRef()
     
@@ -54,14 +55,17 @@ function Layout(){
                     <li onClick={navSlide}>
                         <NavLink to='/main/contactus'>Contact Us</NavLink>
                     </li>
-                    {data && <li className='profilepos'>
+                    {data && <li className='profilepos' onClick={() => setMenu(prev => {return !prev})}>
                         <div className='profile'>
                             <img src={data.image} className='image' alt='avatar'></img>
                             <div className={"details"}>
                                 <span className={"username"}>{data.username}</span>
                             </div>
                         </div>
-                        <li className={'logout'} onClick={logout}>Logout</li>
+                        {menu && <div className='menu'>
+                            {data.role === 'admin' && <NavLink to={'/main/users'} state={data}>Users</NavLink>}
+                            <span onClick={logout}>Logout</span>
+                        </div>}
                     </li>}
                 </div>
                 <div class="burger" onClick={navSlide}>

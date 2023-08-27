@@ -119,6 +119,31 @@ def user():
     data = jwt.decode(token, os.getenv('SECRET_KEY'),algorithms=["HS256"])
     return jsonify(data)
 
+@app.route('/users' , methods=["GET","POST","PUT","DELETE"])
+@authorization
+@cross_origin(origins='*')
+def users():
+    conn = connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * from user_table ORDER BY role")
+    users = cursor.fetchall()
+
+    user_list = []
+
+    for user in users:
+        u = {}
+        u['user_id'] = user[0]
+        u['username'] = user[1]
+        u['email'] = user[2]
+        u['role'] = user[4]
+        u['registration_date'] = user[5]
+        u['last_login'] = user[6]
+        u['image'] = user[7]
+        user_list.append(u)
+
+    return jsonify(user_list)
+
+
 @app.route('/educators',methods=["GET","POST","PUT","DELETE"])
 @authorization
 @cross_origin(origins='*')
@@ -127,7 +152,7 @@ def educators():
     if request.method == "GET":
         cursor = conn.cursor()
         #Getting list of educators from the database
-        cursor.execute("select u.user_id,u.username,u.email,e.subjects,u.image from educator_table as e join user_table as u on e.email = u.email where u.role = 'teacher'")
+        cursor.execute("select u.user_id,u.username,u.email,e.subjects,u.image from educator_table as e join user_table as u on e.email = u.email where u.role = 'teacher' order by u.username")
         educators_list = cursor.fetchall()
         educators = []
         if not educators_list:
@@ -153,6 +178,10 @@ def educators():
         cursor.execute(f"SELECT * FROM user_table WHERE email = '{educator['email']}'")
         existing_educator = cursor.fetchone()
         if existing_educator:
+            cursor.execute(f"SELECT * FROM educator_table WHERE email = '{educator['email']}'")
+            existing_educator = cursor.fetchone()
+            if existing_educator:
+                return jsonify({"status":"Already exists"})
             cursor.execute(f"UPDATE user_table SET role = 'teacher' WHERE email = '{educator['email']}'")
             # Insert the new educator into the database
             cursor.execute(f"INSERT INTO educator_table (email, biography, subjects) VALUES ('{educator['email']}', '{educator['biography']}',ARRAY{educator['subjects']})")
@@ -178,7 +207,8 @@ def educators():
         educator_email = request.args.get('email')
         cursor = conn.cursor()
         # Delete the educator from both user_table and educator_table
-        cursor.execute(f"DELETE FROM user_table WHERE email = '{educator_email}'")
+        # cursor.execute(f"DELETE FROM user_table WHERE email = '{educator_email}'")
+        cursor.execute(f"UPDATE user_table SET role = 'Student' WHERE email = '{educator_email}'")
         cursor.execute(f"DELETE FROM educator_table WHERE email = '{educator_email}'")
         conn.commit()
         cursor.close()
