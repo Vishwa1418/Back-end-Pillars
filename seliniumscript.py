@@ -7,12 +7,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-def browser():
-    driver = webdriver.Chrome()  # Use Chrome WebDriver
-    yield driver
-    driver.quit()
-def test_open_url(browser):
-    browser.get("http://52.200.65.240:3000")
 def test_login(driver):
     try:
         # Open the login page
