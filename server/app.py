@@ -124,24 +124,48 @@ def user():
 @cross_origin(origins='*')
 def users():
     conn = connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * from user_table ORDER BY role")
-    users = cursor.fetchall()
+    if request.method == "GET":
+        cursor = conn.cursor()
+        cursor.execute("SELECT * from user_table ORDER BY role")
+        users = cursor.fetchall()
 
-    user_list = []
+        user_list = []
 
-    for user in users:
-        u = {}
-        u['user_id'] = user[0]
-        u['username'] = user[1]
-        u['email'] = user[2]
-        u['role'] = user[4]
-        u['registration_date'] = user[5]
-        u['last_login'] = user[6]
-        u['image'] = user[7]
-        user_list.append(u)
+        for user in users:
+            u = {}
+            u['user_id'] = user[0]
+            u['username'] = user[1]
+            u['email'] = user[2]
+            u['role'] = user[4]
+            u['registration_date'] = user[5]
+            u['last_login'] = user[6]
+            u['image'] = user[7]
+            user_list.append(u)
 
-    return jsonify(user_list)
+        return jsonify(user_list)
+    
+    if request.method == "PUT":
+        user = request.get_json()
+        cursor = conn.cursor()
+        cursor.execute(f"UPDATE user_table SET role = '{user['role']}' WHERE email = '{user['email']}'")
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({"status" : "Updated"})
+    
+    if request.method == "DELETE":
+        email = request.args.get('email')
+        cursor = conn.cursor()
+        cursor.execute(f"DELETE FROM user_table WHERE email = '{email}'")
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({"status":"Deleted"})
+
+
+
 
 
 @app.route('/educators',methods=["GET","POST","PUT","DELETE"])

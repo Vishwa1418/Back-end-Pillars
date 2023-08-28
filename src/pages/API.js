@@ -35,13 +35,29 @@ export const getUserdata = async () => {
     return data;
   };
 
-  export const getUsersdata = async () => {
+export const getUsersdata = async () => {
+let token = sessionStorage.getItem('API_Key');
+token = JSON.parse(token);
+const { data } = await axios.get(`${url}/users?apikey=${token}`)
+
+return data;
+};
+
+export const updateUsersdata = async (input) => {
     let token = sessionStorage.getItem('API_Key');
     token = JSON.parse(token);
-    const { data } = await axios.get(`${url}/users?apikey=${token}`)
+    const { data } = await axios.put(`${url}/users?apikey=${token}`,input)
     
     return data;
-  };
+};
+
+export const deleteUsersdata = async (email) => {
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const { data } = await axios.delete(`${url}/users?email=${email}&&apikey=${token}`)
+    
+    return data;
+};
 
 export const getEducators = async () => {
     let token = sessionStorage.getItem('API_Key');
