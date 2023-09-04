@@ -483,7 +483,7 @@ nav{
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 150px;
+  min-width: 150px;
   height: 50px;
   padding: 5px;
   background-color: #fff;
@@ -554,7 +554,7 @@ nav{
   cursor: pointer;
 }
 
-.quizpage,.users
+.courses,.quizpage,.users
 {
     display: flex;
     justify-content: flex-start;
@@ -570,7 +570,7 @@ nav{
 {
   padding: 10px;
 }
-.quizpage::-webkit-scrollbar
+.quizpage::-webkit-scrollbar,.courses::-webkit-scrollbar
 {
   width: 0px;
 }
@@ -594,6 +594,7 @@ nav{
 }
 .ques,.user
 {
+    position: relative;  
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -606,6 +607,7 @@ nav{
     border-radius: 10px;
     font-size: 1.25em;
 }
+
 .user
 {
   flex-direction: row;
@@ -1097,11 +1099,15 @@ nav{
 }
 
 .course-card {
+  position: relative;
+  width: 80%;
+  min-height: 150px;
+  padding: 15px;
   background-color: white;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 15px;
-  margin: 10px 0;
+  gap: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;

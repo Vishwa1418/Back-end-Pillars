@@ -1,6 +1,5 @@
 import os
 import random
-import string
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify, render_template
 from flask_cors import cross_origin
@@ -430,7 +429,15 @@ def update_or_delete_course(course_id):
 
     if request.method == "DELETE":
         cursor = conn.cursor()
-        cursor.execute('DELETE FROM course_table WHERE course_id = %s;', (course_id))
+        cursor.execute(f"SELECT quiz_id FROM quiz_table WHERE course_id = {course_id}")
+        quiz_ids = cursor.fetchall()
+
+        for quiz_id in quiz_ids:
+            for id in quiz_id:
+                cursor.execute(f"DELETE FROM question_table WHERE quiz_id = {id}")
+                conn.commit() 
+        cursor.execute(f"DELETE FROM quiz_table WHERE course_id = {course_id}")
+        cursor.execute(f"DELETE FROM course_table WHERE course_id = {course_id}")
         conn.commit()
         cursor.close()
         conn.close()

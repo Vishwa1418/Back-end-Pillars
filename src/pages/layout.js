@@ -11,7 +11,7 @@ function Layout(){
     useEffect(()=>{
         getUserdata().then(res => {
             setData(res)
-            // console.log(res)
+            console.log(res)
         })
     },[])
 
@@ -60,6 +60,7 @@ function Layout(){
                             <img src={data.image} className='image' alt='avatar'></img>
                             <div className={"details"}>
                                 <span className={"username"}>{data.username}</span>
+                                {/* {data.role === 'admin' && <span className="role">{data.role}</span>} */}
                             </div>
                         </div>
                         {menu && <div className='menu'>

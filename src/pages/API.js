@@ -99,6 +99,14 @@ export const addCourses = async (input) => {
     return data
 }
 
+export const deleteCourses = async (course_id) => {
+    let token = sessionStorage.getItem('API_Key');
+    token = JSON.parse(token);
+    const {data} = await axios.delete(`${url}/courses/${course_id}?apikey=${token}`)
+
+    return data
+}
+
 export const getQuizzes = async () => {
     let token = sessionStorage.getItem('API_Key');
     token = JSON.parse(token);

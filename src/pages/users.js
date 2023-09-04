@@ -24,7 +24,7 @@ const Users = () => {
     }
 
     const updatefn = (user,role) => {
-        const status = window.confirm(`Are you sure want to change to ${role} ?`)
+        const status = window.confirm(`Are you sure want to change ${user.username} to ${role} ?`)
 
         if (!status) return
         setUsers([])
@@ -60,12 +60,12 @@ const Users = () => {
             <div className="users">
             {loader && <div className="loader"/>}
                 {users.map((user,index) => {
-                    return <div className="user">
+                    return <div className="user" key={index}>
                         <img src={user.image} className="image" alt="avatar"/>
                         <div className="details">
                             <div className="userdetails">
                                 <span><i className="uil uil-user-circle"/> {user.username}</span>
-                                <span className="role">{user.role}</span>
+                                {user.role === 'admin' && <span className="role">{user.role}</span>}
                             </div>
                             <span><i className="uil uil-envelope"/> {user.email}</span>
                             <div className="details">
@@ -74,6 +74,7 @@ const Users = () => {
                         </div>
                        { user.username !==  username ? <div className="edit">
                             <select className="updatebtn" onChange={(e) => updatefn(user,e.target.value)}>
+                                <option>{user.role}</option>
                                 <option>admin</option>
                                 <option>Student</option>
                                 <option>teacher</option>
