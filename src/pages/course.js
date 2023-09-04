@@ -81,9 +81,7 @@ function Courses() {
           courses.map((course, index) => {
             return (
               <div className="course-card" key={index}>
-                <span className="close" onClick={() => deleteCourseFn(course.course_id)}>
-                  x
-                </span>
+                {data !== '' && data.role !== 'Student' && <span className="close" onClick={() => deleteCourseFn(course.course_id)}>x</span>}
                 <div className="details">
                   <span className="name">{course.course_name}</span>
                   <p>{course.course_description}</p>
