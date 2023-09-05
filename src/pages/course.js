@@ -68,11 +68,11 @@ function Courses() {
   return (
     <div className="courses">
       {data !== '' && data.role !== 'Student' && <form className="admin-form" onSubmit={submit}>
-        <input type="text" ref={courseName} placeholder="Course Name" required />
-        <input type="text" ref={courseDescription} placeholder="Course Description" required />
-        <input type="text" ref={courseDuration} placeholder="Course Duration" required />
-        <input type="text" ref={enrollmentFee} placeholder="Enrollment Fee" required />
-        <input type="submit" value="+" />
+        <input id="name"  type="text" ref={courseName} placeholder="Course Name" required  />
+        <input id="des"  type="text" ref={courseDescription} placeholder="Course Description" required />
+        <input id="dur" type="text" ref={courseDuration} placeholder="Course Duration" required />
+        <input id="fee" type="text" ref={enrollmentFee} placeholder="Enrollment Fee" required />
+        <input id="subm" type="submit" value="+" />
       </form>}
       {courses.length > 0 && <h1 className="heading">Our Courses</h1>}
       <div className="courses">

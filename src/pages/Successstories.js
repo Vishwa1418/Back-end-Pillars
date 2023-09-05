@@ -61,9 +61,9 @@ const SuccessStories = () => {
     <>
         <div className="success">
         {role === 'Student' && <form className="admin-form" onSubmit={submit}>
-                        <input type="text" ref={courseid} placeholder="course id" required/>
-                        <input type="text" ref={story} placeholder="story" required/>
-                        <input type="submit" value="+"/>
+                        <input id='cid' type="text" ref={courseid} placeholder="course id" required/>
+                        <input id='sid' type="text" ref={story} placeholder="story" required/>
+                        <input id='ssbtn' type="submit" value="+"/>
                     </form>}
             {loader && <div className="loader"/>}
             {successStories.length > 0 && <h1 className="heading">Success Stories</h1>}
