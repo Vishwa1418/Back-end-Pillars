@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import {NavLink, Outlet, useNavigate} from 'react-router-dom'
 import { getUserdata } from './API'
+import bgImage from './logo.jpeg';
 function Layout(){
 
     const [data,setData] = useState()
@@ -29,7 +30,8 @@ function Layout(){
             <div className='layout'>
             <nav>
                 <div class="logo">
-                    <h4>KADIT</h4>
+                <img src={bgImage} alt="Image Description"  />
+                    <h4>KITE INSTITUTE</h4>
                 </div>
                 <div class="nav-links" ref={nav}>
                     <li onClick={navSlide}>

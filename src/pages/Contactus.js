@@ -60,7 +60,7 @@ const Contactus = () => {
             </div>
             <div className="text">
               <h3>Email</h3>
-              <p>kadit@gmail.com</p>
+              <p>kite@gmail.com</p>
             </div>
           </div>
         </div>
@@ -79,7 +79,7 @@ const Contactus = () => {
             </div>
             <div className="inputBox">
               <input
-                type="text"
+                type="email"
                 name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}

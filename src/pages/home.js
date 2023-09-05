@@ -47,14 +47,14 @@ function Home() {
             <BoxContainer>
                 <Image src={MyImage} alt="Image Description" />
                 <Content>
-                <UnderlinedHeading>KADIT</UnderlinedHeading>
-                Kadit is a dynamic and innovative online learning website that provides a diverse range
+                <UnderlinedHeading>KITE</UnderlinedHeading>
+                Kite is a dynamic and innovative online learning website that provides a diverse range
                 of educational opportunities to learners worldwide. Founded with a vision to revolutionize
-                the way people access knowledge, Kadit offers a vast selection of courses across various
+                the way people access knowledge, Kite offers a vast selection of courses across various
                 fields, from technology and business to arts and personal development. Learners can
                 benefit from expert instruction, practical assignments, and interactive learning
                 experiences, all tailored to enhance their skills and career prospects. With a
-                user-friendly interface and a strong commitment to quality education, Kadit empowers
+                user-friendly interface and a strong commitment to quality education, Kite empowers
                 individuals to pursue their passions and unlock their full potential, making learning
                 accessible to all.
                 </Content> {/* Add closing tag for Content */}
