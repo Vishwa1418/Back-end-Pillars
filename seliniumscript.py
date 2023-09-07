@@ -10,7 +10,7 @@ from selenium.common.exceptions import TimeoutException
 def test_login(driver):
     try:
         # Open the login page
-        driver.get("http://52.200.65.240:3000/login")
+        driver.get("http://http://54.164.44.247:3000//login")
         
         # Find the username and password input fields and enter the values with a delay
         time.sleep(2)
@@ -28,7 +28,7 @@ def test_login(driver):
         print("Login Successfully") 
 
         # Wait for the login to complete
-        WebDriverWait(driver, 10).until(EC.url_to_be("http://52.200.65.240:3000/main/home"))
+        WebDriverWait(driver, 10).until(EC.url_to_be("http://http://54.164.44.247:3000//main/home"))
 
         # Redirect to Practice Page
         time.sleep(10)
